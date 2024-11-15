@@ -16,20 +16,17 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#">首页</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${role == 'ROLE_ADMIN'}">
                         <a class="nav-link" th:href="@{/students}">学生管理</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${role == 'ROLE_ADMIN'}">
                         <a class="nav-link" th:href="@{/courses}">课程管理</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/attendance}">考勤管理</a>
+                    <li class="nav-item" th:if="${role == 'ROLE_TEACHER'}">
+                        <a class="nav-link" th:href="@{/myClasses}">我的班级</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/notifications}">公告管理</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/settings}">系统设置</a>
+                    <li class="nav-item" th:if="${role == 'ROLE_STUDENT'}">
+                        <a class="nav-link" th:href="@{/myCourses}">我的课程</a>
                     </li>
                 </ul>
             </div>
@@ -41,42 +38,96 @@
                 <h1 class="h2">欢迎来到学生管理系统</h1>
             </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-white bg-primary mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">学生总数</h5>
-                            <p class="card-text" th:text="${studentCount}">1200人</p>
+            <!-- 管理员面板 -->
+            <div th:if="${role == 'ROLE_ADMIN'}">
+                <h4>管理员面板</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">学生总数</h5>
+                                <p class="card-text" th:text="${dashboardData.studentCount}">1200人</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-success mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">课程总数</h5>
-                            <p class="card-text" th:text="${courseCount}">50门</p>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">课程总数</h5>
+                                <p class="card-text" th:text="${dashboardData.courseCount}">50门</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-warning mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">考勤缺勤率</h5>
-                            <p class="card-text" th:text="${attendanceRate}">5%</p>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">考勤缺勤率</h5>
+                                <p class="card-text" th:text="${dashboardData.attendanceRate}">5%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            最近通知
+            <!-- 教师面板 -->
+            <div th:if="${role == 'ROLE_TEACHER'}">
+                <h4>教师面板</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">班级总数</h5>
+                                <p class="card-text" th:text="${dashboardData.classCount}">5班</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <p th:text="${latestNotification}">系统将进行定期维护，请大家做好准备。</p>
-                            <a class="btn btn-primary" th:href="@{/notifications}">查看全部</a>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">学生总数</h5>
+                                <p class="card-text" th:text="${dashboardData.studentCount}">100人</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">平均成绩</h5>
+                                <p class="card-text" th:text="${dashboardData.avgGrade}">85</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学生面板 -->
+            <div th:if="${role == 'ROLE_STUDENT'}">
+                <h4>学生面板</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">当前课程</h5>
+                                <ul>
+                                    <li th:each="course : ${dashboardData.currentCourses}" th:text="${course}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">考勤状态</h5>
+                                <p class="card-text" th:text="${dashboardData.attendance}">良好</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">平均成绩</h5>
+                                <p class="card-text" th:text="${dashboardData.averageGrade}">90</p>
+                            </div>
                         </div>
                     </div>
                 </div>
