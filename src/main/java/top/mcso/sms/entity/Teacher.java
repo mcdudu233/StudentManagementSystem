@@ -1,34 +1,34 @@
 package top.mcso.sms.entity;
 
 public class Teacher {
-    private String employeeNumber;  // 工号
-    private String name;         // 姓名
-    private String gender;       // 性别
-    private int age;            // 年龄
-    private String position;     // 职务
+    private String jobNumber;
+    private String teacherName;
+    private String gender;
+    private int age;
+    private String duty;
 
-    public Teacher(String employeeNumber, String name, String gender, int age, String position) {
-        this.employeeNumber = employeeNumber;
-        this.name = name;
+    public Teacher(String jobNumber, String teacherName, String gender, int age, String duty) {
+        this.jobNumber = jobNumber;
+        this.teacherName = teacherName;
         this.gender = gender;
         this.age = age;
-        this.position = position;
+        this.duty = duty;
     }
 
-    public String getemployeeNumber() {
-        return employeeNumber;
+    public String getjobNumber() {
+        return jobNumber;
     }
 
-    public void setemployeeNumber(String employeeNumber) {
-        this.employeeNumber = employeeNumber;
+    public void setjobNumber(String jobNumber) {
+        this.jobNumber = jobNumber;
     }
 
-    public String getName() {
-        return name;
+    public String getteacherName() {
+        return teacherName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setteacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getGender() {
@@ -47,16 +47,16 @@ public class Teacher {
         this.age = age;
     }
 
-    public String getPosition() {
-        return position;
+    public String getduty() {
+        return duty;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setduty(String duty) {
+        this.duty = duty;
     }
 
     @Override
     public String toString() {
-        return "教师 [工号=" + employeeNumber + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + ", 职务=" + position + "]";
+        return "教师 [工号=" + jobNumber + ", 姓名=" + teacherName + ", 性别=" + gender + ", 年龄=" + age + ", 职务=" + duty + "]";
     }
 }
