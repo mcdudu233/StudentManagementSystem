@@ -5,4 +5,4 @@ create table  user (
     priority varchar(20) not null,
     userNumber varchar(20) not null,
     primary key (userNumber)
-);
+)

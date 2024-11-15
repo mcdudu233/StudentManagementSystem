@@ -6,4 +6,4 @@ create table teacher(
     gender enum('male','female') not null,
     duty varchar(50) not null,
     primary key(jobNumber),
-);
+)
