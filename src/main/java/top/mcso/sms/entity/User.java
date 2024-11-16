@@ -1,13 +1,12 @@
 package top.mcso.sms.entity;
 
-import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter
-@Entity
 @Data
-
 public class User {
     private String username;
     private String password;
