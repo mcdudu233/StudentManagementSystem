@@ -14,17 +14,17 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentMapper studentMapper;
 
+
     @Override
-    public boolean deleteStudentByNumber(String studentNumber) throws Exception {
+    public boolean deleteByNumber(String studentNumber) throws Exception {
         try {
-            Student student = new Student();
-            student.setStudentNumber(studentNumber);
-            int result = studentMapper.deleteByName(studentNumber);
+            int result = studentMapper.deleteByNumber(studentNumber);
             return result > 0;
         } catch (Exception e) {
             throw new Exception("Error deleting student by number", e);
         }
     }
+
 
     @Override
     public boolean insertStudent(Student student) throws Exception {

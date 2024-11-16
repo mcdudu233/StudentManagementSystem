@@ -6,7 +6,7 @@ import top.mcso.sms.entity.Student;
 import java.util.List;
 
 public interface StudentService {
-    boolean deleteStudentByNumber(String studentNumber) throws Exception;
+    boolean deleteByNumber(String studentNumber) throws Exception;
 
     boolean insertStudent(Student student) throws Exception;
 
