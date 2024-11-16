@@ -1,25 +1,20 @@
 package top.mcso.sms.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private String username;
     private String password;
     private String priority;
-
-    public User(String username, String password, String priority) {
-        this.username = username;
-        this.password = password;
-        this.priority = priority;
-    }
+    private String userNumber;
 
     @Override
     public String toString() {
-        return "用户 [用户名=" + username + ", 权限=" + priority + "]";
+        return "用户 [用户名=" + username + ", 用户号=" + userNumber + ", 权限=" + priority + "]";
     }
 }

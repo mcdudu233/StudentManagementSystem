@@ -1,27 +1,23 @@
 package top.mcso.sms.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Student {
-    private String studentNumber;
+    private String studentNumber ;
     private String name;
     private String gender;
+    private String Class;
     private int age;
 
-    public Student(String studentNumber, String name, String gender, int age) {
-        this.studentNumber = studentNumber;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
-    }
 
     @Override
     public String toString() {
-        return "学生 [学号=" + studentNumber + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + "]";
+        return "学生 [学号=" + studentNumber  + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + ", 班级= " + Class + "]";
     }
 }
