@@ -9,17 +9,17 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Student {
-    private String studentNumber;
+    private String studentNumber ;
     private String name;
     private String gender;
     private String Class;
     private int age;
+    private String address;
+    private String telephone;
 
 
     @Override
     public String toString() {
-        return "学生 [学号=" + studentNumber + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + ", 班级= " + Class + "]";
+        return "学生 [学号=" + studentNumber  + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + ", 班级= " + Class + ", 地址=" + address + "， 电话=" + telephone + "]";
     }
-
-
 }
