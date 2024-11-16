@@ -1,5 +1,4 @@
 create table teacher(
-    id int not null auto_increment,
     jobNumber varchar(20) not null,
     teacherName varchar(20) not null,
     age int not null,
