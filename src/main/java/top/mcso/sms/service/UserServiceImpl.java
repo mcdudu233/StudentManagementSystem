@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.insert(user);
         } catch (Exception e) {
-            throw new ServiceException("Error inserting user", e);
+            throw new RuntimeException("Error inserting user", e);
         }
     }
 
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.deleteByUserNumber(userNumber);
         } catch (Exception e) {
-            throw new ServiceException("Error deleting user by user number", e);
+            throw new RuntimeException("Error deleting user by user number", e);
         }
     }
 
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.update(user);
         } catch (Exception e) {
-            throw new ServiceException("Error updating user", e);
+            throw new RuntimeException("Error updating user", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.findByUserNumber(userNumber);
         } catch (Exception e) {
-            throw new ServiceException("Error finding user by user number", e);
+            throw new RuntimeException("Error finding user by user number", e);
         }
     }
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.findAll();
         } catch (Exception e) {
-            throw new ServiceException("Error finding all users", e);
+            throw new RuntimeException("Error finding all users", e);
         }
     }
 
@@ -63,14 +63,8 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.findByUsername(username);
         } catch (Exception e) {
-            throw new ServiceException("Error finding user by username", e);
+            throw new RuntimeException("Error finding user by username", e);
         }
     }
 }
 
-// Custom exception class
-class ServiceException extends RuntimeException {
-    public ServiceException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
