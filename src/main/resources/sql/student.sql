@@ -1,3 +1,4 @@
+
 create table student(
     id int not null auto_increment ,
     studentNumber  varchar(20) not null,
@@ -6,4 +7,5 @@ create table student(
     age int  not null,
     class varchar(50) not null,
     primary key (studentNumber),
+    foreign key (studentNumber) references user(userNumber)
 )

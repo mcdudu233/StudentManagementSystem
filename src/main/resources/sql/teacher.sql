@@ -5,5 +5,8 @@ create table teacher(
     age int not null,
     gender enum('male','female') not null,
     duty varchar(50) not null,
+    address varchar(50) null,
+    telephone varchar(20) null,
     primary key(jobNumber),
+    foreign key (jobNumber) references user(userNumber)
 )
