@@ -1,5 +1,13 @@
 package top.mcso.sms.entity;
 
+import jakarta.persistence.Entity;
+import lombok.*;
+
+@Setter
+@Getter
+@Entity
+@Data
+
 public class Teacher {
     private String jobNumber;
     private String teacherName;
@@ -12,46 +20,6 @@ public class Teacher {
         this.teacherName = teacherName;
         this.gender = gender;
         this.age = age;
-        this.duty = duty;
-    }
-
-    public String getjobNumber() {
-        return jobNumber;
-    }
-
-    public void setjobNumber(String jobNumber) {
-        this.jobNumber = jobNumber;
-    }
-
-    public String getteacherName() {
-        return teacherName;
-    }
-
-    public void setteacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getduty() {
-        return duty;
-    }
-
-    public void setduty(String duty) {
         this.duty = duty;
     }
 

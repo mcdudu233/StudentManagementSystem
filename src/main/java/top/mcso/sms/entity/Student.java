@@ -1,5 +1,13 @@
 package top.mcso.sms.entity;
 
+import jakarta.persistence.Entity;
+import lombok.*;
+
+@Setter
+@Getter
+@Entity
+@Data
+
 public class Student {
     private String studentNumber ;
     private String name;
@@ -10,38 +18,6 @@ public class Student {
         this.studentNumber  = studentNumber ;
         this.name = name;
         this.gender = gender;
-        this.age = age;
-    }
-
-    public String getstudentNumber () {
-        return studentNumber ;
-    }
-
-    public void setstudentNumber (String studentNumber ) {
-        this.studentNumber  = studentNumber ;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
         this.age = age;
     }
 
