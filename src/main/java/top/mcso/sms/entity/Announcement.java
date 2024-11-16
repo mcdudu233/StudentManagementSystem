@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Announcement {
-    private String id;
+    private String id ;
     private String announcement;
 
 

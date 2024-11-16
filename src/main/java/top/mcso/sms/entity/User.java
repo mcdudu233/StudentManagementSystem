@@ -6,12 +6,19 @@ import lombok.*;
 @Getter
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class User {
     private String username;
     private String password;
     private String priority;
     private String userNumber;
+
+    public User(String username, String password, String priority, String userNumber) {
+        this.username = username;
+        this.password = password;
+        this.priority = priority;
+        this.userNumber = userNumber;
+    }
 
     @Override
     public String toString() {
