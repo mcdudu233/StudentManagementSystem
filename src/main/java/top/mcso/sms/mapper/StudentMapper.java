@@ -11,7 +11,7 @@ public interface StudentMapper {
     //增删方法
     //删除指定学生
     @Delete("delete from student where student_number = #{student_number}")
-    int deleteByName(@Param("student_number") String student_number);
+    int deleteByNumber(@Param("student_number") String student_number);
 
     //插入学生记录
     @Insert("insert into student (student_number, name, gender, age, class, birth_date) values (#{student_name},#{name},#{gender},#{age},#{class},#{birthdate})")
