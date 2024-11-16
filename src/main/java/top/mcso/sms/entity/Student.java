@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Student {
-    private String studentNumber ;
+    private String studentNumber;
     private String name;
     private String gender;
     private String Class;
@@ -20,4 +20,6 @@ public class Student {
     public String toString() {
         return "学生 [学号=" + studentNumber + ", 姓名=" + name + ", 性别=" + gender + ", 年龄=" + age + ", 班级= " + Class + "]";
     }
+
+
 }
