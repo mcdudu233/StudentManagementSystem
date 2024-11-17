@@ -1,6 +1,9 @@
 package top.mcso.sms.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -13,12 +16,6 @@ public class User {
     private String priority;
     private String userNumber;
 
-    public User(String username, String password, String priority, String userNumber) {
-        this.username = username;
-        this.password = password;
-        this.priority = priority;
-        this.userNumber = userNumber;
-    }
 
     @Override
     public String toString() {
