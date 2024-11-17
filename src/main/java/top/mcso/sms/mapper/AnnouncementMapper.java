@@ -9,7 +9,7 @@ import java.util.List;
 public interface AnnouncementMapper {
     // 插入公告信息
     @Insert("insert into announcement (id, announcement) values (#{id}, #{announcement})")
-    int insertAnnouncement(@Param("announcement") Announcement announcement);
+    int insertAnnouncement(Announcement announcement);
 
     // 根据ID删除公告
     @Delete("delete from announcement where id = #{id}")
@@ -17,7 +17,7 @@ public interface AnnouncementMapper {
 
     // 更新公告信息
     @Update("update announcement set announcement = #{announcement} where id = #{id}")
-    int updateAnnouncement(@Param("announcement") Announcement announcement);
+    int updateAnnouncement(Announcement announcement);
 
     // 根据ID查询公告
     @Select("select * from announcement where id = #{id}")

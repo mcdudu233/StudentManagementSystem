@@ -14,7 +14,7 @@ public interface CourseMapper {
 
     // 根据课程编号删除课程
     @Delete("delete from course where course_number = #{courseNumber}")
-    int deleteCourseByCourseNumber(String courseNumber);
+    int deleteCourseByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 更新课程信息
     @Update("update course set course_name = #{courseName}, priority_course = #{priorityCourse} " +
@@ -23,7 +23,7 @@ public interface CourseMapper {
 
     // 根据课程编号查询课程
     @Select("select * from course where course_number = #{courseNumber}")
-    Course selectCourseByCourseNumber(String courseNumber);
+    Course selectCourseByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询所有课程
     @Select("select * from course")
@@ -31,6 +31,6 @@ public interface CourseMapper {
 
     // 根据优先级课程查询课程列表
     @Select("select * from course where priority_course = #{priorityCourse}")
-    List<Course> selectCoursesByPriorityCourse(String priorityCourse);
+    List<Course> selectCoursesByPriorityCourse(@Param(" priorityCourse") String priorityCourse);
 
 }
