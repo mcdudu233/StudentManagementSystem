@@ -14,7 +14,6 @@ public interface StudentService {
 
     List<Student> findAll();
 
-
     Student getStudentByName(String name);
 
     List<Grade> getStudentScoresByName(String studentName);
