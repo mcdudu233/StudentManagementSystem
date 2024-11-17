@@ -1,6 +1,6 @@
 package top.mcso.sms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.mapper.GradeMapper;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 public class GradeServiceImpl implements GradeService {
-    @Autowired
+    @Resource
     private GradeMapper gradeMapper;
 
     @Override
