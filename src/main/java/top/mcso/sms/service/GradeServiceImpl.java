@@ -13,6 +13,7 @@ public class GradeServiceImpl implements GradeService {
     @Autowired
     private GradeMapper gradeMapper;
 
+    @Override
     public List<Grade> findAllGrades() {
         try {
             return gradeMapper.findallgrades();
@@ -21,6 +22,7 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
     public List<Grade> findGradesByCourseNumber(String courseNumber) {
         try {
             return gradeMapper.findgradesbycoursenumber(courseNumber);
@@ -29,6 +31,7 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
     public Double findAverageGradeByCourseNumber(String courseNumber) {
         try {
             return gradeMapper.findaveragegradebycoursenumber(courseNumber);
@@ -37,6 +40,7 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
     public Double findMaxGradeByCourseNumber(String courseNumber) {
         try {
             return gradeMapper.findmaxgradebycoursenumber(courseNumber);
@@ -45,6 +49,7 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
     public List<Map<String, Object>> selectStudentGradesSummary() {
         try {
             return gradeMapper.selectStudentGradesSummary();
@@ -53,6 +58,7 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
     public Map<String, Object> selectStudentGradesSummaryByStudentNumber(String studentNumber) {
         try {
             return gradeMapper.selectStudentGradesSummaryByStudentNumber(studentNumber);
