@@ -6,15 +6,15 @@ import top.mcso.sms.entity.Student;
 import java.util.List;
 
 public interface StudentService {
-    boolean deleteByNumber(String studentNumber) throws Exception;
+    boolean deleteByNumber(String studentNumber);
 
-    boolean insertStudent(Student student) throws Exception;
+    boolean insertStudent(Student student);
 
-    boolean updateStudent(String address, String telephone, String studentNumber) throws Exception;
+    boolean updateStudent(String address, String telephone, String studentNumber);
 
-    List<Student> listStudents() throws Exception;
+    List<Student> listStudents();
 
-    Student getStudentByName(String name) throws Exception;
+    Student getStudentByName(String name);
 
-    List<Grade> getStudentScoresByName(String studentName) throws Exception;
+    List<Grade> getStudentScoresByName(String studentName);
 }
