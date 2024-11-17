@@ -2,7 +2,6 @@ package top.mcso.sms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import top.mcso.sms.entity.Teacher;
 import top.mcso.sms.mapper.TeacherMapper;
 
@@ -15,7 +14,6 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    @Transactional
     public int insert(Teacher teacher) {
         try {
             return teacherMapper.insert(teacher);
@@ -25,7 +23,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    @Transactional
     public int deleteByJobNumber(String jobNumber) {
         try {
             int result = teacherMapper.deleteByJobNumber(jobNumber);
@@ -39,7 +36,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    @Transactional
     public int deleteByName(String teacherName) {
         try {
             int result = teacherMapper.deleteByName(teacherName);
@@ -53,7 +49,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    @Transactional
     public int deleteByJobNumberAndName(String jobNumber, String teacherName) {
         try {
             int result = teacherMapper.deleteByJobNumberAndName(jobNumber, teacherName);
@@ -67,7 +62,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    @Transactional
     public int update(Teacher teacher) {
         try {
             return teacherMapper.update(teacher);
