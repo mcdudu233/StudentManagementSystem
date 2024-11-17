@@ -1,5 +1,6 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
@@ -7,7 +8,7 @@ import top.mcso.sms.entity.Student;
 import java.util.List;
 
 @Mapper
-public interface StudentMapper {
+public interface StudentMapper extends BaseMapper<Student> {
     //增删方法
     //删除指定学生
     @Delete("delete from student where student_number = #{student_number}")

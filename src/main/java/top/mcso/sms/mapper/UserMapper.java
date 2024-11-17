@@ -1,5 +1,6 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.User;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
     // 插入用户
     @Insert("insert into user (username, password, priority, user_number) values (#{username}, #{password}, #{priority}, #{userNumber})")
     @Options(useGeneratedKeys = true, keyProperty = "userNumber")

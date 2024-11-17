@@ -1,12 +1,13 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.Schedule;
 
 import java.util.List;
 
 @Mapper
-public interface ScheduleMapper {
+public interface ScheduleMapper extends BaseMapper<Schedule> {
     // 插入学生课程表信息
     @Insert("insert into schedule (student_number, student_name, course_name, course_number) " +
             "values (#{studentNumber}, #{studentName}, #{courseName}, #{courseNumber})")

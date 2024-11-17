@@ -1,12 +1,13 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.Course;
 
 import java.util.List;
 
 @Mapper
-public interface CourseMapper {
+public interface CourseMapper extends BaseMapper<Course> {
     // 插入课程信息
     @Insert("insert into course (course_number, course_name, priority_course) " +
             "values (#{courseNumber}, #{courseName}, #{priorityCourse})")

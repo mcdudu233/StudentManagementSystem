@@ -1,12 +1,13 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.Teacher;
 
 import java.util.List;
 
 @Mapper
-public interface TeacherMapper {
+public interface TeacherMapper extends BaseMapper<Teacher> {
     // 插入教师记录
     @Insert("insert into teacher (job_number, teachername, age, gender, duty, address, telephone) " +
             "values (#{jobNumber}, #{teacherName}, #{age}, #{gender}, #{duty}, #{address}, #{telephone})")

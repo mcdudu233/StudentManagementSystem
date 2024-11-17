@@ -1,12 +1,13 @@
 package top.mcso.sms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.mcso.sms.entity.Announcement;
 
 import java.util.List;
 
 @Mapper
-public interface AnnouncementMapper {
+public interface AnnouncementMapper extends BaseMapper<Announcement> {
     // 插入公告信息
     @Insert("insert into announcement (id, announcement) values (#{id}, #{announcement})")
     int insertAnnouncement(Announcement announcement);
