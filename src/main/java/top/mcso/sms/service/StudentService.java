@@ -12,7 +12,8 @@ public interface StudentService {
 
     boolean updateStudent(String address, String telephone, String studentNumber);
 
-    List<Student> listStudents();
+    List<Student> findAll();
+
 
     Student getStudentByName(String name);
 

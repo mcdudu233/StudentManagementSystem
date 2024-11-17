@@ -46,14 +46,16 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+
     @Override
-    public List<Student> listStudents() {
+    public List<Student> findAll() {
         try {
-            return studentMapper.listStudent(null);
+            return studentMapper.findAll();
         } catch (Exception e) {
             throw new RuntimeException("Error listing students", e);
         }
     }
+
 
     @Override
     public Student getStudentByName(String name) {

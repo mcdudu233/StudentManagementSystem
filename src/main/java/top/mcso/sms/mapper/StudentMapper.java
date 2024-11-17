@@ -26,7 +26,7 @@ public interface StudentMapper {
     //查询方法
     //查询所有学生
     @Select("select * from student")
-    List<Student> listStudent(@Param("student") Student student);
+    List<Student> findAll();
 
     //查询指定学生
     @Select("select * from student where name = #{name}")
