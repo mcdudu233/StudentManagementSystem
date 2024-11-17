@@ -1,6 +1,6 @@
 package top.mcso.sms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Schedule;
 import top.mcso.sms.mapper.ScheduleMapper;
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
-    @Autowired
+    @Resource
     private ScheduleMapper scheduleMapper;
 
     @Override

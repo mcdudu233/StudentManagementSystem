@@ -4,16 +4,17 @@ import top.mcso.sms.entity.Announcement;
 
 import java.util.List;
 
+
 public interface AnnouncementService {
-    public int addAnnouncement(Announcement announcement);
+    int addAnnouncement(Announcement announcement);
 
-    public int removeAnnouncementById(String id);
+    int removeAnnouncementById(String id);
 
-    public int updateAnnouncement(Announcement announcement);
+    int updateAnnouncement(Announcement announcement);
 
-    public Announcement getAnnouncementById(String id);
+    Announcement getAnnouncementById(String id);
 
-    public List<Announcement> getAllAnnouncements();
+    List<Announcement> getAllAnnouncements();
 
 
 }

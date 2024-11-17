@@ -1,6 +1,6 @@
 package top.mcso.sms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Announcement;
 import top.mcso.sms.mapper.AnnouncementMapper;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
-    @Autowired
+    @Resource
     private AnnouncementMapper announcementMapper;
 
     @Override

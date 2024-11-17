@@ -2,8 +2,6 @@ package top.mcso.sms.entity;
 
 import lombok.*;
 
-@Setter
-@Getter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -2,12 +2,9 @@ package top.mcso.sms.entity;
 
 import lombok.*;
 
-@Setter
-@Getter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Student {
     private String studentNumber ;
     private String name;

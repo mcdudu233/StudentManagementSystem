@@ -1,6 +1,6 @@
 package top.mcso.sms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.mapper.CourseMapper;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-    @Autowired
+    @Resource
     private CourseMapper courseMapper;
 
     @Override
