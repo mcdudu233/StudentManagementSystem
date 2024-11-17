@@ -1,17 +1,15 @@
 package top.mcso.sms.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Data
 public class Announcement {
-    private String id ;
+    private String id;
     private String announcement;
-
 
     @Override
     public String toString() {

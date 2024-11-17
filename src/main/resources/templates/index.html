@@ -5,38 +5,108 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>学生管理系统 - 首页</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 背景样式 */
+        body {
+            background: url('https://source.unsplash.com/1600x900/?education,university') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* 主容器 */
+        .main-container {
+            margin-top: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            border-radius: 15px;
+            padding: 20px;
+            color: #ffffff;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        /* 内容区样式 */
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-left: 10px;
+        }
+
+        /* 标题样式 */
+        h1, h4 {
+            color: #343a40;
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-fluid main-container">
     <div class="row">
-        <!-- 左侧导航栏 -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar" id="sidebar">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">首页</a>
-                    </li>
-                    <li class="nav-item" th:if="${role == 'ROLE_ADMIN'}">
-                        <a class="nav-link" th:href="@{/students}">学生管理</a>
-                    </li>
-                    <li class="nav-item" th:if="${role == 'ROLE_ADMIN'}">
-                        <a class="nav-link" th:href="@{/courses}">课程管理</a>
-                    </li>
-                    <li class="nav-item" th:if="${role == 'ROLE_TEACHER'}">
-                        <a class="nav-link" th:href="@{/myClasses}">我的班级</a>
-                    </li>
-                    <li class="nav-item" th:if="${role == 'ROLE_STUDENT'}">
-                        <a class="nav-link" th:href="@{/myCourses}">我的课程</a>
-                    </li>
-                </ul>
-            </div>
+        <!-- 侧边栏 -->
+        <nav class="col-md-3 sidebar">
+            <h4>功能导航</h4>
+            <ul class="nav flex-column">
+                <!-- 学生菜单 -->
+                <li th:if="${role == 'ROLE_STUDENT'}">
+                    <a class="active" href="/select-course">选课</a>
+                    <a href="/my-schedule">我的课表</a>
+                    <a href="/my-grades">我的成绩</a>
+                </li>
+                <!-- 教师菜单 -->
+                <li th:if="${role == 'ROLE_TEACHER'}">
+                    <a href="/my-courses">我上的课</a>
+                    <a href="/student-management">学生管理</a>
+                    <a href="/grade-management">成绩管理</a>
+                </li>
+                <!-- 管理员菜单 -->
+                <li th:if="${role == 'ROLE_ADMIN'}">
+                    <a href="/user-management">用户管理</a>
+                    <a href="/student-management">学生管理</a>
+                    <a href="/teacher-management">老师管理</a>
+                </li>
+                <!-- 通用功能 -->
+                <li>
+                    <a href="/settings">设置</a>
+                    <a href="/logout">退出登录</a>
+                </li>
+            </ul>
         </nav>
 
-        <!-- 右侧主内容区域 -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">欢迎来到学生管理系统</h1>
-            </div>
+        <!-- 主内容区 -->
+        <main class="col-md-9 content">
+            <!-- 页头 -->
+            <header class="mb-4">
+                <h1>学生管理系统</h1>
+                <h4 th:text="'欢迎，' + ${role} + '。请从左侧选择功能进行操作。'"></h4>
+            </header>
 
             <!-- 管理员面板 -->
             <div th:if="${role == 'ROLE_ADMIN'}">
@@ -131,6 +201,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- 首页信息 -->
+            <div class="mt-4">
+                <h4>系统公告</h4>
+                <p>请注意：系统将在每周五凌晨维护，期间可能无法访问。感谢您的理解与支持。</p>
+
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="/help">帮助中心</a></li>
+                    <li><a href="/faq">常见问题解答</a></li>
+                    <li><a href="/contact">联系我们</a></li>
+                </ul>
             </div>
         </main>
     </div>
