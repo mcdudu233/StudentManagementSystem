@@ -12,6 +12,7 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseMapper courseMapper;
 
+    @Override
     public int insertCourse(Course course) {
         try {
             return courseMapper.insertCourse(course);
@@ -20,6 +21,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
     public int deleteCourseByCourseNumber(String courseNumber) {
         try {
             return courseMapper.deleteCourseByCourseNumber(courseNumber);
@@ -28,6 +30,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
     public int updateCourse(Course course) {
         try {
             return courseMapper.updateCourse(course);
@@ -36,6 +39,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
     public Course selectCourseByCourseNumber(String courseNumber) {
         try {
             return courseMapper.selectCourseByCourseNumber(courseNumber);
@@ -44,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
     public List<Course> selectAllCourses() {
         try {
             return courseMapper.selectAllCourses();
