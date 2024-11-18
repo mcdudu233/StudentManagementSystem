@@ -1,6 +1,7 @@
 package top.mcso.sms.config;
 
 
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import top.mcso.sms.service.UserService;
+
+import java.util.List;
 
 /**
  * 网页安全配置
@@ -24,6 +28,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Resource
+    private UserService userService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // 配置每个页面的权限
@@ -49,7 +56,10 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         // 添加用户
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+        List<top.mcso.sms.entity.User> allUsers = userService.findAllUsers();
+        for (top.mcso.sms.entity.User user : allUsers) {
+            manager.createUser(User.withUsername(user.getName()).password(user.getPassword()).roles(user.getPriority()).build());
+        }
         return manager;
     }
 

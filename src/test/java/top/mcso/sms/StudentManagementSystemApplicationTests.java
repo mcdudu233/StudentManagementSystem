@@ -5,10 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class StudentManagementSystemApplicationTests {
-
+    
     @Test
-    void iocTest() {
-
+    void databaseTest() {
     }
 
     @Test
