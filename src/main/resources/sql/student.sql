@@ -1,4 +1,3 @@
-
 create table student
 (
     student_number varchar(20)            not null,
