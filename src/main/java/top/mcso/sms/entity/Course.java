@@ -1,6 +1,8 @@
 package top.mcso.sms.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -14,4 +16,5 @@ public class Course {
     public String toString() {
         return "课程 [课程号=" + courseNumber + ", 课程名=" + courseName + ", 先修课程=" + priorityCourse + "]";
     }
+
 }

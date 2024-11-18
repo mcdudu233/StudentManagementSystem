@@ -83,11 +83,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher findByJobNumber(String jobNumber) {
         try {
-            Teacher teacher = teacherMapper.findByJobNumber(jobNumber);
-            if (teacher == null) {
-                throw new RuntimeException("Teacher with job number " + jobNumber + " not found");
-            }
-            return teacher;
+            return teacherMapper.findByJobNumber(jobNumber);
         } catch (Exception e) {
             throw new RuntimeException("Failed to find teacher by job number", e);
         }
