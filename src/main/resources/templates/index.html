@@ -75,22 +75,22 @@
     <div class="row">
         <!-- 侧边栏 -->
         <nav class="col-md-3 sidebar">
-            <h4>功能导航</h4>
+            <h4>功能列表</h4>
             <ul class="nav flex-column">
                 <!-- 学生菜单 -->
-                <li th:if="${role == 'ROLE_STUDENT'}">
+                <li th:if="${role == 'ROLE_student'}">
                     <a class="active" href="/select-course">选课</a>
                     <a href="/my-schedule">我的课表</a>
                     <a href="/my-grades">我的成绩</a>
                 </li>
                 <!-- 教师菜单 -->
-                <li th:if="${role == 'ROLE_TEACHER'}">
+                <li th:if="${role == 'ROLE_teacher'}">
                     <a href="/my-courses">我上的课</a>
                     <a href="/student-management">学生管理</a>
                     <a href="/grade-management">成绩管理</a>
                 </li>
                 <!-- 管理员菜单 -->
-                <li th:if="${role == 'ROLE_ADMIN'}">
+                <li th:if="${role == 'ROLE_admin'}">
                     <a href="/user-management">用户管理</a>
                     <a href="/student-management">学生管理</a>
                     <a href="/teacher-management">老师管理</a>
@@ -108,11 +108,11 @@
             <!-- 页头 -->
             <header class="mb-4">
                 <h1>学生管理系统</h1>
-                <h4 th:text="'欢迎，' + ${role} + '。请从左侧选择功能进行操作。'"></h4>
+                <h4 th:text="'欢迎，' + ${user} + '。请从左侧选择功能进行操作。'"></h4>
             </header>
 
             <!-- 管理员面板 -->
-            <div th:if="${role == 'ROLE_ADMIN'}">
+            <div th:if="${role == 'ROLE_admin'}">
                 <h4>管理员面板</h4>
                 <div class="row">
                     <div class="col-md-4">
@@ -143,7 +143,7 @@
             </div>
 
             <!-- 教师面板 -->
-            <div th:if="${role == 'ROLE_TEACHER'}">
+            <div th:if="${role == 'ROLE_teacher'}">
                 <h4>教师面板</h4>
                 <div class="row">
                     <div class="col-md-4">
@@ -174,7 +174,7 @@
             </div>
 
             <!-- 学生面板 -->
-            <div th:if="${role == 'ROLE_STUDENT'}">
+            <div th:if="${role == 'ROLE_student'}">
                 <h4>学生面板</h4>
                 <div class="row">
                     <div class="col-md-4">
@@ -206,12 +206,28 @@
                 </div>
             </div>
 
-            <!-- 首页信息 -->
+            <!-- 未知用户 -->
+            <div th:if="${role == 'ROLE_null'}">
+                <h4 th:text="'未知用户，' + ${user} + '。请联系管理员！'"></h4>
+                <div class="row">
+                </div>
+            </div>
+
+            <!-- 公告信息 -->
             <div class="mt-4">
                 <h4>系统公告</h4>
-                <p>请注意：系统将在每周五凌晨维护，期间可能无法访问。感谢您的理解与支持。</p>
+                <ul>
+                    <!-- 如果有公告 -->
+                    <li th:each="announcement : ${announcements}" th:if="${!#lists.isEmpty(announcements)}"
+                        th:text="${announcement}"></li>
+                </ul>
+                <!-- 如果没有公告 -->
+                <p th:if="${#lists.isEmpty(announcements)}">暂无公告</p>
+            </div>
 
-                <h4>快速链接</h4>
+            <!-- 友情链接 -->
+            <div class="mt-4">
+                <h4>友情链接</h4>
                 <ul>
                     <li><a href="/help">帮助中心</a></li>
                     <li><a href="/faq">常见问题解答</a></li>
