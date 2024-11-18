@@ -213,12 +213,21 @@
                 </div>
             </div>
 
-            <!-- 首页信息 -->
+            <!-- 公告信息 -->
             <div class="mt-4">
                 <h4>系统公告</h4>
-                <p>请注意：系统将在每周五凌晨维护，期间可能无法访问。感谢您的理解与支持。</p>
+                <ul>
+                    <!-- 如果有公告 -->
+                    <li th:each="announcement : ${announcements}" th:if="${!#lists.isEmpty(announcements)}"
+                        th:text="${announcement}"></li>
+                </ul>
+                <!-- 如果没有公告 -->
+                <p th:if="${#lists.isEmpty(announcements)}">暂无公告</p>
+            </div>
 
-                <h4>快速链接</h4>
+            <!-- 友情链接 -->
+            <div class="mt-4">
+                <h4>友情链接</h4>
                 <ul>
                     <li><a href="/help">帮助中心</a></li>
                     <li><a href="/faq">常见问题解答</a></li>

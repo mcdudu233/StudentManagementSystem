@@ -1,5 +1,6 @@
 package top.mcso.sms.controller;
 
+import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,7 +8,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import top.mcso.sms.entity.Announcement;
+import top.mcso.sms.service.AnnouncementService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +27,8 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+    @Resource
+    AnnouncementService announcementService;
 
     // 主页面
     @RequestMapping("/")
@@ -42,7 +48,7 @@ public class MainController {
 
         model.addAttribute("role", role);
         model.addAttribute("user", principal.getUsername());
-        // 根据角色加载不同的数据
+        // 设置面板数据
         if ("ROLE_admin".equals(role)) {
             model.addAttribute("dashboardData", getAdminDashboardData());
         } else if ("ROLE_teacher".equals(role)) {
@@ -52,6 +58,8 @@ public class MainController {
         } else {
             model.addAttribute("dashboardData", getAdminDashboardData());
         }
+        // 设置公告
+        model.addAttribute("announcements", getAnnouncements());
 
         return "index";
     }
@@ -78,5 +86,14 @@ public class MainController {
         data.put("attendance", "良好");
         data.put("averageGrade", "90");
         return data;
+    }
+
+    private List<String> getAnnouncements() {
+        List<Announcement> all = announcementService.getAllAnnouncements();
+        List<String> announcements = new ArrayList<>();
+        for (Announcement a : all) {
+            announcements.add(a.getAnnouncement());
+        }
+        return announcements;
     }
 }
