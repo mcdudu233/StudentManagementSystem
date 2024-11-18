@@ -41,14 +41,14 @@ build-job:       # This job runs in the build stage, which runs first.
     - ./gradlew clean
     - ./gradlew build
     - mkdir ./sms
-    - cp ./build/libs ./sms
+    - cp -r ./build/libs ./sms
     - echo "Compile complete."
   tags:
     - linux
   artifacts:
     name: "sms"
     paths:
-      - ./build/libs
+      - ./sms
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
