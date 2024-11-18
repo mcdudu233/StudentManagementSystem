@@ -17,9 +17,21 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 stages:          # List of stages for jobs, and their order of execution
-  - build
   - test
+  - build
   - deploy
+
+test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - echo "Running unit tests..."
+    - chmod +x ./gradlew
+    - ./gradlew clean
+    - ./gradlew test
+    - echo "Test is OK!"
+  tags:
+    - linux
+
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -28,18 +40,15 @@ build-job:       # This job runs in the build stage, which runs first.
     - chmod +x ./gradlew
     - ./gradlew clean
     - ./gradlew build
+    - mkdir ./sms
+    - cp ./build/libs ./sms
     - echo "Compile complete."
   tags:
     - linux
-
-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests..."
-    - ./gradlew test
-    - echo "Test is OK!"
-  tags:
-    - linux
+  artifacts:
+    name: "sms"
+    paths:
+      - ./build/libs
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
