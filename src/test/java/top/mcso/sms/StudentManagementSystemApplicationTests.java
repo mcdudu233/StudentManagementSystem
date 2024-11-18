@@ -7,6 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 class StudentManagementSystemApplicationTests {
 
     @Test
+    void iocTest() {
+
+    }
+
+    @Test
     void contextLoads() {
     }
 

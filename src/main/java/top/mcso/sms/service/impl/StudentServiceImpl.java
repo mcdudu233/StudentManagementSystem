@@ -1,10 +1,11 @@
-package top.mcso.sms.service;
+package top.mcso.sms.service.impl;
 
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
 import top.mcso.sms.mapper.StudentMapper;
+import top.mcso.sms.service.StudentService;
 
 import java.util.List;
 

@@ -1,9 +1,10 @@
-package top.mcso.sms.service;
+package top.mcso.sms.service.impl;
 
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Schedule;
 import top.mcso.sms.mapper.ScheduleMapper;
+import top.mcso.sms.service.ScheduleService;
 
 import java.util.List;
 
