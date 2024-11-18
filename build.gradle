@@ -37,6 +37,8 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    annotationProcessor 'org.projectlombok:lombok'
+
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
