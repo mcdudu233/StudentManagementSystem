@@ -13,14 +13,6 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
             "values (#{jobNumber}, #{teacherName}, #{age}, #{gender}, #{duty}, #{address}, #{telephone})")
     boolean insertTeacher(Teacher teacher);
 
-    // 删除指定教师
-    @Delete("delete from teacher where job_number = #{jobNumber}")
-    boolean deleteByJobNumber(@Param("jobNumber") String jobNumber);
-
-    // 根据姓名删除教师
-    @Delete("delete from teacher where teachername = #{teacherName}")
-    boolean deleteByName(@Param("teacherName") String teacherName);
-
     // 根据工号和姓名删除教师
     @Delete("delete from teacher where job_number = #{jobNumber} and teachername = #{teacherName}")
     boolean deleteByJobNumberAndName(@Param("jobNumber") String jobNumber, @Param("teacherName") String teacherName);
