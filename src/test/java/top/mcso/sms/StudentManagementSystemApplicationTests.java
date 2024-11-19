@@ -83,6 +83,8 @@ class StudentManagementSystemApplicationTests {
         assertNotNull(studentService.findAll());
         assertNotNull(studentService.getStudentScoresByName(student.getStudentName()));
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
+
+        //测试课程表服务
     }
 
 

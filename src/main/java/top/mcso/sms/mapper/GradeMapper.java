@@ -29,15 +29,16 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
 
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
-    @Select("SELECT r.student_number, r.student_name, MIN(g.grade) AS min_grade, MAX(g.grade) AS max_grade, SUM(g.grade) AS sum_grade, AVG(g.grade) AS avg_grade " +
-            "FROM statistics r JOIN grade g ON r.student_number = g.student_number " +
-            "GROUP BY r.student_number")
+    @Select("select r.student_number, r.student_name, min(g.grade) as min_grade, max(g.grade) as max_grade, sum(g.grade) as sum_grade, avg(g.grade) as avg_grade " +
+            "from statistics r join grade g on r.student_number = g.student_number " +
+            "group by r.student_number")
     List<Statistics> getAllStudentsGrades();
 
     // 查询特定学生的成绩、最高分、最低分、平均分和总分
-    @Select("SELECT r.student_number, r.student_name, MIN(g.grade) AS min_grade, MAX(g.grade) AS max_grade, SUM(g.grade) AS sum_grade, AVG(g.grade) AS avg_grade " +
-            "FROM statistics r JOIN grade g ON r.student_number = g.student_number " +
-            "WHERE r.student_number = #{studentNumber} " +
-            "GROUP BY r.student_number")
+    @Select("select r.student_number, r.student_name, min(g.grade) as min_grade, max(g.grade) as max_grade, sum(g.grade) as sum_grade, avg(g.grade) as avg_grade " +
+            "from statistics r join grade g on r.student_number = g.student_number " +
+            "where r.student_number = #{studentNumber} " +
+            "group by r.student_number")
     Statistics getStudentGradesByNumber(String studentNumber);
+
 }
