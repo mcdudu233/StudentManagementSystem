@@ -1,11 +1,8 @@
 package top.mcso.sms.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Data
 public class Announcement {
     private String id;
@@ -15,4 +12,5 @@ public class Announcement {
     public String toString() {
         return "公告 [序号=" + id + ", 公告=" + announcement + "]";
     }
+    
 }
