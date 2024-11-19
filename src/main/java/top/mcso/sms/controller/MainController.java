@@ -1,15 +1,14 @@
 package top.mcso.sms.controller;
 
 import jakarta.annotation.Resource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.Announcement;
+import top.mcso.sms.entity.Grade;
 import top.mcso.sms.service.AnnouncementService;
+import top.mcso.sms.service.StudentService;
+import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,26 +27,21 @@ import java.util.Map;
 @Controller
 public class MainController {
     @Resource
+    StudentService studentService;
+    @Resource
     AnnouncementService announcementService;
 
     // 主页面
     @RequestMapping("/")
     public String home(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 未登录则跳转到登录页面
-        if (authentication == null) {
+        if (!SessionUtils.hasLogin()) {
             return "redirect:/login";
         }
 
-        // 获取用户信息
-        User principal = (User) authentication.getPrincipal();
-        String role = "ROLE_null";
-        for (GrantedAuthority ga : principal.getAuthorities()) {
-            role = ga.getAuthority();
-        }
-
+        String role = SessionUtils.getRole();
         model.addAttribute("role", role);
-        model.addAttribute("user", principal.getUsername());
+        model.addAttribute("user", SessionUtils.getName());
         // 设置面板数据
         if ("ROLE_admin".equals(role)) {
             model.addAttribute("dashboardData", getAdminDashboardData());
@@ -66,7 +60,7 @@ public class MainController {
 
     private Map<String, Object> getAdminDashboardData() {
         Map<String, Object> data = new HashMap<>();
-        data.put("studentCount", 1200);
+        data.put("studentCount", 1);
         data.put("courseCount", 50);
         data.put("attendanceRate", "5%");
         return data;
@@ -81,10 +75,28 @@ public class MainController {
     }
 
     private Map<String, Object> getStudentDashboardData() {
+        List<Grade> grades = studentService.getStudentScoresByName(SessionUtils.getName());
+        double avgGrade = 0;
+        for (Grade grade : grades) {
+            avgGrade += grade.getGrade();
+        }
+        avgGrade /= grades.size();
+
+        String level = "不及格";
+        if (avgGrade < 70) {
+            level = "及格";
+        } else if (avgGrade < 80) {
+            level = "良好";
+        } else if (avgGrade < 90) {
+            level = "优良";
+        } else {
+            level = "优秀";
+        }
+
         Map<String, Object> data = new HashMap<>();
         data.put("currentCourses", List.of("数据结构", "操作系统"));
-        data.put("attendance", "良好");
-        data.put("averageGrade", "90");
+        data.put("attendance", level);
+        data.put("averageGrade", avgGrade);
         return data;
     }
 
