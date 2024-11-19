@@ -14,7 +14,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private AnnouncementMapper announcementMapper;
 
     @Override
-    public int addAnnouncement(Announcement announcement) {
+    public boolean addAnnouncement(Announcement announcement) {
         try {
             return announcementMapper.insertAnnouncement(announcement);
         } catch (Exception e) {
@@ -23,7 +23,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public int removeAnnouncementById(String id) {
+    public boolean removeAnnouncementById(String id) {
         try {
             return announcementMapper.deleteAnnouncementById(id);
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public int updateAnnouncement(Announcement announcement) {
+    public boolean updateAnnouncement(Announcement announcement) {
         try {
             return announcementMapper.updateAnnouncement(announcement);
         } catch (Exception e) {

@@ -5,11 +5,11 @@ import top.mcso.sms.entity.Schedule;
 import java.util.List;
 
 public interface ScheduleService {
-    int insertSchedule(Schedule schedule);
+    boolean insertSchedule(Schedule schedule);
 
-    int deleteScheduleByStudentNumber(String studentNumber);
+    boolean deleteScheduleByStudentNumber(String studentNumber);
 
-    int updateSchedule(Schedule schedule);
+    boolean updateSchedule(Schedule schedule);
 
     Schedule selectScheduleByStudentNumber(String studentNumber);
 

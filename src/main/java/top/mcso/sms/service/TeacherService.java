@@ -5,15 +5,16 @@ import top.mcso.sms.entity.Teacher;
 import java.util.List;
 
 public interface TeacherService {
-    int insert(Teacher teacher);
 
-    int deleteByJobNumber(String jobNumber);
+    boolean insertTeacher(Teacher teacher);
 
-    int deleteByName(String teacherName);
+    boolean deleteByJobNumber(String jobNumber);
 
-    int deleteByJobNumberAndName(String jobNumber, String teacherName);
+    boolean deleteByName(String teacherName);
 
-    int update(Teacher teacher);
+    boolean deleteByJobNumberAndName(String jobNumber, String teacherName);
+
+    boolean updateTeacher(Teacher teacher);
 
     List<Teacher> findAll();
 

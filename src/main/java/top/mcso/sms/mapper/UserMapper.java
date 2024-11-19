@@ -12,15 +12,15 @@ public interface UserMapper extends BaseMapper<User> {
     // 插入用户
     @Insert("insert into user (user_number, password, priority ) values ( #{userNumber}, #{password}, #{priority})")
     @Options(useGeneratedKeys = true, keyProperty = "userNumber")
-    int insert(User user);
+    boolean insertUser(User user);
 
     // 删除用户
     @Delete("delete from user where user_number = #{userNumber}")
-    int deleteByUserNumber(@Param("userNumber") String userNumber);
+    boolean deleteByUserNumber(@Param("userNumber") String userNumber);
 
     // 更新用户
     @Update("update user set password = #{password}, priority = #{priority} where user_number = #{userNumber}")
-    int update(User user);
+    boolean updateUser(User user);
 
     // 根据用户编号查询用户
     @Select("select * from user where user_number = #{userNumber}")
@@ -30,9 +30,6 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select * from user")
     List<User> findAll();
 
-    // 根据用户名查询用户
-    @Select("select * from user where username = #{username}")
-    User findByUsername(@Param("username") String username);
 
 }
 

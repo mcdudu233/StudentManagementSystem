@@ -6,11 +6,11 @@ import java.util.List;
 
 
 public interface AnnouncementService {
-    int addAnnouncement(Announcement announcement);
+    boolean addAnnouncement(Announcement announcement);
 
-    int removeAnnouncementById(String id);
+    boolean removeAnnouncementById(String id);
 
-    int updateAnnouncement(Announcement announcement);
+    boolean updateAnnouncement(Announcement announcement);
 
     Announcement getAnnouncementById(String id);
 

@@ -15,16 +15,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public int insertUser(User user) {
+    public boolean insertUser(User user) {
         try {
-            return userMapper.insert(user);
+            return userMapper.insertUser(user);
         } catch (Exception e) {
             throw new RuntimeException("Error inserting user", e);
         }
     }
 
     @Override
-    public int deleteUserByUserNumber(String userNumber) {
+    public boolean deleteUserByUserNumber(String userNumber) {
         try {
             return userMapper.deleteByUserNumber(userNumber);
         } catch (Exception e) {
@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(User user) {
+    public boolean updateUser(User user) {
         try {
-            return userMapper.update(user);
+            return userMapper.updateUser(user);
         } catch (Exception e) {
             throw new RuntimeException("Error updating user", e);
         }
@@ -59,13 +59,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public User findUserByUsername(String username) {
-        try {
-            return userMapper.findByUsername(username);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding user by username", e);
-        }
-    }
+
 }
 

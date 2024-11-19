@@ -11,25 +11,25 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
     // 插入教师记录
     @Insert("insert into teacher (job_number, teachername, age, gender, duty, address, telephone) " +
             "values (#{jobNumber}, #{teacherName}, #{age}, #{gender}, #{duty}, #{address}, #{telephone})")
-    int insert(Teacher teacher);
+    boolean insertTeacher(Teacher teacher);
 
     // 删除指定教师
     @Delete("delete from teacher where job_number = #{jobNumber}")
-    int deleteByJobNumber(@Param("jobNumber") String jobNumber);
+    boolean deleteByJobNumber(@Param("jobNumber") String jobNumber);
 
     // 根据姓名删除教师
     @Delete("delete from teacher where teachername = #{teacherName}")
-    int deleteByName(@Param("teacherName") String teacherName);
+    boolean deleteByName(@Param("teacherName") String teacherName);
 
     // 根据工号和姓名删除教师
     @Delete("delete from teacher where job_number = #{jobNumber} and teachername = #{teacherName}")
-    int deleteByJobNumberAndName(@Param("jobNumber") String jobNumber, @Param("teacherName") String teacherName);
+    boolean deleteByJobNumberAndName(@Param("jobNumber") String jobNumber, @Param("teacherName") String teacherName);
 
     // 更新教师记录
     @Update("update teacher set teachername = #{teacherName}, age = #{age}, gender = #{gender}, " +
             "duty = #{duty}, address = #{address}, telephone = #{telephone} " +
             "where job_number = #{jobNumber}")
-    int update(Teacher teacher);
+    boolean updateTeacher(Teacher teacher);
 
     // 查询所有教师
     @Select("select * from teacher")

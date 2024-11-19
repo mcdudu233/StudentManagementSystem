@@ -5,11 +5,11 @@ import top.mcso.sms.entity.Course;
 import java.util.List;
 
 public interface CourseService {
-    int insertCourse(Course course);
+    boolean insertCourse(Course course);
 
-    int deleteCourseByCourseNumber(String courseNumber);
+    boolean deleteCourseByCourseNumber(String courseNumber);
 
-    int updateCourse(Course course);
+    boolean updateCourse(Course course);
 
     Course selectCourseByCourseNumber(String courseNumber);
 

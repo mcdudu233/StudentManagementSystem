@@ -11,16 +11,16 @@ public interface CourseMapper extends BaseMapper<Course> {
     // 插入课程信息
     @Insert("insert into course (course_number, course_name, priority_course) " +
             "values (#{courseNumber}, #{courseName}, #{priorityCourse})")
-    int insertCourse(Course course);
+    boolean insertCourse(Course course);
 
     // 根据课程编号删除课程
     @Delete("delete from course where course_number = #{courseNumber}")
-    int deleteCourseByCourseNumber(@Param("courseNumber") String courseNumber);
+    boolean deleteCourseByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 更新课程信息
     @Update("update course set course_name = #{courseName}, priority_course = #{priorityCourse} " +
             "where course_number = #{courseNumber}")
-    int updateCourse(Course course);
+    boolean updateCourse(Course course);
 
     // 根据课程编号查询课程
     @Select("select * from course where course_number = #{courseNumber}")

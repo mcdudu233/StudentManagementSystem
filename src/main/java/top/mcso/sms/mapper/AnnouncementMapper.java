@@ -10,15 +10,15 @@ import java.util.List;
 public interface AnnouncementMapper extends BaseMapper<Announcement> {
     // 插入公告信息
     @Insert("insert into announcement (id, announcement) values (#{id}, #{announcement})")
-    int insertAnnouncement(Announcement announcement);
+    boolean insertAnnouncement(Announcement announcement);
 
     // 根据ID删除公告
     @Delete("delete from announcement where id = #{id}")
-    int deleteAnnouncementById(@Param("id") String id);
+    boolean deleteAnnouncementById(@Param("id") String id);
 
     // 更新公告信息
     @Update("update announcement set announcement = #{announcement} where id = #{id}")
-    int updateAnnouncement(Announcement announcement);
+    boolean updateAnnouncement(Announcement announcement);
 
     // 根据ID查询公告
     @Select("select * from announcement where id = #{id}")

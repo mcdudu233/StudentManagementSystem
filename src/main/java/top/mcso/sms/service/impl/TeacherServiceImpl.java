@@ -15,57 +15,57 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public int insert(Teacher teacher) {
+    public boolean insertTeacher(Teacher teacher) {
         try {
-            return teacherMapper.insert(teacher);
+            return teacherMapper.insertTeacher(teacher);
         } catch (Exception e) {
             throw new RuntimeException("Failed to insert teacher", e);
         }
     }
 
     @Override
-    public int deleteByJobNumber(String jobNumber) {
+    public boolean deleteByJobNumber(String jobNumber) {
         try {
-            int result = teacherMapper.deleteByJobNumber(jobNumber);
-            if (result == 0) {
+            boolean result = teacherMapper.deleteByJobNumber(jobNumber);
+            if (!result) {
                 throw new RuntimeException("Teacher with job number " + jobNumber + " not found");
             }
-            return result;
+            return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete teacher by job number", e);
         }
     }
 
     @Override
-    public int deleteByName(String teacherName) {
+    public boolean deleteByName(String teacherName) {
         try {
-            int result = teacherMapper.deleteByName(teacherName);
-            if (result == 0) {
+            boolean result = teacherMapper.deleteByName(teacherName);
+            if (!result) {
                 throw new RuntimeException("Teacher with name " + teacherName + " not found");
             }
-            return result;
+            return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete teacher by name", e);
         }
     }
 
     @Override
-    public int deleteByJobNumberAndName(String jobNumber, String teacherName) {
+    public boolean deleteByJobNumberAndName(String jobNumber, String teacherName) {
         try {
-            int result = teacherMapper.deleteByJobNumberAndName(jobNumber, teacherName);
-            if (result == 0) {
+            boolean result = teacherMapper.deleteByJobNumberAndName(jobNumber, teacherName);
+            if (!result) {
                 throw new RuntimeException("Teacher with job number " + jobNumber + " and name " + teacherName + " not found");
             }
-            return result;
+            return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete teacher by job number and name", e);
         }
     }
 
     @Override
-    public int update(Teacher teacher) {
+    public boolean updateTeacher(Teacher teacher) {
         try {
-            return teacherMapper.update(teacher);
+            return teacherMapper.updateTeacher(teacher);
         } catch (Exception e) {
             throw new RuntimeException("Failed to update teacher", e);
         }

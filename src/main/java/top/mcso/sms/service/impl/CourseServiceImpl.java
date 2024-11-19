@@ -14,7 +14,7 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public int insertCourse(Course course) {
+    public boolean insertCourse(Course course) {
         try {
             return courseMapper.insertCourse(course);
         } catch (Exception e) {
@@ -23,7 +23,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public int deleteCourseByCourseNumber(String courseNumber) {
+    public boolean deleteCourseByCourseNumber(String courseNumber) {
         try {
             return courseMapper.deleteCourseByCourseNumber(courseNumber);
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public int updateCourse(Course course) {
+    public boolean updateCourse(Course course) {
         try {
             return courseMapper.updateCourse(course);
         } catch (Exception e) {

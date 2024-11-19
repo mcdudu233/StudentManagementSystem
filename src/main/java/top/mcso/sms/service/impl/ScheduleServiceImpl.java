@@ -15,7 +15,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public int insertSchedule(Schedule schedule) {
+    public boolean insertSchedule(Schedule schedule) {
         try {
             return scheduleMapper.insertSchedule(schedule);
         } catch (Exception e) {
@@ -24,7 +24,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public int deleteScheduleByStudentNumber(String studentNumber) {
+    public boolean deleteScheduleByStudentNumber(String studentNumber) {
         try {
             return scheduleMapper.deleteScheduleByStudentNumber(studentNumber);
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public int updateSchedule(Schedule schedule) {
+    public boolean updateSchedule(Schedule schedule) {
         try {
             return scheduleMapper.updateSchedule(schedule);
         } catch (Exception e) {

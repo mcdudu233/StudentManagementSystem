@@ -19,8 +19,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean deleteByNumber(String studentNumber) {
         try {
-            int result = studentMapper.deleteByNumber(studentNumber);
-            return result > 0;
+            return studentMapper.deleteByNumber(studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error deleting student by number", e);
         }
@@ -30,8 +29,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean insertStudent(Student student) {
         try {
-            int result = studentMapper.insertStudent(student);
-            return result > 0;
+            return studentMapper.insertStudent(student);
         } catch (Exception e) {
             throw new RuntimeException("Error inserting student", e);
         }
@@ -40,8 +38,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean updateStudent(String address, String telephone, String studentNumber) {
         try {
-            int result = studentMapper.updateStudent(address, telephone, studentNumber);
-            return result > 0;
+            return studentMapper.updateStudent(address, telephone, studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error updating student", e);
         }
