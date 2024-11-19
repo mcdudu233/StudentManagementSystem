@@ -1,10 +1,9 @@
 package top.mcso.sms.entity;
 
-import lombok.*;
+import lombok.Data;
+
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Teacher {
     private String jobNumber;
     private String teacherName;

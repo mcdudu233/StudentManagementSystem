@@ -1,17 +1,18 @@
-package top.mcso.sms.service;
+package top.mcso.sms.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
 import top.mcso.sms.mapper.StudentMapper;
+import top.mcso.sms.service.StudentService;
 
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
+    @Resource
     private StudentMapper studentMapper;
 
 

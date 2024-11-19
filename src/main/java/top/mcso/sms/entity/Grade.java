@@ -5,7 +5,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Grade {
     private String courseNumber ;
     private String studentNumber;

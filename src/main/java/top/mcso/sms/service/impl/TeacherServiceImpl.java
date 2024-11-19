@@ -1,16 +1,17 @@
-package top.mcso.sms.service;
+package top.mcso.sms.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Teacher;
 import top.mcso.sms.mapper.TeacherMapper;
+import top.mcso.sms.service.TeacherService;
 
 import java.util.List;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-    @Autowired
+    @Resource
     private TeacherMapper teacherMapper;
 
     @Override
@@ -82,11 +83,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher findByJobNumber(String jobNumber) {
         try {
-            Teacher teacher = teacherMapper.findByJobNumber(jobNumber);
-            if (teacher == null) {
-                throw new RuntimeException("Teacher with job number " + jobNumber + " not found");
-            }
-            return teacher;
+            return teacherMapper.findByJobNumber(jobNumber);
         } catch (Exception e) {
             throw new RuntimeException("Failed to find teacher by job number", e);
         }

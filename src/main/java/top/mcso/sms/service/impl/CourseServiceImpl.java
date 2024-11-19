@@ -1,15 +1,16 @@
-package top.mcso.sms.service;
+package top.mcso.sms.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.mapper.CourseMapper;
+import top.mcso.sms.service.CourseService;
 
 import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-    @Autowired
+    @Resource
     private CourseMapper courseMapper;
 
     @Override

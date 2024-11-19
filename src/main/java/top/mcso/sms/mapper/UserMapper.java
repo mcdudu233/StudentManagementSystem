@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     // 插入用户
-    @Insert("insert into user (username, password, priority, user_number) values (#{username}, #{password}, #{priority}, #{userNumber})")
+    @Insert("insert into user (user_number, password, priority ) values ( #{userNumber}, #{password}, #{priority})")
     @Options(useGeneratedKeys = true, keyProperty = "userNumber")
     int insert(User user);
 
@@ -19,7 +19,7 @@ public interface UserMapper extends BaseMapper<User> {
     int deleteByUserNumber(@Param("userNumber") String userNumber);
 
     // 更新用户
-    @Update("update user set username = #{username}, password = #{password}, priority = #{priority} where user_number = #{userNumber}")
+    @Update("update user set password = #{password}, priority = #{priority} where user_number = #{userNumber}")
     int update(User user);
 
     // 根据用户编号查询用户
