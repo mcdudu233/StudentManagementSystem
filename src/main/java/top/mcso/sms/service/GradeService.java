@@ -1,9 +1,9 @@
 package top.mcso.sms.service;
 
 import top.mcso.sms.entity.Grade;
+import top.mcso.sms.entity.Statistics;
 
 import java.util.List;
-import java.util.Map;
 
 public interface GradeService {
     List<Grade> findAllGrades();
@@ -14,7 +14,8 @@ public interface GradeService {
 
     Double findMaxGradeByCourseNumber(String courseNumber);
 
-    List<Map<String, Object>> selectStudentGradesSummary();
+    List<Statistics> getAllStudentsGrades();
 
-    Map<String, Object> selectStudentGradesSummaryByStudentNumber(String studentNumber);
+    Statistics getStudentGradesByNumber(String studentNumber);
+
 }

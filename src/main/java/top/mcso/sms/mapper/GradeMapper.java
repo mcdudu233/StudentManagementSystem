@@ -1,11 +1,13 @@
 package top.mcso.sms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import top.mcso.sms.entity.Grade;
+import top.mcso.sms.entity.Statistics;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface GradeMapper extends BaseMapper<Grade> {
@@ -25,41 +27,17 @@ public interface GradeMapper extends BaseMapper<Grade> {
     @Select("select max(grade) as maxgrade from grade where course_number = #{courseNumber}")
     Double findmaxgradebycoursenumber(@Param("courseNumber") String courseNumber);
 
+
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
-    @Select("select " +
-            "g.student_number, " +
-            "sum(g.grade) as total_score, " +
-            "max(g.grade) as max_score, " +
-            "min(g.grade) as min_score, " +
-            "avg(g.grade) as average_score " +
-            "from grade g " +
-            "group by g.student_number")
-    @Results(value = {
-            @Result(property = "student_number", column = "student_number"),
-            @Result(property = "total_score", column = "total_score"),
-            @Result(property = "max_score", column = "max_score"),
-            @Result(property = "min_score", column = "min_score"),
-            @Result(property = "average_score", column = "average_score")
-    })
-    List<Map<String, Object>> selectStudentGradesSummary();
+    @Select("SELECT r.student_number, r.student_name, MIN(g.grade) AS min_grade, MAX(g.grade) AS max_grade, SUM(g.grade) AS sum_grade, AVG(g.grade) AS avg_grade " +
+            "FROM statistics r JOIN grade g ON r.student_number = g.student_number " +
+            "GROUP BY r.student_number")
+    List<Statistics> getAllStudentsGrades();
 
     // 查询特定学生的成绩、最高分、最低分、平均分和总分
-    @Select("select " +
-            "student_number, " +
-            "sum(grade) as total_score, " +
-            "max(grade) as max_score, " +
-            "min(grade) as min_score, " +
-            "avg(grade) as average_score " +
-            "from grade " +
-            "where student_number = #{studentNumber} " +
-            "group by student_number")
-    @Results(value = {
-            @Result(property = "studentNumber", column = "student_number"),
-            @Result(property = "totalScore", column = "total_score"),
-            @Result(property = "maxScore", column = "max_score"),
-            @Result(property = "minScore", column = "min_score"),
-            @Result(property = "averageScore", column = "average_score")
-    })
-    Map<String, Object> selectStudentGradesSummaryByStudentNumber(@Param("studentNumber") String studentNumber);
-
+    @Select("SELECT r.student_number, r.student_name, MIN(g.grade) AS min_grade, MAX(g.grade) AS max_grade, SUM(g.grade) AS sum_grade, AVG(g.grade) AS avg_grade " +
+            "FROM statistics r JOIN grade g ON r.student_number = g.student_number " +
+            "WHERE r.student_number = #{studentNumber} " +
+            "GROUP BY r.student_number")
+    Statistics getStudentGradesByNumber(String studentNumber);
 }
