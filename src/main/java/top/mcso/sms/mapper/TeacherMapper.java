@@ -9,16 +9,16 @@ import java.util.List;
 @Mapper
 public interface TeacherMapper extends BaseMapper<Teacher> {
     // 插入教师记录
-    @Insert("insert into teacher (job_number, teachername, age, gender, duty, address, telephone) " +
+    @Insert("insert into teacher (job_number, teacher_name, age, gender, duty, address, telephone) " +
             "values (#{jobNumber}, #{teacherName}, #{age}, #{gender}, #{duty}, #{address}, #{telephone})")
     boolean insertTeacher(Teacher teacher);
 
     // 根据工号和姓名删除教师
-    @Delete("delete from teacher where job_number = #{jobNumber} and teachername = #{teacherName}")
+    @Delete("delete from teacher where job_number = #{jobNumber} and teacher_name = #{teacherName}")
     boolean deleteByJobNumberAndName(@Param("jobNumber") String jobNumber, @Param("teacherName") String teacherName);
 
     // 更新教师记录
-    @Update("update teacher set teachername = #{teacherName}, age = #{age}, gender = #{gender}, " +
+    @Update("update teacher set teacher_name = #{teacherName}, age = #{age}, gender = #{gender}, " +
             "duty = #{duty}, address = #{address}, telephone = #{telephone} " +
             "where job_number = #{jobNumber}")
     boolean updateTeacher(Teacher teacher);
@@ -32,7 +32,7 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
     Teacher findByJobNumber(@Param("jobNumber") String jobNumber);
 
     // 根据姓名查询教师
-    @Select("select * from teacher where teachername = #{teacherName}")
+    @Select("select * from teacher where teacher_name = #{teacherName}")
     List<Teacher> findByName(@Param("teacherName") String teacherName);
 
 }
