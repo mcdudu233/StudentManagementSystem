@@ -15,4 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+    @RequestMapping("select")
+    public String select() {
+        return "student/select";
+    }
+
+    @RequestMapping("class")
+    public String classes() {
+        return "student/class";
+    }
+
+    @RequestMapping("grade")
+    public String grade() {
+        return "student/grade";
+    }
 }

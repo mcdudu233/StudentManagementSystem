@@ -15,4 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    @RequestMapping("user")
+    public String user() {
+        return "admin/user";
+    }
+
+    @RequestMapping("student")
+    public String student() {
+        return "admin/student";
+    }
+
+    @RequestMapping("teacher")
+    public String teacher() {
+        return "admin/teacher";
+    }
 }

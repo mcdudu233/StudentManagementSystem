@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
-
     @RequestMapping("/class")
     public String myCourses(Model model) {
         return "teacher/class";
