@@ -80,21 +80,21 @@
             <ul class="nav flex-column">
                 <!-- 学生菜单 -->
                 <li th:if="${role == 'ROLE_student'}">
-                    <a class="active" href="/select-course">选课</a>
-                    <a href="/my-schedule">我的课表</a>
-                    <a href="/my-grades">我的成绩</a>
+                    <a href="/student/select">选课</a>
+                    <a href="/student/class">我的课表</a>
+                    <a href="/student/grade">我的成绩</a>
                 </li>
                 <!-- 教师菜单 -->
                 <li th:if="${role == 'ROLE_teacher'}">
-                    <a href="/my-courses">我上的课</a>
-                    <a href="/student-management">学生管理</a>
-                    <a href="/grade-management">成绩管理</a>
+                    <a href="/teacher/class">我上的课</a>
+                    <a href="/teacher/student">学生管理</a>
+                    <a href="/teacher/grade">成绩管理</a>
                 </li>
                 <!-- 管理员菜单 -->
                 <li th:if="${role == 'ROLE_admin'}">
-                    <a href="/user-management">用户管理</a>
-                    <a href="/student-management">学生管理</a>
-                    <a href="/teacher-management">老师管理</a>
+                    <a href="/admin/user">用户管理</a>
+                    <a href="/admin/student">学生管理</a>
+                    <a href="/admin/teacher">老师管理</a>
                 </li>
                 <!-- 通用功能 -->
                 <li>
