@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.Announcement;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.service.AnnouncementService;
+import top.mcso.sms.service.CourseService;
 import top.mcso.sms.service.StudentService;
+import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
@@ -28,6 +30,10 @@ import java.util.Map;
 public class MainController {
     @Resource
     StudentService studentService;
+    @Resource
+    TeacherService teacherService;
+    @Resource
+    CourseService courseService;
     @Resource
     AnnouncementService announcementService;
 
@@ -60,9 +66,9 @@ public class MainController {
 
     private Map<String, Object> getAdminDashboardData() {
         Map<String, Object> data = new HashMap<>();
-        data.put("studentCount", 1);
-        data.put("courseCount", 50);
-        data.put("attendanceRate", "5%");
+        data.put("studentCount", studentService.findAll().size());
+        data.put("teacherCount", teacherService.findAll().size());
+        data.put("courseCount", courseService.selectAllCourses().size());
         return data;
     }
 
@@ -82,8 +88,10 @@ public class MainController {
         }
         avgGrade /= grades.size();
 
-        String level = "不及格";
-        if (avgGrade < 70) {
+        String level;
+        if (avgGrade < 60) {
+            level = "不及格";
+        } else if (avgGrade < 70) {
             level = "及格";
         } else if (avgGrade < 80) {
             level = "良好";
