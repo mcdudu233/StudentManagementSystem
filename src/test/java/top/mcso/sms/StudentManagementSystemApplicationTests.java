@@ -11,12 +11,14 @@ import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.service.UserService;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class StudentManagementSystemApplicationTests {
+    private static Random rand = new Random();
     // 导入要测试的服务
     @Resource
     private UserService userService;
@@ -27,10 +29,9 @@ class StudentManagementSystemApplicationTests {
 
     @Test
     void testDatabase() {
-
         // 随机产生用户名和密码
-        String userNumber = "Y02214077";
-        String password = "114514";
+        String userNumber = UUID.randomUUID().toString().substring(0, 8);
+        String password = UUID.randomUUID().toString().substring(0, 16);
         // 测试用户服务
         User user = new User(userNumber, password, "admin");
         assertTrue(userService.insertUser(user));
@@ -42,11 +43,20 @@ class StudentManagementSystemApplicationTests {
         assertFalse(userService.findAllUsers().isEmpty());
 
         assertTrue(userService.deleteUserByUserNumber(userNumber));
-        //测试老师服务
-        Teacher teacher = new Teacher("124", "余国豪", "男", 21, "讲师", "安庆", "114514");
+
+        // 测试老师服务
+        String jobNumber = UUID.randomUUID().toString().substring(0, 8);
+        String teacherName = UUID.randomUUID().toString().substring(0, 8);
+        String gender = rand.nextBoolean() ? "男" : "女";
+        int age = rand.nextInt();
+        String duty = UUID.randomUUID().toString().substring(0, 4);
+        String address = UUID.randomUUID().toString().substring(0, 8);
+        String telephone = UUID.randomUUID().toString().substring(0, 11);
+
+        Teacher teacher = new Teacher(jobNumber, teacherName, gender, age, duty, address, telephone);
         assertTrue(teacherService.insertTeacher(teacher));
-        Teacher newTeacher = new Teacher("124", "余国豪", "女", 21, "讲师", "安庆", "114514");
-        assertTrue(teacherService.updateTeacher(newTeacher));
+        teacher.setAddress(UUID.randomUUID().toString().substring(0, 16));
+        assertTrue(teacherService.updateTeacher(teacher));
         Teacher foundTeacher = teacherService.findByJobNumber(teacher.getJobNumber());
         assertNotNull(foundTeacher);
         assertEquals(teacher.getJobNumber(), foundTeacher.getJobNumber());
@@ -57,17 +67,19 @@ class StudentManagementSystemApplicationTests {
         assertFalse(allTeachers.isEmpty());
         assertTrue(teacherService.deleteByJobNumberAndName(teacher.getJobNumber(), teacher.getTeacherName()));
 
+        // 测试学生服务
+        String studentNumber = UUID.randomUUID().toString().substring(0, 8);
+        String classes = UUID.randomUUID().toString().substring(0, 4);
+        String studentName = UUID.randomUUID().toString().substring(0, 3);
 
-        //测试学生服务
-        Student student = new Student("124", "黄文豪", "女", "小班", 12, "韶关", "114514", "2002-1-1");
+        Student student = new Student(studentNumber, studentName, gender, classes, age, address, telephone, "2002-1-1");
         assertTrue(studentService.insertStudent(student));
-        Student newStudent = new Student("124", "黄文豪", "男", "小班", 12, "韶关", "114514", "2002-1-1");
-        assertTrue(studentService.updateStudent(newStudent));
+        student.setAddress(UUID.randomUUID().toString().substring(0, 16));
+        assertTrue(studentService.updateStudent(student));
         assertNotNull(studentService.getStudentByName(student.getStudentName()));
         assertNotNull(studentService.findAll());
         assertNotNull(studentService.getStudentScoresByName(student.getStudentName()));
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
-
     }
 
 
