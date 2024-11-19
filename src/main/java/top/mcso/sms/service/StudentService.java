@@ -10,7 +10,7 @@ public interface StudentService {
 
     boolean insertStudent(Student student);
 
-    boolean updateStudent(String address, String telephone, String studentNumber);
+    boolean updateStudent(Student student);
 
     List<Student> findAll();
 

@@ -36,9 +36,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean updateStudent(String address, String telephone, String studentNumber) {
+    public boolean updateStudent(Student student) {
         try {
-            return studentMapper.updateStudent(address, telephone, studentNumber);
+            return studentMapper.updateStudent(student);
         } catch (Exception e) {
             throw new RuntimeException("Error updating student", e);
         }

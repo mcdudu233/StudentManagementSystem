@@ -16,13 +16,11 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     //插入学生记录
     @Insert("insert into student (student_number, name, gender, age, class, birth_date) values (#{student_name},#{name},#{gender},#{age},#{class},#{birthdate})")
-    boolean insertStudent(@Param("student") Student student);
+    boolean insertStudent(Student student);
 
     //更新学生
     @Update("update student set address=#{address},telephone=#{telephone} where student_number = #{student_number} ")
-    boolean updateStudent(@Param("address") String address,
-                          @Param("telephone") String telephone,
-                          @Param("student_number") String student_number);
+    boolean updateStudent(Student student);
 
     //查询方法
     //查询所有学生
