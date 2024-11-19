@@ -38,7 +38,7 @@ public class MainController {
     AnnouncementService announcementService;
 
     // 主页面
-    @RequestMapping("/")
+    @RequestMapping({"/", "index", "home", "index.html"})
     public String home(Model model) {
         // 未登录则跳转到登录页面
         if (!SessionUtils.hasLogin()) {
