@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Student {
-    private String studentNumber ;
-    private String name;
+    private String studentNumber;
+    private String studentName;
     private String gender;
     private String classes;
     private int age;
     private String address;
     private String telephone;
+    private String birthdate;
 }

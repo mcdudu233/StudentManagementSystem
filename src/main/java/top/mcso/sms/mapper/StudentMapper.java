@@ -15,11 +15,11 @@ public interface StudentMapper extends BaseMapper<Student> {
     boolean deleteByNumber(@Param("student_number") String student_number);
 
     //插入学生记录
-    @Insert("insert into student (student_number, name, gender, age, class, birth_date) values (#{student_name},#{name},#{gender},#{age},#{class},#{birthdate})")
+    @Insert("insert into student (student_number, student_name, gender, age, class, birthdate,address,telephone) values (#{studentNumber},#{studentName},#{gender},#{age},#{classes},#{birthdate},#{address},#{telephone})")
     boolean insertStudent(Student student);
 
     //更新学生
-    @Update("update student set address=#{address},telephone=#{telephone} where student_number = #{student_number} ")
+    @Update("update student set student_number =#{studentNumber},student_name = #{studentName},gender = #{gender},age = #{age},class = #{classes},address=#{address},telephone=#{telephone} where student_number = #{studentNumber} ")
     boolean updateStudent(Student student);
 
     //查询方法
@@ -28,11 +28,11 @@ public interface StudentMapper extends BaseMapper<Student> {
     List<Student> findAll();
 
     //查询指定学生
-    @Select("select * from student where name = #{name}")
+    @Select("select * from student where student_name = #{name}")
     Student getStudent(@Param("name") String name);
 
     //查询学生成绩
-    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.name = #{studentName}")
+    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_name = #{studentName}")
     List<Grade> getStudentScoresByName(@Param("studentName") String studentName);
 
 
