@@ -15,6 +15,6 @@ public class Teacher {
     private int age;
     private String duty;
     private String address;
-    private String telephone;
+    private Long telephone;
 
 }
