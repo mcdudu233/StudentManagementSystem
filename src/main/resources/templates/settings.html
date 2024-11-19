@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>学生管理系统 - 设置</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 背景样式 */
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* 主容器 */
+        .main-container {
+            /*margin: 20px 0;*/
+            padding-left: 0;
+            /*padding-right: 15px;*/
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            border-radius: 15px;
+            padding: 20px;
+            color: #ffffff;
+            margin-left: 10px;
+        }
+
+        .sidebar h4 {
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        /* 内容区样式 */
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 标题样式 */
+        h1, h4 {
+            color: #343a40;
+        }
+
+        .row {
+            flex-wrap: nowrap;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid main-container">
+    <div class="row">
+        <!-- 侧边栏 -->
+        <nav class="col-md-3 sidebar">
+            <h4>功能列表</h4>
+            <ul class="nav flex-column">
+                <!-- 学生菜单 -->
+                <li th:if="${role == 'ROLE_student'}">
+                    <a href="/student/select">选课</a>
+                    <a href="/student/class">我的课表</a>
+                    <a href="/student/grade">我的成绩</a>
+                </li>
+                <!-- 教师菜单 -->
+                <li th:if="${role == 'ROLE_teacher'}">
+                    <a href="/teacher/class">我上的课</a>
+                    <a href="/teacher/student">学生管理</a>
+                    <a href="/teacher/grade">成绩管理</a>
+                </li>
+                <!-- 管理员菜单 -->
+                <li th:if="${role == 'ROLE_admin'}">
+                    <a href="/admin/user">用户管理</a>
+                    <a href="/admin/student">学生管理</a>
+                    <a href="/admin/teacher">老师管理</a>
+                </li>
+                <!-- 通用功能 -->
+                <li>
+                    <a href="/settings">设置</a>
+                    <a href="/logout">退出登录</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 主内容区 -->
+        <main class="col-md-9 content">
+            <!-- 页头 -->
+            <header class="mb-4">
+                <h1>设置</h1>
+            </header>
+
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">用户名</h5>
+                                <p class="card-text" th:text="${name}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">密码</h5>
+                                <p class="card-text" th:text="${password}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">职务</h5>
+                                <p class="card-text" th:if="${role == 'ROLE_admin'}">管理员</p>
+                                <p class="card-text" th:if="${role == 'ROLE_teacher'}">老师</p>
+                                <p class="card-text" th:if="${role == 'ROLE_student'}">学生</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    window.onload = () => {
+        if (location.href.endsWith("/login")) {
+            location.href = location.href.replace("login", "")
+        }
+    }
+</script>
+</body>
+</html>

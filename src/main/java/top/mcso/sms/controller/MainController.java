@@ -64,6 +64,19 @@ public class MainController {
         return "index";
     }
 
+    // 设置页面
+    @RequestMapping("settings")
+    public String settings(Model model) {
+        if (!SessionUtils.hasLogin()) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("name", SessionUtils.getName());
+        model.addAttribute("role", SessionUtils.getRole());
+        model.addAttribute("password", "禁止显示");
+        return "settings";
+    }
+
     private Map<String, Object> getAdminDashboardData() {
         Map<String, Object> data = new HashMap<>();
         data.put("studentCount", studentService.findAll().size());
