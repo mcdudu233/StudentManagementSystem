@@ -3,11 +3,11 @@ package top.mcso.sms.service.impl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.mcso.sms.entity.Grade;
+import top.mcso.sms.entity.Statistics;
 import top.mcso.sms.mapper.GradeMapper;
 import top.mcso.sms.service.GradeService;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class GradeServiceImpl implements GradeService {
@@ -49,24 +49,28 @@ public class GradeServiceImpl implements GradeService {
             throw new RuntimeException("An error occurred while fetching the max grade for course number: " + courseNumber, e);
         }
     }
+    
 
     @Override
-    public List<Map<String, Object>> selectStudentGradesSummary() {
+    public List<Statistics> getAllStudentsGrades() {
         try {
-            return gradeMapper.selectStudentGradesSummary();
+            return gradeMapper.getAllStudentsGrades();
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while fetching the student grades summary", e);
+            throw new RuntimeException("An error occurred while fetching all students' grades", e);
         }
     }
 
     @Override
-    public Map<String, Object> selectStudentGradesSummaryByStudentNumber(String studentNumber) {
+    public Statistics getStudentGradesByNumber(String studentNumber) {
         try {
-            return gradeMapper.selectStudentGradesSummaryByStudentNumber(studentNumber);
+            Statistics statistics = gradeMapper.getStudentGradesByNumber(studentNumber);
+            if (statistics == null) {
+                throw new RuntimeException("No grades found for student number: " + studentNumber);
+            }
+            return statistics;
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while fetching the grades summary for student number: " + studentNumber, e);
+            throw new RuntimeException("An error occurred while fetching grades for student number: " + studentNumber, e);
         }
     }
-
 
 }
