@@ -10,6 +10,7 @@ import top.mcso.sms.service.StudentService;
 import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.service.UserService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -51,7 +52,7 @@ class StudentManagementSystemApplicationTests {
         int age = rand.nextInt();
         String duty = UUID.randomUUID().toString().substring(0, 4);
         String address = UUID.randomUUID().toString().substring(0, 8);
-        String telephone = UUID.randomUUID().toString().substring(0, 11);
+        Long telephone = rand.nextLong();
 
         Teacher teacher = new Teacher(jobNumber, teacherName, gender, age, duty, address, telephone);
         assertTrue(teacherService.insertTeacher(teacher));
@@ -71,8 +72,10 @@ class StudentManagementSystemApplicationTests {
         String studentNumber = UUID.randomUUID().toString().substring(0, 8);
         String classes = UUID.randomUUID().toString().substring(0, 4);
         String studentName = UUID.randomUUID().toString().substring(0, 3);
+        Date birthdate = new Date();
 
-        Student student = new Student(studentNumber, studentName, gender, classes, age, address, telephone, "2002-1-1");
+
+        Student student = new Student(studentNumber, studentName, gender, classes, age, address, telephone, birthdate);
         assertTrue(studentService.insertStudent(student));
         student.setAddress(UUID.randomUUID().toString().substring(0, 16));
         assertTrue(studentService.updateStudent(student));
