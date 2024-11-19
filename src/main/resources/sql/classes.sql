@@ -1,4 +1,4 @@
-create table course
+create table classes
 (
     number         int         not null,
     teacher        varchar(20) null,

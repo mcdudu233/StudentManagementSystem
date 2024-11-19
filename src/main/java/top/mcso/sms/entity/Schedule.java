@@ -10,9 +10,4 @@ public class Schedule {
     private String studentName;
     private String courseName;
     private String teacherName;
-
-    @Override
-    public String toString() {
-        return "Schedule [studentNumber=" + studentNumber + ", studentName=" + studentName + ", courseName=" + courseName + ", teacherName=" + teacherName + "]";
-    }
 }
