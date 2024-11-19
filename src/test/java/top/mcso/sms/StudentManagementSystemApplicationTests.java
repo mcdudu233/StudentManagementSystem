@@ -3,7 +3,6 @@ package top.mcso.sms;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import top.mcso.sms.entity.User;
 import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.service.UserService;
@@ -11,16 +10,15 @@ import top.mcso.sms.service.UserService;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional // Use transactional tests to roll back changes after each test
 class StudentManagementSystemApplicationTests {
 
     @Resource
     private UserService userService;
-    //Test for Teacher
+    //测试Teacher
     @Resource
     private TeacherService teacherService;
 
-    // Test for UserService
+    //测试User
     @Test
     void testInsertUser() {
         User user = new User("1", "2", "3");
@@ -48,6 +46,11 @@ class StudentManagementSystemApplicationTests {
     @Test
     void testFindAllUsers() {
         assertFalse(userService.findAllUsers().isEmpty());
+    }
+
+    @Test
+    void testInsertTeacher() {
+
     }
 
 
