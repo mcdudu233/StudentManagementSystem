@@ -3,159 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>学生管理系统 - 首页</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>教师管理系统 - 我上的课</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* 背景样式 */
         body {
             background: url('/img/background.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        /* 主容器 */
         .main-container {
-            /*margin: 20px 0;*/
-            padding-left:0;
-            /*padding-right: 15px;*/
-        }
-
-        /* 侧边栏样式 */
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            border-radius: 15px;
             padding: 20px;
-            color: #ffffff;
-            margin-left: 10px;
         }
 
-        .sidebar h4 {
-            color: white;
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .sidebar a {
-            text-decoration: none;
-            color: #ffffff;
-            display: block;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #007bff;
-            color: #ffffff;
-        }
-
-        /* 内容区样式 */
         .content {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
-        /* 标题样式 */
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #b1bdc5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .return-button:hover {
+            background-color: #889fa5;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
         h1, h4 {
             color: #343a40;
         }
 
-        .row {
-            flex-wrap: nowrap;
-            margin: 0;
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .table a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-<div class="container-fluid main-container">
-    <div class="row">
-        <!-- 侧边栏 -->
-        <nav class="col-md-3 sidebar">
-            <h4>功能列表</h4>
-            <ul class="nav flex-column">
-                <!-- 教师菜单 -->
-                <li th:if="${role == 'ROLE_teacher'}">
-                    <a href="/my-courses">我上的课</a>
-                    <a href="/student-management">学生管理</a>
-                    <a href="/grade-management">成绩管理</a>
-                </li>
-                <!-- 通用功能 -->
-                <li>
-                    <a href="/settings">设置</a>
-                    <a href="/logout">退出登录</a>
-                </li>
-            </ul>
-        </nav>
+<div class="container main-container">
+    <!-- 页面标题 -->
+    <div class="content">
+        <!-- 返回主页按钮 -->
+        <a href="/home" class="return-button">返回主页</a>
+        <h1 class="text-center">我上的课</h1>
+        <h4 th:text="'欢迎，' + ${user} + '。以下是您负责的课程明细。'" class="text-center"></h4>
 
-        <!-- 主内容区 -->
-        <main class="col-md-9 content">
-            <!-- 页头 -->
-            <header class="mb-4">
-                <h1>学生管理系统</h1>
-                <h4 th:text="'欢迎，' + ${user} + '。请从左侧选择功能进行操作。'"></h4>
-            </header>
+        <!-- 课程表 -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>上课时间</th>
+                <th>教室</th>
+                <th>学生人数</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历课程 -->
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.courseId}">101</td>
+                <td th:text="${course.courseName}">高等数学</td>
+                <td th:text="${course.schedule}">周一 8:00-10:00</td>
+                <td th:text="${course.classroom}">A101</td>
+                <td th:text="${course.studentCount}">40</td>
+                <td>
+                    <a th:href="'/teacher/course/' + ${course.courseId}" class="btn btn-primary btn-sm">查看详情</a>
+                </td>
+            </tr>
+            <!-- 如果课程列表为空 -->
+            <tr th:if="${#lists.isEmpty(courses)}">
+                <td colspan="6" class="text-center">暂无课程记录</td>
+            </tr>
+            </tbody>
+        </table>
 
-            <!-- 教师面板 -->
-            <div th:if="${role == 'ROLE_teacher'}">
-                <h4>教师面板</h4>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">班级总数</h5>
-                                <p class="card-text" th:text="${dashboardData.classCount}">5班</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">学生总数</h5>
-                                <p class="card-text" th:text="${dashboardData.studentCount}">100人</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card text-white bg-warning mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">平均成绩</h5>
-                                <p class="card-text" th:text="${dashboardData.avgGrade}">85</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 公告信息 -->
-            <div class="mt-4">
-                <h4>系统公告</h4>
-                <ul>
-                    <!-- 如果有公告 -->
-                    <li th:each="announcement : ${announcements}" th:if="${!#lists.isEmpty(announcements)}"
-                        th:text="${announcement}"></li>
-                </ul>
-                <!-- 如果没有公告 -->
-                <p th:if="${#lists.isEmpty(announcements)}">暂无公告</p>
-            </div>
-
-            <!-- 友情链接 -->
-            <div class="mt-4">
-                <h4>友情链接</h4>
-                <ul>
-                    <li><a href="/help">帮助中心</a></li>
-                    <li><a href="/faq">常见问题解答</a></li>
-                    <li><a href="/contact">联系我们</a></li>
-                </ul>
-            </div>
-        </main>
+        <!-- 提示信息 -->
+        <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(courses)}">
+            当前无课程记录，请联系管理员添加课程信息。
+        </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

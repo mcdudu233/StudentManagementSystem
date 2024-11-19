@@ -1,10 +1,196 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>选课</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>管理员系统 - 学生管理</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-container {
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #b1bdc5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .return-button:hover {
+            background-color: #889fa5;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        h1, h4 {
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-footer button {
+            min-width: 80px;
+        }
+    </style>
 </head>
 <body>
+<div class="container main-container">
+    <div class="content">
+        <!-- 返回主页按钮 -->
+        <a href="/home" class="return-button">返回主页</a>
 
+        <!-- 页面标题 -->
+        <h1 class="text-center">学生管理</h1>
+        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是学生管理面板。'"></h4>
+
+        <!-- 学生表 -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>班级</th>
+                <th>联系方式</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历学生列表 -->
+            <tr th:each="student : ${students}">
+                <td th:text="${student.id}">20230101</td>
+                <td th:text="${student.name}">张三</td>
+                <td th:text="${student.className}">软件工程</td>
+                <td th:text="${student.contact}">1234567890</td>
+                <td>
+                    <button class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target='#editStudentModal_' + ${student.id}">编辑</button>
+                    <button class="btn btn-danger btn-sm"
+                            th:attr="onclick='deleteStudent(' + ${student.id} + ')'">删除</button>
+                </td>
+            </tr>
+            <!-- 如果学生列表为空 -->
+            <tr th:if="${#lists.isEmpty(students)}">
+                <td colspan="5" class="text-center">暂无学生记录</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 添加学生按钮 -->
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">新增学生</button>
+
+        <!-- 编辑学生模态框 -->
+        <div th:each="student : ${students}" th:attr="id='editStudentModal_' + ${student.id}" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">编辑学生信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="studentName" class="form-label">姓名</label>
+                                <input type="text" class="form-control" id="studentName" th:value="${student.name}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentClass" class="form-label">班级</label>
+                                <input type="text" class="form-control" id="studentClass" th:value="${student.className}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentContact" class="form-label">联系方式</label>
+                                <input type="text" class="form-control" id="studentContact" th:value="${student.contact}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="saveStudentChanges()">保存</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新增学生模态框 -->
+        <div id="addStudentModal" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增学生</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="newStudentName" class="form-label">姓名</label>
+                                <input type="text" class="form-control" id="newStudentName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newStudentClass" class="form-label">班级</label>
+                                <input type="text" class="form-control" id="newStudentClass">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newStudentContact" class="form-label">联系方式</label>
+                                <input type="text" class="form-control" id="newStudentContact">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="addStudent()">添加</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function saveStudentChanges() {
+        alert('保存功能需后端支持！');
+    }
+
+    function deleteStudent(studentId) {
+        if (confirm('确定要删除该学生吗？')) {
+            alert('删除功能需后端支持！');
+        }
+    }
+
+    function addStudent() {
+        alert('新增功能需后端支持！');
+    }
+</script>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

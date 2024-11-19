@@ -1,10 +1,196 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>选课</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>管理员系统 - 老师管理</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-container {
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #b1bdc5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .return-button:hover {
+            background-color: #889fa5;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        h1, h4 {
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-footer button {
+            min-width: 80px;
+        }
+    </style>
 </head>
 <body>
+<div class="container main-container">
+    <div class="content">
+        <!-- 返回主页按钮 -->
+        <a href="/home" class="return-button">返回主页</a>
 
+        <!-- 页面标题 -->
+        <h1 class="text-center">老师管理</h1>
+        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是老师管理面板。'"></h4>
+
+        <!-- 老师表 -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>工号</th>
+                <th>姓名</th>
+                <th>科目</th>
+                <th>联系方式</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历老师列表 -->
+            <tr th:each="teacher : ${teachers}">
+                <td th:text="${teacher.id}">T2023001</td>
+                <td th:text="${teacher.name}">李老师</td>
+                <td th:text="${teacher.subject}">数学</td>
+                <td th:text="${teacher.contact}">12345678901</td>
+                <td>
+                    <button class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target='#editTeacherModal_' + ${teacher.id}">编辑</button>
+                    <button class="btn btn-danger btn-sm"
+                            th:attr="onclick='deleteTeacher(' + ${teacher.id} + ')'">删除</button>
+                </td>
+            </tr>
+            <!-- 如果老师列表为空 -->
+            <tr th:if="${#lists.isEmpty(teachers)}">
+                <td colspan="5" class="text-center">暂无老师记录</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 添加老师按钮 -->
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTeacherModal">新增老师</button>
+
+        <!-- 编辑老师模态框 -->
+        <div th:each="teacher : ${teachers}" th:attr="id='editTeacherModal_' + ${teacher.id}" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">编辑老师信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="teacherName" class="form-label">姓名</label>
+                                <input type="text" class="form-control" id="teacherName" th:value="${teacher.name}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="teacherSubject" class="form-label">科目</label>
+                                <input type="text" class="form-control" id="teacherSubject" th:value="${teacher.subject}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="teacherContact" class="form-label">联系方式</label>
+                                <input type="text" class="form-control" id="teacherContact" th:value="${teacher.contact}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="saveTeacherChanges()">保存</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新增老师模态框 -->
+        <div id="addTeacherModal" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增老师</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="newTeacherName" class="form-label">姓名</label>
+                                <input type="text" class="form-control" id="newTeacherName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newTeacherSubject" class="form-label">科目</label>
+                                <input type="text" class="form-control" id="newTeacherSubject">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newTeacherContact" class="form-label">联系方式</label>
+                                <input type="text" class="form-control" id="newTeacherContact">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="addTeacher()">添加</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function saveTeacherChanges() {
+        alert('保存功能需后端支持！');
+    }
+
+    function deleteTeacher(teacherId) {
+        if (confirm('确定要删除该老师吗？')) {
+            alert('删除功能需后端支持！');
+        }
+    }
+
+    function addTeacher() {
+        alert('新增功能需后端支持！');
+    }
+</script>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

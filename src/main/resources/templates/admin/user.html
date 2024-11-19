@@ -1,10 +1,194 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>选课</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>管理员系统 - 用户管理</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-container {
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #b1bdc5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .return-button:hover {
+            background-color: #889fa5;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        h1, h4 {
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-footer button {
+            min-width: 80px;
+        }
+    </style>
 </head>
 <body>
+<div class="container main-container">
+    <div class="content">
+        <!-- 返回主页按钮 -->
+        <a href="/home" class="return-button">返回主页</a>
 
+        <!-- 页面标题 -->
+        <h1 class="text-center">用户管理</h1>
+        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是用户管理面板。'"></h4>
+
+        <!-- 用户表 -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>用户编号</th>
+                <th>用户名</th>
+                <th>角色</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历用户列表 -->
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">001</td>
+                <td th:text="${user.username}">admin</td>
+                <td th:text="${user.role}">管理员</td>
+                <td>
+                    <button class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target='#editUserModal_' + ${user.id}">编辑</button>
+                    <button class="btn btn-danger btn-sm"
+                            th:attr="onclick='deleteUser(' + ${user.id} + ')'">删除</button>
+                </td>
+            </tr>
+            <!-- 如果用户列表为空 -->
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="4" class="text-center">暂无用户记录</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 添加用户按钮 -->
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">新增用户</button>
+
+        <!-- 编辑用户模态框 -->
+        <div th:each="user : ${users}" th:attr="id='editUserModal_' + ${user.id}" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">编辑用户信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">用户名</label>
+                                <input type="text" class="form-control" id="username" th:value="${user.username}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="role" class="form-label">角色</label>
+                                <select class="form-control" id="role">
+                                    <option value="ROLE_admin" th:selected="${user.role == 'ROLE_admin'}">管理员</option>
+                                    <option value="ROLE_teacher" th:selected="${user.role == 'ROLE_teacher'}">教师</option>
+                                    <option value="ROLE_student" th:selected="${user.role == 'ROLE_student'}">学生</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="saveUserChanges()">保存</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新增用户模态框 -->
+        <div id="addUserModal" class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增用户</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="newUsername" class="form-label">用户名</label>
+                                <input type="text" class="form-control" id="newUsername">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newRole" class="form-label">角色</label>
+                                <select class="form-control" id="newRole">
+                                    <option value="ROLE_admin">管理员</option>
+                                    <option value="ROLE_teacher">教师</option>
+                                    <option value="ROLE_student">学生</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="addUser()">添加</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function saveUserChanges() {
+        alert('保存功能需后端支持！');
+    }
+
+    function deleteUser(userId) {
+        if (confirm('确定要删除该用户吗？')) {
+            alert('删除功能需后端支持！');
+        }
+    }
+
+    function addUser() {
+        alert('新增功能需后端支持！');
+    }
+</script>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

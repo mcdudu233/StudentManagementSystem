@@ -1,10 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>成绩管理</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>教师管理系统 - 成绩管理</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-container {
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #b1bdc5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .return-button:hover {
+            background-color: #889fa5;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        h1, h4 {
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table a, .table button {
+            text-decoration: none;
+            color: #007bff;
+            transition: all 0.2s;
+        }
+
+        .table a:hover, .table button:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        .form-control {
+            width: 100%;
+            text-align: center;
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+<div class="container main-container">
+    <!-- 页面内容 -->
+    <div class="content">
+        <!-- 返回主页按钮 -->
+        <a href="/home" class="return-button">返回主页</a>
 
+        <!-- 页面标题 -->
+        <h1 class="text-center">成绩管理</h1>
+        <h4 th:text="'欢迎，' + ${user} + '。以下是学生成绩列表。'" class="text-center"></h4>
+
+        <!-- 成绩表 -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>学生编号</th>
+                <th>姓名</th>
+                <th>课程名称</th>
+                <th>成绩</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历成绩列表 -->
+            <tr th:each="grade : ${grades}">
+                <td th:text="${grade.studentId}">20231001</td>
+                <td th:text="${grade.studentName}">张三</td>
+                <td th:text="${grade.courseName}">数学</td>
+                <td>
+                    <input type="number" class="form-control" th:value="${grade.score}" min="0" max="100"
+                           th:attr="id=${'score_' + grade.studentId + '_' + grade.courseId}">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm"
+                            th:attr="onclick='updateGrade(' + grade.studentId + ',' + grade.courseId + ')'">保存</button>
+                </td>
+            </tr>
+            <!-- 如果成绩列表为空 -->
+            <tr th:if="${#lists.isEmpty(grades)}">
+                <td colspan="5" class="text-center">暂无成绩记录</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 提示信息 -->
+        <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(grades)}">
+            当前无成绩记录，请联系管理员添加学生课程信息。
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateGrade(studentId, courseId) {
+        const scoreInput = document.getElementById(`score_${studentId}_${courseId}`);
+        const score = scoreInput.value;
+
+        if (score < 0 || score > 100) {
+            alert('成绩必须在 0 到 100 之间！');
+            return;
+        }
+
+        // 模拟提交到后端（需要后端路由支持）
+        fetch(`/teacher/updateGrade`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                studentId: studentId,
+                courseId: courseId,
+                score: score
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('成绩已更新！');
+            } else {
+                alert('更新失败，请稍后重试。');
+            }
+        }).catch(() => alert('网络错误，请稍后重试。'));
+    }
+</script>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
