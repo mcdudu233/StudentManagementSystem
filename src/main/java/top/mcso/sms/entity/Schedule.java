@@ -9,7 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Schedule {
     private String studentNumber;
-    private String studentName;
-    private String courseName;
     private String courseNumber;
 }

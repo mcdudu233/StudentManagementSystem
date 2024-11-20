@@ -42,7 +42,7 @@ public class StudentController {
         model.addAttribute("user", user);
 
         // 获取所有课程并设置
-        List<Course> courses = courseService.selectAllCourses();
+        List<Course> courses = courseService.getAllCourses();
         model.addAttribute("courseList", courses);
 
         return "student/select";

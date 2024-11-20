@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper
 public interface ClassesMapper {
     // 插入班级信息
-    @Insert("insert into classes (number, teacher_name, teacher_number, student_name, student_number) " +
-            "values (#{number}, #{teacherName}, #{teacherNumber}, #{studentName}, #{studentNumber})")
+    @Insert("insert into classes (number,  teacher_number, slogan) " +
+            "values (#{number}, #{teacherNumber},#{slogan})")
     boolean insertClass(Classes classes);
 
     // 根据班级编号查询班级信息
@@ -21,8 +21,7 @@ public interface ClassesMapper {
     List<Classes> getAllClasses();
 
     // 更新班级信息
-    @Update("update classes set teacher_name = #{teacherName}, teacher_number = #{teacherNumber}, " +
-            "student_name = #{studentName}, student_number = #{studentNumber} " +
+    @Update("update classes set  teacher_number = #{teacherNumber},slogan = #{slogan} " +
             "where number = #{number}")
     boolean updateClass(Classes classes);
 

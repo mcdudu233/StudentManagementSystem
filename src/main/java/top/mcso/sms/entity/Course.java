@@ -11,5 +11,10 @@ import lombok.NoArgsConstructor;
 public class Course {
     private String courseNumber;
     private String courseName;
+    private String teacherNumber;
+    private int credit;
+    private int week;
+    private int day;
+    private String spot;
     private String priorityCourse;
 }

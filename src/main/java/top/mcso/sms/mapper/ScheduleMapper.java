@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface ScheduleMapper extends BaseMapper<Schedule> {
     // 插入学生课程表信息
-    @Insert("insert into schedule (student_number, student_name, course_name, course_number) " +
-            "values (#{studentNumber}, #{studentName}, #{courseName}, #{courseNumber})")
+    @Insert("insert into schedule (student_number, course_number) " +
+            "values (#{studentNumber},  #{courseNumber})")
     boolean insertSchedule(Schedule schedule);
 
     // 根据学生编号删除课程表信息
@@ -18,8 +18,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
     boolean deleteScheduleByStudentNumber(@Param("studentNumber") String studentNumber);
 
     // 更新学生课程表信息
-    @Update("update schedule set student_name = #{studentName}, course_name = #{courseName}, " +
-            "course_number = #{courseNumber} where student_number = #{studentNumber}")
+    @Update("update schedule set course_number = #{courseNumber} where student_number = #{studentNumber}")
     boolean updateSchedule(Schedule schedule);
 
     // 根据学生编号查询课程表信息
