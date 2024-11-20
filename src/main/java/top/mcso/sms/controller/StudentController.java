@@ -13,6 +13,7 @@ import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +45,7 @@ public class StudentController {
         model.addAttribute("user", user);
 
         // 获取所有课程并设置
-        ArrayList<Map<String, String>> courseList = new ArrayList<>();
+        List<Map<String, String>> courseList = new ArrayList<>();
         for (Course course : courseService.getAllCourses()) {
             Map<String, String> courseMap = new HashMap<>();
             courseMap.put("courseNumber", course.getCourseNumber());
