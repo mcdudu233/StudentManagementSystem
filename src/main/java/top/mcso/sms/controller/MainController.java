@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.*;
 import top.mcso.sms.service.*;
+import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class MainController {
     private AnnouncementService announcementService;
     @Resource
     private ScheduleService scheduleService;
+    @Resource
+    private GradeService gradeService;
 
     // 主页面
     @RequestMapping({"/", "index", "home", "index.html"})
@@ -123,38 +126,20 @@ public class MainController {
     }
 
     private Map<String, Object> getStudentDashboardData() {
-        String name = SessionUtils.getName();
+        String user = SessionUtils.getName();
 
         // 获取成绩
-        List<Grade> grades = studentService.getStudentScoresByName(name);
-        double avgGrade = 0;
-        for (Grade grade : grades) {
-            avgGrade += grade.getGrade();
-        }
-        avgGrade /= grades.size();
-
-        String level;
-        if (avgGrade < 60) {
-            level = "不及格";
-        } else if (avgGrade < 70) {
-            level = "及格";
-        } else if (avgGrade < 80) {
-            level = "良好";
-        } else if (avgGrade < 90) {
-            level = "优良";
-        } else {
-            level = "优秀";
-        }
+        double avgGrade = gradeService.getStatisticsByStudentNumber(user).getAvgGrade();
 
         // 获取课程
         List<String> classes = new ArrayList<>();
-        for (Schedule s : scheduleService.getScheduleByStudentNumber(name)) {
+        for (Schedule s : scheduleService.getScheduleByStudentNumber(user)) {
             classes.add(courseService.getCourseByCourseNumber(s.getCourseNumber()).getCourseName());
         }
 
         Map<String, Object> data = new HashMap<>();
         data.put("currentCourses", classes);
-        data.put("attendance", level);
+        data.put("gradeLevel", FormatUtils.getLevel(avgGrade));
         data.put("averageGrade", avgGrade);
         return data;
     }
