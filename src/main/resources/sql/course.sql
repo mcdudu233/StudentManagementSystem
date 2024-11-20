@@ -6,6 +6,6 @@ create table course
     week            int         null,
     day             int         null,
     credit          int         null,
-    plot            int         null,
+    spot            varchar(50) null,
     primary key (course_number)
 )
