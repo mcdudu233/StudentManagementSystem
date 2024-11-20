@@ -80,7 +80,9 @@
                 <th>课程名称</th>
                 <th>教师</th>
                 <th>学分</th>
-                <th>操作</th>
+                <th>上课时间</th>
+                <th>上课地点</th>
+                <th>先修课</th>
             </tr>
             </thead>
             <tbody>
@@ -88,12 +90,11 @@
             <tr th:each="course : ${courseList}">
                 <td th:text="${course.courseNumber}"></td>
                 <td th:text="${course.courseName}"></td>
-                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.teacherName}"></td>
                 <td th:text="${course.credit}"></td>
-<!--                <td th:text="${course.week}">王老师</td>-->
-<!--                <td th:text="${course.day}">王老师</td>-->
-<!--                <td th:text="${course.spot}">3</td>-->
-<!--                <td th:text="${course.priorityCourse}">3</td>-->
+                <td th:text="${course.when}">王老师</td>
+                <td th:text="${course.spot}"></td>
+                <td th:text="${course.priorityCourse}"></td>
                 <td>
                     <button class="btn btn-select btn-sm"
                             th:onclick="selectCourse('${course.courseNumber}')">选课

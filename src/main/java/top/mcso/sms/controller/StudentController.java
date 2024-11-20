@@ -12,6 +12,8 @@ import top.mcso.sms.entity.Course;
 import top.mcso.sms.service.CourseService;
 import top.mcso.sms.service.GradeService;
 import top.mcso.sms.service.StudentService;
+import top.mcso.sms.service.TeacherService;
+import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class StudentController {
     @Resource
     private StudentService studentService;
     @Resource
+    private TeacherService teacherService;
+    @Resource
     private CourseService courseService;
     @Resource
     private GradeService gradeService;
@@ -53,8 +57,11 @@ public class StudentController {
             Map<String, String> courseMap = new HashMap<>();
             courseMap.put("courseNumber", course.getCourseNumber());
             courseMap.put("courseName", course.getCourseName());
-            courseMap.put("teacherName", course.getTeacherNumber());
+            courseMap.put("teacherName", teacherService.findByJobNumber(course.getTeacherNumber()).getTeacherName());
             courseMap.put("credit", String.valueOf(course.getCredit()));
+            courseMap.put("when", FormatUtils.getClassTime(course.getWeek(), course.getDay()));
+            courseMap.put("spot", course.getSpot());
+            courseMap.put("priorityCourse", course.getPriorityCourse());
             courseList.add(courseMap);
         }
         model.addAttribute("courseList", courseList);

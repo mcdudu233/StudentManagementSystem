@@ -12,12 +12,23 @@ package top.mcso.sms.utils;
 
 public class FormatUtils {
     /**
+     * 将数字的上课时间转换成字符串
+     *
+     * @param week: int 星期
+     * @param day:  int 每天中的第几节课
+     * @return String: 上课时间
+     */
+    public static String getClassTime(int week, int day) {
+        return getWeek(week) + getDay(day);
+    }
+
+    /**
      * 将数字星期转换成字符串
      *
      * @param week: int 星期
      * @return String: 星期的字符串
      */
-    String getWeek(int week) {
+    public static String getWeek(int week) {
         return switch (week) {
             case 1 -> "星期一";
             case 2 -> "星期二";
@@ -36,7 +47,7 @@ public class FormatUtils {
      * @param day: int 每天中的第几节课
      * @return String: 字符串后的第几节课
      */
-    String getDay(int day) {
+    public static String getDay(int day) {
         return switch (day) {
             case 1 -> "上午第一节";
             case 2 -> "上午第二节";
@@ -51,16 +62,5 @@ public class FormatUtils {
             case 11 -> "晚上第三节";
             default -> "未知";
         };
-    }
-
-    /**
-     * 将数字的上课时间转换成字符串
-     *
-     * @param week: int 星期
-     * @param day:  int 每天中的第几节课
-     * @return String: 上课时间
-     */
-    String getClassTime(int week, int day) {
-        return getWeek(week) + getDay(day);
     }
 }
