@@ -5,11 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.Announcement;
+import top.mcso.sms.entity.Classes;
 import top.mcso.sms.entity.Grade;
-import top.mcso.sms.service.AnnouncementService;
-import top.mcso.sms.service.CourseService;
-import top.mcso.sms.service.StudentService;
-import top.mcso.sms.service.TeacherService;
+import top.mcso.sms.service.*;
 import top.mcso.sms.utils.SessionUtils;
 
 import java.util.ArrayList;
@@ -29,13 +27,15 @@ import java.util.Map;
 @Controller
 public class MainController {
     @Resource
-    StudentService studentService;
+    private StudentService studentService;
     @Resource
-    TeacherService teacherService;
+    private TeacherService teacherService;
     @Resource
-    CourseService courseService;
+    private CourseService courseService;
     @Resource
-    AnnouncementService announcementService;
+    private ClassesService classesService;
+    @Resource
+    private AnnouncementService announcementService;
 
     // 主页面
     @RequestMapping({"/", "index", "home", "index.html"})
@@ -86,10 +86,23 @@ public class MainController {
     }
 
     private Map<String, Object> getTeacherDashboardData() {
+        String name = SessionUtils.getName();
+
+        // 获取所教的班级
+        StringBuilder classes = new StringBuilder();
+        List<Classes> allClasses = classesService.getAllClasses();
+        for (Classes c : allClasses) {
+            if (c.getTeacherName().equals(name)) {
+                classes.append(c.getNumber()).append("班，");
+            }
+        }
+
+        // 获取所教课程
+
         Map<String, Object> data = new HashMap<>();
-        data.put("classCount", 5);
-        data.put("studentCount", 100);
-        data.put("avgGrade", "85");
+        data.put("class", classes.toString());
+        data.put("course", 1);
+        data.put("student", "85");
         return data;
     }
 
