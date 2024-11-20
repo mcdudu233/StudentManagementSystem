@@ -96,9 +96,13 @@
                 <td th:text="${course.spot}"></td>
                 <td th:text="${course.priorityCourse}"></td>
                 <td>
-                    <button class="btn btn-select btn-sm"
-                            th:onclick="selectCourse([[${course.courseNumber}]])">选课
-                    </button>
+                    <form action="/student/select" method="post">
+                        <input type="hidden" name="course" th:value="${course.courseNumber}" />
+                        <input type="hidden" name="student" th:value="${user}" />
+                        <button class="btn btn-select btn-sm"
+                               type="submit">选课
+                        </button>
+                    </form>
                 </td>
             </tr>
             <!-- 如果课程列表为空 -->
