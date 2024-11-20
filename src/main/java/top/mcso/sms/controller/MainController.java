@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.Announcement;
 import top.mcso.sms.entity.Classes;
+import top.mcso.sms.entity.Course;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.SessionUtils;
@@ -96,12 +97,24 @@ public class MainController {
                 classes.append(c.getNumber()).append("班，");
             }
         }
+        classes = new StringBuilder(classes.substring(0, classes.length() - 1)).append("。");
 
         // 获取所教课程
+        StringBuilder courses = new StringBuilder();
+        List<Course> allCourses = courseService.getAllCourses();
+        for (Course c : allCourses) {
+            if (c.getTeacherNumber().equals(name)) {
+                courses.append(c.getCourseName()).append("，");
+            }
+        }
+        courses = new StringBuilder(courses.substring(0, courses.length() - 1)).append("。");
+
+        // 获取所教学生
+
 
         Map<String, Object> data = new HashMap<>();
         data.put("class", classes.toString());
-        data.put("course", 1);
+        data.put("course", courses.toString());
         data.put("student", "85");
         return data;
     }

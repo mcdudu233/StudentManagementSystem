@@ -11,6 +11,7 @@ import top.mcso.sms.service.GradeService;
 import top.mcso.sms.service.StudentService;
 import top.mcso.sms.utils.SessionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,15 +44,16 @@ public class StudentController {
         model.addAttribute("user", user);
 
         // 获取所有课程并设置
-        Map<String, String> courseMap = new HashMap<String, String>();
+        ArrayList<Map<String, String>> courseList = new ArrayList<>();
         for (Course course : courseService.getAllCourses()) {
+            Map<String, String> courseMap = new HashMap<>();
             courseMap.put("courseNumber", course.getCourseNumber());
             courseMap.put("courseName", course.getCourseName());
             courseMap.put("teacherName", course.getTeacherNumber());
             courseMap.put("credit", String.valueOf(course.getCredit()));
-
+            courseList.add(courseMap);
         }
-        model.addAttribute("courseList", courseMap);
+        model.addAttribute("courseList", courseList);
 
         return "student/select";
     }
