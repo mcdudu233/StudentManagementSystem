@@ -114,6 +114,7 @@ class StudentManagementSystemApplicationTests {
         assertTrue(gradeService.updateGrade(gradeTest));
         assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
         assertNotNull(gradeService.findAllGrades());
+        assertNotNull(gradeService.findGradeByStudentNumber(gradeTest.getStudentNumber()));
         assertNotNull(gradeService.getAllStudentStatistics());
         assertNotNull(gradeService.findAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
         assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
@@ -127,6 +128,10 @@ class StudentManagementSystemApplicationTests {
         gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));
         assertTrue(gradeService.insertGrade(gradeTest));
         assertTrue(gradeService.deleteAllGradesByStudentNumber(gradeTest.getStudentNumber()));
+
+        gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(gradeService.insertGrade(gradeTest));
+        assertTrue(gradeService.deleteGradeByStudentNumber(gradeTest.getStudentNumber(), gradeTest.getCourseNumber()));
 
         //测试选课表服务
         Schedule schedule = new Schedule(studentNumber, courseNumber);
