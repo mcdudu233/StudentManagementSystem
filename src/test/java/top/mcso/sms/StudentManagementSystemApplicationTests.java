@@ -109,6 +109,7 @@ class StudentManagementSystemApplicationTests {
         float grade = rand.nextFloat();
         Grade gradeTest = new Grade(courseNumber, studentNumber, grade);
         assertTrue(gradeService.insertGrade(gradeTest));
+        assertNotNull(gradeService.findGradeByStudentNumberAndCourseNumber(gradeTest.getStudentNumber(), course.getCourseNumber()));
         gradeTest.setCourseNumber(UUID.randomUUID().toString().substring(0, 8));
         assertTrue(gradeService.updateGrade(gradeTest));
         assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
@@ -118,8 +119,9 @@ class StudentManagementSystemApplicationTests {
         assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
         assertTrue(gradeService.deleteAllGrades());
 
-        gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));
+        gradeTest.setGrade(rand.nextFloat());
         assertTrue(gradeService.insertGrade(gradeTest));
+        assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
         assertTrue(gradeService.deleteGradeByStudentNumber(gradeTest.getStudentNumber(), gradeTest.getCourseNumber()));
 
         gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));

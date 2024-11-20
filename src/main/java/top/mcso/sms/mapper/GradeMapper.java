@@ -53,6 +53,14 @@ public interface GradeMapper extends BaseMapper<Grade> {
     @Delete("delete from grade where course_number = #{courseNumber}")
     boolean deleteGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
+    //查询某个学生某门课的成绩
+    @Select("select * from grade where student_number = #{studentNumber} and course_number = #{courseNumber}")
+    Grade findGradeByStudentNumberAndCourseNumber(@Param("studentNumber") String studentNumber, @Param("courseNumber") String courseNumber);
+
+    //查询某个学生的所有成绩
+    @Select("select * from grade where student_number = #{studentNumber}")
+    Grade findGradeByStudentNumber(@Param("studentNumber") String studentNumber);
+
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
     @Select({
             "select student_number, " +

@@ -30,5 +30,9 @@ public interface GradeService {
 
     Statistics getStatisticsByStudentNumber(String studentNumber);
 
+    Grade findGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber);
+
+    Grade findGradeByStudentNumber(String studentNumber);
+
 
 }

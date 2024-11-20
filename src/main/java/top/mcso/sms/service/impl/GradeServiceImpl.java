@@ -128,4 +128,22 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
+    public Grade findGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber) {
+        try {
+            return gradeMapper.findGradeByStudentNumberAndCourseNumber(studentNumber, courseNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while fetching grades for student number and course number", e);
+        }
+    }
+
+    @Override
+    public Grade findGradeByStudentNumber(String studentNumber) {
+        try {
+            return gradeMapper.findGradeByStudentNumber(studentNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while fetching grades for student number", e);
+        }
+    }
+
 }

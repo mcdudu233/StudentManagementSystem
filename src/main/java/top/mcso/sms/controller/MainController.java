@@ -92,7 +92,7 @@ public class MainController {
         StringBuilder classes = new StringBuilder();
         List<Classes> allClasses = classesService.getAllClasses();
         for (Classes c : allClasses) {
-            if (c.getTeacherName().equals(name)) {
+            if (c.getTeacherNumber().equals(name)) {
                 classes.append(c.getNumber()).append("班，");
             }
         }
