@@ -32,7 +32,5 @@ public interface GradeService {
 
     Grade findGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber);
 
-    Grade findGradeByStudentNumber(String studentNumber);
-
-
+    List<Grade> findGradeByStudentNumber(String studentNumber);
 }

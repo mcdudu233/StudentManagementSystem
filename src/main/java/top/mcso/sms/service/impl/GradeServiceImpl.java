@@ -138,7 +138,7 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade findGradeByStudentNumber(String studentNumber) {
+    public List<Grade> findGradeByStudentNumber(String studentNumber) {
         try {
             return gradeMapper.findGradeByStudentNumber(studentNumber);
         } catch (Exception e) {

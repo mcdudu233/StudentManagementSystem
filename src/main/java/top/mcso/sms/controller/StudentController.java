@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.Course;
+import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Schedule;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
@@ -124,6 +125,18 @@ public class StudentController {
         model.addAttribute("user", user);
 
         // 获得每科的成绩
+        List<Map<String, String>> grades = new ArrayList<>();
+        for (Grade g : gradeService.findGradeByStudentNumber(user)) {
+            Course c = courseService.getCourseByCourseNumber(g.getCourseNumber());
+            Map<String, String> gradeMap = new HashMap<>();
+            gradeMap.put("courseId", c.getCourseNumber());
+            gradeMap.put("courseName", c.getCourseName());
+            gradeMap.put("teacherName", teacherService.findByJobNumber(c.getTeacherNumber()).getTeacherName());
+            gradeMap.put("credits", String.valueOf(c.getCredit()));
+            gradeMap.put("score", String.valueOf(g.getGrade()));
+            grades.add(gradeMap);
+        }
+        model.addAttribute("grades", grades);
 
         return "student/grade";
     }
