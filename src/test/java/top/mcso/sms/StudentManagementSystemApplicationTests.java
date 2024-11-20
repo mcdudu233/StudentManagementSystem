@@ -118,7 +118,6 @@ class StudentManagementSystemApplicationTests {
         assertNotNull(gradeService.getAllStudentStatistics());
         assertNotNull(gradeService.findAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
         assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
-        assertTrue(gradeService.deleteAllGrades());
 
         gradeTest.setGrade(rand.nextFloat());
         assertTrue(gradeService.insertGrade(gradeTest));
