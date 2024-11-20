@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.Course;
-import top.mcso.sms.service.CourseService;
-import top.mcso.sms.service.GradeService;
-import top.mcso.sms.service.StudentService;
-import top.mcso.sms.service.TeacherService;
+import top.mcso.sms.entity.Schedule;
+import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
@@ -40,6 +38,8 @@ public class StudentController {
     private CourseService courseService;
     @Resource
     private GradeService gradeService;
+    @Resource
+    private ScheduleService scheduleService;
 
     @GetMapping("select")
     public String select(Model model) {
@@ -87,6 +87,28 @@ public class StudentController {
         // 设置用户名
         String user = SessionUtils.getName();
         model.addAttribute("user", user);
+
+        // 设置课程表
+        List<Map<String, String>> schedule = new ArrayList<>();
+        // 生成星期一到星期天的11节课的空列表
+        for (int i = 1; i <= 11; i++) {
+            Map<String, String> scheduleMap = new HashMap<>();
+            scheduleMap.put("time", FormatUtils.getDay(i));
+            scheduleMap.put("monday", "");
+            scheduleMap.put("tuesday", "");
+            scheduleMap.put("wednesday", "");
+            scheduleMap.put("thursday", "");
+            scheduleMap.put("friday", "");
+            scheduleMap.put("saturday", "");
+            scheduleMap.put("sunday", "");
+            schedule.add(scheduleMap);
+        }
+        // 遍历所有课程并放在课程表中
+        for (Schedule s : scheduleService.getScheduleByStudentNumber(user)) {
+            Course c = courseService.getCourseByCourseNumber(s.getCourseNumber());
+            schedule.get(c.getDay()).put(FormatUtils.getWeekEnglish(c.getWeek()), c.getCourseName());
+        }
+        model.addAttribute("schedule", schedule);
 
         return "student/class";
     }
