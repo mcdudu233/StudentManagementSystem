@@ -41,27 +41,27 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course selectCourseByCourseNumber(String courseNumber) {
+    public Course getCourseByCourseNumber(String courseNumber) {
         try {
-            return courseMapper.selectCourseByCourseNumber(courseNumber);
+            return courseMapper.getCourseByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error selecting course by course number: " + courseNumber, e);
         }
     }
 
     @Override
-    public List<Course> selectAllCourses() {
+    public List<Course> getAllCourses() {
         try {
-            return courseMapper.selectAllCourses();
+            return courseMapper.getAllCourses();
         } catch (Exception e) {
             throw new RuntimeException("Error selecting all courses", e);
         }
     }
 
     @Override
-    public List<Course> selectCoursesByPriorityCourse(String priorityCourse) {
+    public List<Course> getCoursesByPriorityCourse(String priorityCourse) {
         try {
-            return courseMapper.selectCoursesByPriorityCourse(priorityCourse);
+            return courseMapper.getCoursesByPriorityCourse(priorityCourse);
         } catch (Exception e) {
             throw new RuntimeException("Error selecting courses by priority course: " + priorityCourse, e);
         }

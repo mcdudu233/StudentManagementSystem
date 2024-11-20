@@ -81,7 +81,7 @@ public class MainController {
         Map<String, Object> data = new HashMap<>();
         data.put("studentCount", studentService.findAll().size());
         data.put("teacherCount", teacherService.findAll().size());
-        data.put("courseCount", courseService.selectAllCourses().size());
+        data.put("courseCount", courseService.getAllCourses().size());
         return data;
     }
 

@@ -24,14 +24,14 @@ public interface CourseMapper extends BaseMapper<Course> {
 
     // 根据课程编号查询课程
     @Select("select * from course where course_number = #{courseNumber}")
-    Course selectCourseByCourseNumber(@Param("courseNumber") String courseNumber);
+    Course getCourseByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询所有课程
     @Select("select * from course")
-    List<Course> selectAllCourses();
+    List<Course> getAllCourses();
 
     // 根据优先级课程查询课程列表
     @Select("select * from course where priority_course = #{priorityCourse}")
-    List<Course> selectCoursesByPriorityCourse(@Param(" priorityCourse") String priorityCourse);
+    List<Course> getCoursesByPriorityCourse(@Param("priorityCourse") String priorityCourse);
 
 }

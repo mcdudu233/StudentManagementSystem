@@ -42,27 +42,27 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule selectScheduleByStudentNumber(String studentNumber) {
+    public Schedule getScheduleByStudentNumber(String studentNumber) {
         try {
-            return scheduleMapper.selectScheduleByStudentNumber(studentNumber);
+            return scheduleMapper.getScheduleByStudentNumber(studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error selecting schedule by student number", e);
         }
     }
 
     @Override
-    public List<Schedule> selectSchedulesByCourseNumber(String courseNumber) {
+    public List<Schedule> getSchedulesByCourseNumber(String courseNumber) {
         try {
-            return scheduleMapper.selectSchedulesByCourseNumber(courseNumber);
+            return scheduleMapper.getSchedulesByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error selecting schedules by course number", e);
         }
     }
 
     @Override
-    public List<Schedule> selectAllSchedules() {
+    public List<Schedule> getAllSchedules() {
         try {
-            return scheduleMapper.selectAllSchedules();
+            return scheduleMapper.getAllSchedules();
         } catch (Exception e) {
             throw new RuntimeException("Error selecting all schedules", e);
         }

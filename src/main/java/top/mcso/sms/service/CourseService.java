@@ -11,10 +11,10 @@ public interface CourseService {
 
     boolean updateCourse(Course course);
 
-    Course selectCourseByCourseNumber(String courseNumber);
+    Course getCourseByCourseNumber(String courseNumber);
 
-    List<Course> selectAllCourses();
+    List<Course> getAllCourses();
 
-    List<Course> selectCoursesByPriorityCourse(String priorityCourse);
+    List<Course> getCoursesByPriorityCourse(String priorityCourse);
 
 }
