@@ -6,16 +6,29 @@ import top.mcso.sms.entity.Statistics;
 import java.util.List;
 
 public interface GradeService {
+    boolean insertGrade(Grade grade);
+
+    boolean updateGrade(Grade grade);
+
+    boolean deleteAllGrades();
+
+    boolean deleteAllGradesByStudentNumber(String studentNumber);
+
+    boolean deleteGradeByStudentNumber(String studentNumber, String courseNumber);
+
+    boolean deleteGradeByCourseNumber(String courseNumber);
+
     List<Grade> findAllGrades();
 
     List<Grade> findGradesByCourseNumber(String courseNumber);
 
-    Double findAverageGradeByCourseNumber(String courseNumber);
+    Float findAverageGradeByCourseNumber(String courseNumber);
 
-    Double findMaxGradeByCourseNumber(String courseNumber);
+    Float findMaxGradeByCourseNumber(String courseNumber);
 
-    List<Statistics> getAllStudentsGrades();
+    List<Statistics> getAllStudentStatistics();
 
-    Statistics getStudentGradesByNumber(String studentNumber);
+    Statistics getStatisticsByStudentNumber(String studentNumber);
+
 
 }

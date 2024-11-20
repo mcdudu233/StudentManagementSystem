@@ -15,9 +15,64 @@ public class GradeServiceImpl implements GradeService {
     private GradeMapper gradeMapper;
 
     @Override
+    public boolean insertGrade(Grade grade) {
+        try {
+            return gradeMapper.insertGrade(grade);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while inserting all grades");
+        }
+    }
+
+    @Override
+    public boolean updateGrade(Grade grade) {
+        try {
+            return gradeMapper.updateGrade(grade);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while updating all grades");
+        }
+    }
+
+    @Override
+    public boolean deleteAllGrades() {
+        try {
+            return gradeMapper.deleteAllGrades();
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting all grades");
+        }
+    }
+
+    @Override
+    public boolean deleteAllGradesByStudentNumber(String studentNumber) {
+        try {
+            return gradeMapper.deleteAllGradesByStudentNumber(studentNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting all grades");
+        }
+    }
+
+    @Override
+    public boolean deleteGradeByStudentNumber(String studentNumber, String courseNumber) {
+        try {
+            return gradeMapper.deleteGradeByStudentNumber(studentNumber, courseNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting all grades");
+        }
+
+    }
+
+    @Override
+    public boolean deleteGradeByCourseNumber(String courseNumber) {
+        try {
+            return gradeMapper.deleteGradeByCourseNumber(courseNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting all grades");
+        }
+    }
+
+    @Override
     public List<Grade> findAllGrades() {
         try {
-            return gradeMapper.findallgrades();
+            return gradeMapper.findAllGrades();
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching all grades", e);
         }
@@ -26,44 +81,44 @@ public class GradeServiceImpl implements GradeService {
     @Override
     public List<Grade> findGradesByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findgradesbycoursenumber(courseNumber);
+            return gradeMapper.findGradesByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching grades for course number: " + courseNumber, e);
         }
     }
 
     @Override
-    public Double findAverageGradeByCourseNumber(String courseNumber) {
+    public Float findAverageGradeByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findaveragegradebycoursenumber(courseNumber);
+            return gradeMapper.findAverageGradeByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while calculating the average grade for course number: " + courseNumber, e);
         }
     }
 
     @Override
-    public Double findMaxGradeByCourseNumber(String courseNumber) {
+    public Float findMaxGradeByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findmaxgradebycoursenumber(courseNumber);
+            return gradeMapper.findMaxGradeByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching the max grade for course number: " + courseNumber, e);
         }
     }
-    
+
 
     @Override
-    public List<Statistics> getAllStudentsGrades() {
+    public List<Statistics> getAllStudentStatistics() {
         try {
-            return gradeMapper.getAllStudentsGrades();
+            return gradeMapper.getAllStudentStatistics();
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching all students' grades", e);
         }
     }
 
     @Override
-    public Statistics getStudentGradesByNumber(String studentNumber) {
+    public Statistics getStatisticsByStudentNumber(String studentNumber) {
         try {
-            Statistics statistics = gradeMapper.getStudentGradesByNumber(studentNumber);
+            Statistics statistics = gradeMapper.getStudentStatisticsByNumber(studentNumber);
             if (statistics == null) {
                 throw new RuntimeException("No grades found for student number: " + studentNumber);
             }
