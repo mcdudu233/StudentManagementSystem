@@ -22,7 +22,7 @@
         /* 侧边栏样式 */
         .sidebar {
             height: 98vh;
-            background-color: rgba(52,58,64,0.9) ;
+            background-color: rgba(52, 58, 64, 0.9);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             padding: 20px;
@@ -130,7 +130,7 @@
                     <div class="col-md-4">
                         <div class="card text-white bg-warning mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">课程总数</h5>
+                                <h5 class="card-title">教师总数</h5>
                                 <p class="card-text" th:text="${dashboardData.teacherCount}">5%</p>
                             </div>
                         </div>
@@ -153,24 +153,24 @@
                     <div class="col-md-4">
                         <div class="card text-white bg-primary mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">班级总数</h5>
-                                <p class="card-text" th:text="${dashboardData.classCount}">5班</p>
+                                <h5 class="card-title">任教班级</h5>
+                                <p class="card-text" th:text="${dashboardData.class}">未知</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-success mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">学生总数</h5>
-                                <p class="card-text" th:text="${dashboardData.studentCount}">100人</p>
+                                <h5 class="card-title">所教课程</h5>
+                                <p class="card-text" th:text="${dashboardData.course}">?</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-warning mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">平均成绩</h5>
-                                <p class="card-text" th:text="${dashboardData.avgGrade}">85</p>
+                                <h5 class="card-title">所教学生总数</h5>
+                                <p class="card-text" th:text="${dashboardData.student}">?人</p>
                             </div>
                         </div>
                     </div>
