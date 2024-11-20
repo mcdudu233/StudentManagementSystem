@@ -23,7 +23,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     // 根据学生编号查询课程表信息
     @Select("select * from schedule where student_number = #{studentNumber}")
-    Schedule getScheduleByStudentNumber(@Param("studentNumber") String studentNumber);
+    List<Schedule> getScheduleByStudentNumber(@Param("studentNumber") String studentNumber);
 
     // 根据课程编号查询课程表信息
     @Select("select * from schedule where course_number = #{courseNumber}")
