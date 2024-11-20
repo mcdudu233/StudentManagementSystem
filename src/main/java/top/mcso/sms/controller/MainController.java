@@ -97,7 +97,7 @@ public class MainController {
                 allClasses.add(c.getNumber());
             }
         }
-        
+
         // 获取所教课程
         List<String> courses = new ArrayList<>();
         for (Course c : courseService.getAllCourses()) {
@@ -153,7 +153,7 @@ public class MainController {
         }
 
         Map<String, Object> data = new HashMap<>();
-        data.put("currentCourses", classes.toString());
+        data.put("currentCourses", classes);
         data.put("attendance", level);
         data.put("averageGrade", avgGrade);
         return data;

@@ -4,7 +4,10 @@ package top.mcso.sms.controller;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.service.CourseService;
 import top.mcso.sms.service.GradeService;
@@ -33,7 +36,7 @@ public class StudentController {
     @Resource
     private GradeService gradeService;
 
-    @RequestMapping("select")
+    @GetMapping("select")
     public String select(Model model) {
         if (!SessionUtils.isStudent()) {
             return "redirect:/login";
@@ -56,6 +59,15 @@ public class StudentController {
         model.addAttribute("courseList", courseList);
 
         return "student/select";
+    }
+
+    @PostMapping("select")
+    public String select(@RequestParam("course") String course, @RequestParam("student") String student) {
+        if (!SessionUtils.isStudent()) {
+            return "redirect:/login";
+        }
+
+        return "ok";
     }
 
     @RequestMapping("class")
