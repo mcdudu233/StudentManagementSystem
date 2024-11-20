@@ -89,10 +89,10 @@
                 <td th:text="${course.courseNumber}">101</td>
                 <td th:text="${course.courseName}">高等数学</td>
                 <td th:text="${course.teacherName}">王老师</td>
-                <td th:text="${course.credits}">3</td>
+                <td th:text="${course.credit}">3</td>
                 <td>
                     <button class="btn btn-select btn-sm"
-                            th:onclick="'selectCourse(' + ${course.courseId} + ')'">选课
+                            th:onclick="'selectCourse(' + ${course.courseNumber} + ')'">选课
                     </button>
                 </td>
             </tr>
