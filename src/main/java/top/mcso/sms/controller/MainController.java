@@ -139,7 +139,7 @@ public class MainController {
 
         Map<String, Object> data = new HashMap<>();
         data.put("currentCourses", classes);
-        data.put("attendance", FormatUtils.getLevel(avgGrade));
+        data.put("gradeLevel", FormatUtils.getLevel(avgGrade));
         data.put("averageGrade", avgGrade);
         return data;
     }

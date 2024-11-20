@@ -10,7 +10,10 @@ import top.mcso.sms.entity.Course;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Schedule;
 import top.mcso.sms.entity.WebResponse;
-import top.mcso.sms.service.*;
+import top.mcso.sms.service.CourseService;
+import top.mcso.sms.service.GradeService;
+import top.mcso.sms.service.ScheduleService;
+import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
@@ -31,8 +34,6 @@ import java.util.Map;
 @RequestMapping("/student")
 public class StudentController {
     private static Gson gson = new Gson();
-    @Resource
-    private StudentService studentService;
     @Resource
     private TeacherService teacherService;
     @Resource
