@@ -16,11 +16,21 @@ import org.springframework.security.core.userdetails.User;
  */
 
 public class SessionUtils {
+    /**
+     * 判断用户是否登录
+     *
+     * @return boolean
+     */
     public static boolean hasLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null && authentication.isAuthenticated();
     }
 
+    /**
+     * 获取登录的用户名
+     *
+     * @return String:用户名，未登录返回null
+     */
     public static String getName() {
         if (!hasLogin()) {
             return null;
@@ -32,6 +42,11 @@ public class SessionUtils {
         return principal.getUsername();
     }
 
+    /**
+     * 获取用户角色
+     *
+     * @return String:返回用户角色，未登录返回null
+     */
     public static String getRole() {
         if (!hasLogin()) {
             return null;
@@ -43,5 +58,32 @@ public class SessionUtils {
             role = ga.getAuthority();
         }
         return role;
+    }
+
+    /**
+     * 判断登录的用户是否为学生
+     *
+     * @return boolean
+     */
+    public static boolean isStudent() {
+        return hasLogin() && "ROLE_student".equals(getRole());
+    }
+
+    /**
+     * 判断登录的用户是否为老师
+     *
+     * @return boolean
+     */
+    public static boolean isTeacher() {
+        return hasLogin() && "ROLE_teacher".equals(getRole());
+    }
+
+    /**
+     * 判断登录的用户是否为管理员
+     *
+     * @return boolean
+     */
+    public static boolean isAdmin() {
+        return hasLogin() && "ROLE_admin".equals(getRole());
     }
 }
