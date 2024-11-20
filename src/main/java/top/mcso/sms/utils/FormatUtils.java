@@ -82,4 +82,24 @@ public class FormatUtils {
             default -> "未知";
         };
     }
+
+    /**
+     * 根据成绩获得评级
+     *
+     * @param grade:double 成绩
+     * @return String 等级
+     */
+    public static String getLevel(double grade) {
+        if (grade < 60) {
+            return "不及格";
+        } else if (grade < 70) {
+            return "及格";
+        } else if (grade < 80) {
+            return "良好";
+        } else if (grade < 90) {
+            return "优良";
+        } else {
+            return "优秀";
+        }
+    }
 }
