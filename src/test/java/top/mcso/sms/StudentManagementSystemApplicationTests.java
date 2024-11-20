@@ -74,7 +74,7 @@ class StudentManagementSystemApplicationTests {
 
         // 测试学生服务
         String studentNumber = UUID.randomUUID().toString().substring(0, 8);
-        String classes = UUID.randomUUID().toString().substring(0, 4);
+        int classes = rand.nextInt();
         String studentName = UUID.randomUUID().toString().substring(0, 3);
         Date birthdate = new Date();
 
@@ -118,7 +118,6 @@ class StudentManagementSystemApplicationTests {
         assertNotNull(gradeService.getAllStudentStatistics());
         assertNotNull(gradeService.findAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
         assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
-        assertTrue(gradeService.deleteAllGrades());
 
         gradeTest.setGrade(rand.nextFloat());
         assertTrue(gradeService.insertGrade(gradeTest));

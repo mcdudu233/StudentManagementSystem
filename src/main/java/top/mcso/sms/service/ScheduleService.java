@@ -11,7 +11,7 @@ public interface ScheduleService {
 
     boolean updateSchedule(Schedule schedule);
 
-    Schedule getScheduleByStudentNumber(String studentNumber);
+    List<Schedule> getScheduleByStudentNumber(String studentNumber);
 
     List<Schedule> getSchedulesByCourseNumber(String courseNumber);
 

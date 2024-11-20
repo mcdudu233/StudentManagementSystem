@@ -42,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule getScheduleByStudentNumber(String studentNumber) {
+    public List<Schedule> getScheduleByStudentNumber(String studentNumber) {
         try {
             return scheduleMapper.getScheduleByStudentNumber(studentNumber);
         } catch (Exception e) {
