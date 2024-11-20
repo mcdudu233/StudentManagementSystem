@@ -2,7 +2,9 @@ package top.mcso.sms.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import top.mcso.sms.utils.SessionUtils;
 
 /**
  * 处理学生页面
@@ -16,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/student")
 public class StudentController {
     @RequestMapping("select")
-    public String select() {
+    public String select(Model model) {
+        if (!SessionUtils.isStudent()) {
+            return "redirect:/login";
+        }
+        String user = SessionUtils.getName();
         return "student/select";
     }
 
