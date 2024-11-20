@@ -86,13 +86,17 @@
             <tbody>
             <!-- 遍历课程 -->
             <tr th:each="course : ${courseList}">
-                <td th:text="${course.courseNumber}">101</td>
-                <td th:text="${course.courseName}">高等数学</td>
-                <td th:text="${course.teacherName}">王老师</td>
-                <td th:text="${course.credit}">3</td>
+                <td th:text="${course.courseNumber}"></td>
+                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.courseName}"></td>
+                <td th:text="${course.credit}"></td>
+<!--                <td th:text="${course.week}">王老师</td>-->
+<!--                <td th:text="${course.day}">王老师</td>-->
+<!--                <td th:text="${course.spot}">3</td>-->
+<!--                <td th:text="${course.priorityCourse}">3</td>-->
                 <td>
                     <button class="btn btn-select btn-sm"
-                            th:onclick="'selectCourse(' + ${course.courseNumber} + ')'">选课
+                            th:onclick="selectCourse('${course.courseNumber}')">选课
                     </button>
                 </td>
             </tr>
