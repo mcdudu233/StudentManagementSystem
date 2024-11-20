@@ -32,6 +32,6 @@ public interface CourseMapper extends BaseMapper<Course> {
 
     // 根据优先级课程查询课程列表
     @Select("select * from course where priority_course = #{priorityCourse}")
-    List<Course> getCoursesByPriorityCourse(@Param(" priorityCourse") String priorityCourse);
+    List<Course> getCoursesByPriorityCourse(@Param("priorityCourse") String priorityCourse);
 
 }

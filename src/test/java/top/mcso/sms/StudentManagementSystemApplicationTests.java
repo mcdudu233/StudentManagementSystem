@@ -3,12 +3,8 @@ package top.mcso.sms;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import top.mcso.sms.entity.Student;
-import top.mcso.sms.entity.Teacher;
-import top.mcso.sms.entity.User;
-import top.mcso.sms.service.StudentService;
-import top.mcso.sms.service.TeacherService;
-import top.mcso.sms.service.UserService;
+import top.mcso.sms.entity.*;
+import top.mcso.sms.service.*;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +23,14 @@ class StudentManagementSystemApplicationTests {
     private StudentService studentService;
     @Resource
     private TeacherService teacherService;
+    @Resource
+    private CourseService courseService;
+    @Resource
+    private GradeService gradeService;
+    @Resource
+    private ScheduleService scheduleService;
+    @Resource
+    private ClassesService classesService;
 
     @Test
     void testDatabase() {
@@ -85,8 +89,61 @@ class StudentManagementSystemApplicationTests {
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
 
         //测试课程表服务
-    }
+        String courseNumber = UUID.randomUUID().toString().substring(0, 8);
+        String courseName = UUID.randomUUID().toString().substring(0, 8);
+        String priorityCourse = UUID.randomUUID().toString().substring(0, 8);
+        Course course = new Course(courseNumber, courseName, priorityCourse);
+        assertTrue(courseService.insertCourse(course));
+        assertNotNull(courseService.getAllCourses());
+        assertNotNull(courseService.getCourseByCourseNumber(course.getCourseNumber()));
+        course.setCourseName(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(courseService.updateCourse(course));
+        assertNotNull(courseService.getCoursesByPriorityCourse(course.getPriorityCourse()));
+        assertTrue(courseService.deleteCourseByCourseNumber(course.getCourseNumber()));
 
+        //测试成绩服务
+        float grade = rand.nextFloat();
+        Grade gradeTest = new Grade(courseNumber, studentNumber, grade);
+        assertTrue(gradeService.insertGrade(gradeTest));
+        gradeTest.setCourseNumber(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(gradeService.updateGrade(gradeTest));
+        assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
+        assertNotNull(gradeService.findAllGrades());
+        assertNotNull(gradeService.getAllStudentStatistics());
+        assertNotNull(gradeService.findAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertTrue(gradeService.deleteAllGrades());
+
+        gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(gradeService.insertGrade(gradeTest));
+        assertTrue(gradeService.deleteGradeByStudentNumber(gradeTest.getStudentNumber(), gradeTest.getCourseNumber()));
+
+        gradeTest.setStudentNumber(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(gradeService.insertGrade(gradeTest));
+        assertTrue(gradeService.deleteAllGradesByStudentNumber(gradeTest.getStudentNumber()));
+
+        //测试选课表服务
+        Schedule schedule = new Schedule(studentNumber, studentName, courseName, courseNumber);
+        assertTrue(scheduleService.insertSchedule(schedule));
+        schedule.setStudentName(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(scheduleService.updateSchedule(schedule));
+        assertNotNull(scheduleService.getAllSchedules());
+        assertNotNull(scheduleService.getScheduleByStudentNumber(studentNumber));
+        assertNotNull(scheduleService.getSchedulesByCourseNumber(courseNumber));
+        assertTrue(scheduleService.deleteScheduleByStudentNumber(studentNumber));
+
+        //测试班级类
+        int number = rand.nextInt();
+        Classes classTest = new Classes(number, jobNumber, teacherName, studentNumber, studentName);
+        assertTrue(classesService.insertClass(classTest));
+        classTest.setStudentName(UUID.randomUUID().toString().substring(0, 8));
+        assertTrue(classesService.updateClass(classTest));
+        assertNotNull(classesService.getClassByNumber(number));
+        assertNotNull(classesService.getAllClasses());
+        assertTrue(classesService.deleteClassByNumber(number));
+
+
+    }
 
     @Test
     void contextLoads() {
