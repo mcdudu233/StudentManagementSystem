@@ -8,6 +8,16 @@ import java.util.List;
 public interface GradeService {
     boolean insertGrade(Grade grade);
 
+    boolean updateGrade(Grade grade);
+
+    boolean deleteAllGrades();
+
+    boolean deleteAllGradesByStudentNumber(String studentNumber);
+
+    boolean deleteGradeByStudentNumber(String studentNumber, String courseNumber);
+
+    boolean deleteGradeByCourseNumber(String courseNumber);
+
     List<Grade> findAllGrades();
 
     List<Grade> findGradesByCourseNumber(String courseNumber);
@@ -16,8 +26,9 @@ public interface GradeService {
 
     Float findMaxGradeByCourseNumber(String courseNumber);
 
-    List<Statistics> getAllStudentsGrades();
+    List<Statistics> getAllStudentStatistics();
 
-    Statistics getStudentGradesByNumber(String studentNumber);
+    Statistics getStatisticsByStudentNumber(String studentNumber);
+
 
 }

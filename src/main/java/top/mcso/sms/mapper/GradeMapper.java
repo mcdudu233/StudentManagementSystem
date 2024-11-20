@@ -1,10 +1,8 @@
 package top.mcso.sms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Statistics;
 
@@ -14,37 +12,77 @@ import java.util.List;
 public interface GradeMapper extends BaseMapper<Grade> {
     //插入成绩
     @Insert("insert into grade(course_number, student_number, grade) " +
-            "values (#{courseNumber},#{studentNUmber},#{grade})")
+            "values (#{courseNumber},#{studentNumber},#{grade})")
     boolean insertGrade(Grade grade);
+
+    //更新成绩
+    @Update("update grade set course_number = #{courseNumber},student_number = #{studentNumber},grade = #{grade} " +
+            "where student_number = #{studentNumber}")
+    boolean updateGrade(Grade grade);
 
     // 查询所有成绩
     @Select("select * from grade")
-    List<Grade> findallgrades();
+    List<Grade> findAllGrades();
 
     // 查询每门科目的成绩
     @Select("select * from grade where course_number = #{courseNumber}")
-    List<Grade> findgradesbycoursenumber(@Param("courseNumber") String courseNumber);
+    List<Grade> findGradesByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询每门科目的平均分
     @Select("select avg(grade) as average from grade where course_number = #{courseNumber}")
-    Float findaveragegradebycoursenumber(@Param("courseNumber") String courseNumber);
+    Float findAverageGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询每门科目的最高分
-    @Select("select max(grade) as maxgrade from grade where course_number = #{courseNumber}")
-    Float findmaxgradebycoursenumber(@Param("courseNumber") String courseNumber);
+    @Select("select max(grade) as maxgrade from grade where course_numbe" +
+            "r = #{courseNumber}")
+    Float findMaxGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
+    //删除某个学生的某门成绩
+    @Delete("delete from grade where student_number = #{studentNumber} and course_number = #{courseNumber}")
+    boolean deleteGradeByStudentNumber(@Param("studentNumber") String studentNumber, @Param("courseNumber") String courseNumber);
+
+    //删除某个学生的所有成绩
+    @Delete("delete from grade where student_number = #{studentNumber}")
+    boolean deleteAllGradesByStudentNumber(@Param("studentNumber") String studentNumber);
+
+    //删除所有成绩
+    @Delete("delete from grade")
+    boolean deleteAllGrades();
+
+    //删除某门课的所有成绩
+    @Delete("delete from grade where course_number = #{courseNumber}")
+    boolean deleteGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
-    @Select("select r.student_number, r.student_name, min(g.grade) as min_grade, max(g.grade) as max_grade, sum(g.grade) as sum_grade, avg(g.grade) as avg_grade " +
-            "from statistics r join grade g on r.student_number = g.student_number " +
-            "group by r.student_number")
-    List<Statistics> getAllStudentsGrades();
+    @Select({
+            "select student_number, " +
+                    "avg(grade) as avg_grade, " +
+                    "max(grade) as max_grade, " +
+                    "min(grade) as min_grade, " +
+                    "sum(grade) as sum_grade " +
+                    "from grade " +
+                    "group by student_number"
+    })
+    @Results(value = {
+            @Result(property = "studentNumber", column = "student_number", jdbcType = JdbcType.VARCHAR),
+            @Result(property = "avgGrade", column = "avg_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "maxGrade", column = "max_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "minGrade", column = "min_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "sumGrade", column = "sum_grade", jdbcType = JdbcType.FLOAT)
+    })
+    List<Statistics> getAllStudentStatistics();
 
     // 查询特定学生的成绩、最高分、最低分、平均分和总分
-    @Select("select r.student_number, r.student_name, min(g.grade) as min_grade, max(g.grade) as max_grade, sum(g.grade) as sum_grade, avg(g.grade) as avg_grade " +
-            "from statistics r join grade g on r.student_number = g.student_number " +
-            "where r.student_number = #{studentNumber} " +
-            "group by r.student_number")
-    Statistics getStudentGradesByNumber(String studentNumber);
+    @Select({
+            "select avg(grade) as avg_grade, max(grade) as max_grade, min(grade) as min_grade, sum(grade) as sum_grade " +
+                    "from grade where student_number = #{studentNumber}"
+    })
+    @Results(value = {
+            @Result(property = "avgGrade", column = "avg_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "maxGrade", column = "max_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "minGrade", column = "min_grade", jdbcType = JdbcType.FLOAT),
+            @Result(property = "sumGrade", column = "sum_grade", jdbcType = JdbcType.FLOAT)
+    })
+    Statistics getStudentStatisticsByNumber(@Param("studentNumber") String studentNumber);
 
 }
