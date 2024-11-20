@@ -42,6 +42,25 @@ public class FormatUtils {
     }
 
     /**
+     * 将数字星期转换成英文的字符串
+     *
+     * @param week: int 星期
+     * @return String: 星期的英文
+     */
+    public static String getWeekEnglish(int week) {
+        return switch (week) {
+            case 1 -> "monday";
+            case 2 -> "tuesday";
+            case 3 -> "wednesday";
+            case 4 -> "thursday";
+            case 5 -> "friday";
+            case 6 -> "saturday";
+            case 7 -> "sunday";
+            default -> "none";
+        };
+    }
+
+    /**
      * 将数字的第几节课转换成字符串
      *
      * @param day: int 每天中的第几节课
