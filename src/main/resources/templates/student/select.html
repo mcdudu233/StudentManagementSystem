@@ -40,6 +40,7 @@
         .btn-select:hover {
             background-color: #218838;
         }
+
         .return-button {
             position: absolute;
             top: 20px;
@@ -67,9 +68,9 @@
     <!-- 页面标题 -->
     <div class="content">
         <!-- 返回主页按钮 -->
-        <a href="/" class="return-button">返回主页</a>
+        <a class="return-button" href="/">返回主页</a>
         <h1 class="text-center">选课系统</h1>
-        <h4 th:text="'欢迎，' + ${user} + '。请选择您想要选修的课程。'" class="text-center"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。请选择您想要选修的课程。'"></h4>
 
         <!-- 课程列表表格 -->
         <table class="table table-striped table-hover mt-4">
@@ -85,18 +86,19 @@
             <tbody>
             <!-- 遍历课程 -->
             <tr th:each="course : ${courseList}">
-                <td th:text="${course.courseId}">101</td>
+                <td th:text="${course.courseNumber}">101</td>
                 <td th:text="${course.courseName}">高等数学</td>
                 <td th:text="${course.teacherName}">王老师</td>
                 <td th:text="${course.credits}">3</td>
                 <td>
                     <button class="btn btn-select btn-sm"
-                            th:onclick="'selectCourse(' + ${course.courseId} + ')'">选课</button>
+                            th:onclick="'selectCourse(' + ${course.courseId} + ')'">选课
+                    </button>
                 </td>
             </tr>
             <!-- 如果课程列表为空 -->
             <tr th:if="${#lists.isEmpty(courseList)}">
-                <td colspan="5" class="text-center">暂无可选课程</td>
+                <td class="text-center" colspan="5">暂无可选课程</td>
             </tr>
             </tbody>
         </table>
