@@ -154,7 +154,9 @@
                         <div class="card text-white bg-primary mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">任教班级</h5>
-                                <p class="card-text" th:text="${dashboardData.class}">未知</p>
+                                <ul>
+                                    <li th:each="course : ${dashboardData.class}" th:text="${course}"></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -162,7 +164,9 @@
                         <div class="card text-white bg-success mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">所教课程</h5>
-                                <p class="card-text" th:text="${dashboardData.course}">?</p>
+                                <ul>
+                                    <li th:each="course : ${dashboardData.course}" th:text="${course}"></li>
+                                </ul>
                             </div>
                         </div>
                     </div>

@@ -4,10 +4,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import top.mcso.sms.entity.Announcement;
-import top.mcso.sms.entity.Classes;
-import top.mcso.sms.entity.Course;
-import top.mcso.sms.entity.Grade;
+import top.mcso.sms.entity.*;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.SessionUtils;
 
@@ -37,6 +34,8 @@ public class MainController {
     private ClassesService classesService;
     @Resource
     private AnnouncementService announcementService;
+    @Resource
+    private ScheduleService scheduleService;
 
     // 主页面
     @RequestMapping({"/", "index", "home", "index.html"})
@@ -90,37 +89,44 @@ public class MainController {
         String name = SessionUtils.getName();
 
         // 获取所教的班级
-        StringBuilder classes = new StringBuilder();
-        List<Classes> allClasses = classesService.getAllClasses();
-        for (Classes c : allClasses) {
+        List<String> classes = new ArrayList<>();
+        List<Integer> allClasses = new ArrayList<>();
+        for (Classes c : classesService.getAllClasses()) {
             if (c.getTeacherNumber().equals(name)) {
-                classes.append(c.getNumber()).append("班，");
+                classes.add(c.getNumber() + "班");
+                allClasses.add(c.getNumber());
             }
         }
-        classes = new StringBuilder(classes.substring(0, classes.length() - 1)).append("。");
-
+        
         // 获取所教课程
-        StringBuilder courses = new StringBuilder();
-        List<Course> allCourses = courseService.getAllCourses();
-        for (Course c : allCourses) {
+        List<String> courses = new ArrayList<>();
+        for (Course c : courseService.getAllCourses()) {
             if (c.getTeacherNumber().equals(name)) {
-                courses.append(c.getCourseName()).append("，");
+                courses.add(c.getCourseName());
             }
         }
-        courses = new StringBuilder(courses.substring(0, courses.length() - 1)).append("。");
 
         // 获取所教学生
-
+        int sum = 0;
+        List<Student> allStudent = studentService.findAll();
+        for (Student s : allStudent) {
+            if (allClasses.contains(s.getClasses())) {
+                sum++;
+            }
+        }
 
         Map<String, Object> data = new HashMap<>();
-        data.put("class", classes.toString());
-        data.put("course", courses.toString());
-        data.put("student", "85");
+        data.put("class", classes);
+        data.put("course", courses);
+        data.put("student", sum);
         return data;
     }
 
     private Map<String, Object> getStudentDashboardData() {
-        List<Grade> grades = studentService.getStudentScoresByName(SessionUtils.getName());
+        String name = SessionUtils.getName();
+
+        // 获取成绩
+        List<Grade> grades = studentService.getStudentScoresByName(name);
         double avgGrade = 0;
         for (Grade grade : grades) {
             avgGrade += grade.getGrade();
@@ -140,8 +146,14 @@ public class MainController {
             level = "优秀";
         }
 
+        // 获取课程
+        List<String> classes = new ArrayList<>();
+        for (Schedule s : scheduleService.getScheduleByStudentNumber(name)) {
+            classes.add(courseService.getCourseByCourseNumber(s.getCourseNumber()).getCourseName());
+        }
+
         Map<String, Object> data = new HashMap<>();
-        data.put("currentCourses", List.of("数据结构", "操作系统"));
+        data.put("currentCourses", classes.toString());
         data.put("attendance", level);
         data.put("averageGrade", avgGrade);
         return data;

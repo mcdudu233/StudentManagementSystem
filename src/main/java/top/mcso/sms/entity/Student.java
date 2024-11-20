@@ -14,7 +14,7 @@ public class Student {
     private String studentNumber;
     private String studentName;
     private String gender;
-    private String classes;
+    private int classes;
     private int age;
     private String address;
     private Long telephone;
