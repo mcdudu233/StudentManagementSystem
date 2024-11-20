@@ -12,5 +12,5 @@ public class Classes {
     private String teacherNumber;
     private String teacherName;
     private String studentNumber;
-    private String studentName;
+
 }
