@@ -1,16 +1,15 @@
 package top.mcso.sms.controller;
 
 
+import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Schedule;
+import top.mcso.sms.entity.WebResponse;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
@@ -31,6 +30,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+    private static Gson gson = new Gson();
     @Resource
     private StudentService studentService;
     @Resource
@@ -71,12 +71,23 @@ public class StudentController {
     }
 
     @PostMapping("select")
-    public String select(@RequestParam("course") String course, @RequestParam("student") String student) {
+    @ResponseBody
+    public String select(@RequestParam("course") String courseNumber, @RequestParam("student") String studentNumber) {
         if (!SessionUtils.isStudent()) {
             return "redirect:/login";
         }
 
-        return "ok";
+        // 判断学生是否已经选了该课程
+        for (Schedule s : scheduleService.getScheduleByStudentNumber(studentNumber)) {
+            if (s.getCourseNumber().equals(courseNumber)) {
+                return gson.toJson(new WebResponse(-1, "您已经选过该课程了！"));
+            }
+        }
+
+        // 没有选则选课
+        scheduleService.insertSchedule(new Schedule(studentNumber, courseNumber));
+
+        return gson.toJson(new WebResponse(0, "选课成功！"));
     }
 
     @RequestMapping("class")
