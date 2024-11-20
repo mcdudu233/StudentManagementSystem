@@ -96,9 +96,10 @@
                 <td th:text="${grade.courseName}">高等数学</td>
                 <td th:text="${grade.teacherName}">王老师</td>
                 <td th:text="${grade.credits}">3</td>
+
                 <td>
-                        <span th:class="${T(Integer).valueOf(grade.score) >= 60} ? 'grade-pass' : 'grade-fail'"
-                              th:text="${grade.score}">85</span>
+                    <span th:class="${grade.score}>= 60 ? 'grade-pass' : 'grade-fail'"
+                          th:text="${grade.score}">85</span>
                 </td>
             </tr>
             <!-- 如果成绩列表为空 -->

@@ -97,7 +97,7 @@
                 <td th:text="${course.priorityCourse}"></td>
                 <td>
                     <button class="btn btn-select btn-sm"
-                            th:onclick="selectCourse('${course.courseNumber}')">选课
+                            th:onclick="selectCourse([[${course.courseNumber}]])">选课
                     </button>
                 </td>
             </tr>
