@@ -1,6 +1,7 @@
 package top.mcso.sms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -11,6 +12,11 @@ import java.util.List;
 
 @Mapper
 public interface GradeMapper extends BaseMapper<Grade> {
+    //插入成绩
+    @Insert("insert into grade(course_number, student_number, grade) " +
+            "values (#{courseNumber},#{studentNUmber},#{grade})")
+    boolean insertGrade(Grade grade);
+
     // 查询所有成绩
     @Select("select * from grade")
     List<Grade> findallgrades();
@@ -21,11 +27,11 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
     // 查询每门科目的平均分
     @Select("select avg(grade) as average from grade where course_number = #{courseNumber}")
-    Double findaveragegradebycoursenumber(@Param("courseNumber") String courseNumber);
+    Float findaveragegradebycoursenumber(@Param("courseNumber") String courseNumber);
 
     // 查询每门科目的最高分
     @Select("select max(grade) as maxgrade from grade where course_number = #{courseNumber}")
-    Double findmaxgradebycoursenumber(@Param("courseNumber") String courseNumber);
+    Float findmaxgradebycoursenumber(@Param("courseNumber") String courseNumber);
 
 
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分

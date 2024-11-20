@@ -15,6 +15,15 @@ public class GradeServiceImpl implements GradeService {
     private GradeMapper gradeMapper;
 
     @Override
+    public boolean insertGrade(Grade grade) {
+        try {
+            return gradeMapper.insertGrade(grade);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while inserting all grades");
+        }
+    }
+
+    @Override
     public List<Grade> findAllGrades() {
         try {
             return gradeMapper.findallgrades();
@@ -33,7 +42,7 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Double findAverageGradeByCourseNumber(String courseNumber) {
+    public Float findAverageGradeByCourseNumber(String courseNumber) {
         try {
             return gradeMapper.findaveragegradebycoursenumber(courseNumber);
         } catch (Exception e) {
@@ -42,14 +51,14 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Double findMaxGradeByCourseNumber(String courseNumber) {
+    public Float findMaxGradeByCourseNumber(String courseNumber) {
         try {
             return gradeMapper.findmaxgradebycoursenumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching the max grade for course number: " + courseNumber, e);
         }
     }
-    
+
 
     @Override
     public List<Statistics> getAllStudentsGrades() {
