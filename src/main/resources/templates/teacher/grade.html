@@ -105,11 +105,13 @@
                 <td th:text="${grade.courseId}">数学</td>
                 <td th:text="${grade.courseName}">数学</td>
                 <td>
-                    <input class="form-control" max="100" min="0" th:attr="id=${'score_' + grade.studentId + '_' + grade.courseId}" th:value="${grade.score}"
+                    <input class="form-control" max="100" min="0"
+                           th:attr="id=${'score_' + grade.studentId + '_' + grade.courseId}" th:value="${grade.score}"
                            type="number">
                 </td>
                 <td>
-                    <button class="btn btn-success btn-sm" th:attr="onclick='updateGrade(' + grade.studentId + ',' + grade.courseId + ')'"
+                    <button class="btn btn-success btn-sm"
+                            th:attr="onclick='updateGrade(' + grade.studentId + ',' + grade.courseId + ')'"
                             type="button">保存
                     </button>
                 </td>
@@ -158,7 +160,7 @@
         }).catch(() => alert('网络错误，请稍后重试。'));
     }
 </script>
-
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/response.js"></script>
 </body>
 </html>
