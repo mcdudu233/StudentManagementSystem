@@ -1,11 +1,12 @@
 package top.mcso.sms.controller;
 
-
-import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Schedule;
@@ -17,6 +18,8 @@ import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +36,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
-    private static Gson gson = new Gson();
     @Resource
     private TeacherService teacherService;
     @Resource
@@ -44,7 +46,7 @@ public class StudentController {
     private ScheduleService scheduleService;
 
     @GetMapping("select")
-    public String select(Model model) {
+    public String select(Model model, @RequestParam Map<String, String> data) {
         if (!SessionUtils.isStudent()) {
             return "redirect:/login";
         }
@@ -68,27 +70,40 @@ public class StudentController {
         }
         model.addAttribute("courseList", courseList);
 
+        // 判断是否已经选课
+        if (!data.isEmpty()) {
+            WebResponse response = new WebResponse(Integer.parseInt(data.getOrDefault("code", "-1")), data.getOrDefault("msg", ""));
+            model.addAttribute("response", response);
+        }
+
         return "student/select";
     }
 
     @PostMapping("select")
-    @ResponseBody
     public String select(@RequestParam("course") String courseNumber, @RequestParam("student") String studentNumber) {
         if (!SessionUtils.isStudent()) {
             return "redirect:/login";
         }
 
+        WebResponse response = new WebResponse();
         // 判断学生是否已经选了该课程
+        boolean flag = true;
         for (Schedule s : scheduleService.getScheduleByStudentNumber(studentNumber)) {
             if (s.getCourseNumber().equals(courseNumber)) {
-                return gson.toJson(new WebResponse(-1, "您已经选过该课程了！"));
+                response.setCode(-1);
+                response.setMsg("您已经选过该课程了！");
+                flag = false;
             }
         }
 
         // 没有选则选课
-        scheduleService.insertSchedule(new Schedule(studentNumber, courseNumber));
+        if (flag) {
+            scheduleService.insertSchedule(new Schedule(studentNumber, courseNumber));
+            response.setCode(0);
+            response.setMsg("选课成功！");
+        }
 
-        return gson.toJson(new WebResponse(0, "选课成功！"));
+        return "redirect:/student/select?code=" + response.getCode() + "&msg=" + URLEncoder.encode(response.getMsg(), StandardCharsets.UTF_8);
     }
 
     @RequestMapping("class")

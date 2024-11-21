@@ -5,8 +5,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>学生管理系统 - 选课</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <style>
         body {
             background: url('/img/background.png') no-repeat center center fixed;
@@ -98,9 +96,13 @@
                 <td th:text="${course.spot}"></td>
                 <td th:text="${course.priorityCourse}"></td>
                 <td>
-                    <button class="btn btn-select btn-sm select-btn"
-                            th:attr="data-course=${course.courseNumber}, data-student=${user}">选课
-                    </button>
+                    <form method="post" th:action="@{/student/select}">
+                        <input name="course" th:value="${course.courseNumber}" type="hidden"/>
+                        <input name="student" th:value="${user}" type="hidden"/>
+                        <button class="btn btn-select btn-sm"
+                                type="submit">选课
+                        </button>
+                    </form>
                 </td>
             </tr>
             <!-- 如果课程列表为空 -->
@@ -111,51 +113,5 @@
         </table>
     </div>
 </div>
-
-<script>
-    // 从元标签获取 CSRF 信息
-    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-
-    // 给每个按钮绑定点击事件
-    document.querySelectorAll('.select-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            // 获取课程编号和学生编号
-            const courseNumber = button.getAttribute('data-course');
-            const studentNumber = button.getAttribute('data-student');
-
-            // 确认选课
-            if (confirm(`确定选修课程 ${courseNumber} 吗？`)) {
-                // 使用 fetch 发送 POST 请求
-                fetch('/student/select', {
-                    method: 'POST',
-                    headers: {
-                        [csrfHeader]: csrfToken, // 设置 CSRF token 到请求头
-                        'Content-Type': 'application/json' // 指定内容类型
-                    },
-                    body: JSON.stringify({
-                        course: courseNumber,
-                        student: studentNumber
-                    })
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            alert(`选课失败！请求错误：${response.status}！`);
-                        }
-                        return response.json(); // 将响应解析为 JSON
-                    })
-                    .then(data => {
-                        // 成功回调
-                        alert(data.message);
-                    })
-                    .catch(error => {
-                        // 错误处理
-                        console.error(error);
-                        alert('请求失败，请重试！');
-                    });
-            }
-        });
-    });
-</script>
 </body>
 </html>
