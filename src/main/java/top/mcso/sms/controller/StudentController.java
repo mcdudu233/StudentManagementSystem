@@ -1,5 +1,6 @@
 package top.mcso.sms.controller;
 
+import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+    private static Gson gson = new Gson();
     @Resource
     private TeacherService teacherService;
     @Resource
@@ -71,9 +73,8 @@ public class StudentController {
         model.addAttribute("courseList", courseList);
 
         // 判断是否已经选课
-        if (!data.isEmpty()) {
-            WebResponse response = new WebResponse(Integer.parseInt(data.getOrDefault("code", "-1")), data.getOrDefault("msg", ""));
-            model.addAttribute("response", response);
+        if (!data.isEmpty() && data.containsKey("response")) {
+            model.addAttribute("response", gson.fromJson(data.get("response"), WebResponse.class));
         }
 
         return "student/select";
@@ -103,7 +104,7 @@ public class StudentController {
             response.setMsg("选课成功！");
         }
 
-        return "redirect:/student/select?code=" + response.getCode() + "&msg=" + URLEncoder.encode(response.getMsg(), StandardCharsets.UTF_8);
+        return "redirect:/student/select?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 
     @RequestMapping("class")
