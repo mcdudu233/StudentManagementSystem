@@ -3,6 +3,8 @@ package top.mcso.sms.controller;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.*;
 import top.mcso.sms.service.*;
@@ -58,8 +60,6 @@ public class MainController {
             model.addAttribute("dashboardData", getTeacherDashboardData());
         } else if ("ROLE_student".equals(role)) {
             model.addAttribute("dashboardData", getStudentDashboardData());
-        } else {
-            model.addAttribute("dashboardData", getAdminDashboardData());
         }
         // 设置公告
         model.addAttribute("announcements", getAnnouncements());
@@ -68,15 +68,33 @@ public class MainController {
     }
 
     // 设置页面
-    @RequestMapping("settings")
+    @GetMapping("settings")
     public String settings(Model model) {
         if (!SessionUtils.hasLogin()) {
             return "redirect:/login";
         }
 
-        model.addAttribute("name", SessionUtils.getName());
-        model.addAttribute("role", SessionUtils.getRole());
-        model.addAttribute("password", "禁止显示");
+        String name = SessionUtils.getName();
+        String role = SessionUtils.getRole();
+
+        model.addAttribute("name", name);
+        model.addAttribute("role", role);
+        model.addAttribute("password", "已设置密码");
+
+        // 不同用户设置不同数据
+        if ("ROLE_admin".equals(role)) {
+            model.addAttribute("admin", "admin");
+        } else if ("ROLE_teacher".equals(role)) {
+            model.addAttribute("teacher", teacherService.getByJobNumber(name));
+        } else if ("ROLE_student".equals(role)) {
+            model.addAttribute("student", studentService.getStudentByNumber(name));
+        }
+
+        return "settings";
+    }
+
+    @PostMapping("settings")
+    public String settingsPost() {
         return "settings";
     }
 
