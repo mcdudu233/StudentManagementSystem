@@ -61,11 +61,11 @@ public class AdminController {
     }
 
     @PostMapping("user")
-    public String userPost(@RequestParam("function") String function, @RequestParam Map<String, String> data) {
+    public String userPost(@RequestParam Map<String, String> data) {
         WebResponse response = new WebResponse();
 
         // 判断对用户的操作
-        switch (function) {
+        switch (data.getOrDefault("function", "")) {
             case "modify": {
                 User user = gson.fromJson(FormatUtils.mapToJson(data), User.class);
                 userService.updateUser(user);
@@ -98,7 +98,7 @@ public class AdminController {
             }
         }
 
-        return "admin/user?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
+        return "redirect:/admin/user?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 
     @RequestMapping("student")
