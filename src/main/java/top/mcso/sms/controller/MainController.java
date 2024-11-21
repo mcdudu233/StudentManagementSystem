@@ -86,7 +86,7 @@ public class MainController {
 
         model.addAttribute("name", name);
         model.addAttribute("role", role);
-        model.addAttribute("password", SessionUtils.getPassword());
+        model.addAttribute("password", userService.findUserByUserNumber(name).getPassword());
 
         // 不同用户设置不同数据
         if ("ROLE_admin".equals(role)) {
