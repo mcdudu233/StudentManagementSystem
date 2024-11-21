@@ -135,7 +135,16 @@ public class TeacherController {
                 List<Student> students = new ArrayList<>();
                 // 获得该课程下的所有学生
                 for (Schedule s : scheduleService.getSchedulesByCourseNumber(c.getCourseNumber())) {
-                    students.add(studentService.getStudentByNumber(s.getStudentNumber()));
+                    // 如果该学生没有输入成绩才显示
+                    boolean flag = true;
+                    for (Grade g : gradeService.getGradeByStudentNumber(s.getStudentNumber())) {
+                        if (g.getCourseNumber().equals(c.getCourseNumber())) {
+                            flag = false;
+                        }
+                    }
+                    if (flag) {
+                        students.add(studentService.getStudentByNumber(s.getStudentNumber()));
+                    }
                 }
                 courseMap.put("students", gson.toJson(students));
                 courses.add(courseMap);
