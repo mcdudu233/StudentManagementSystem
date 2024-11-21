@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.mcso.sms.entity.Student;
 import top.mcso.sms.entity.Teacher;
 import top.mcso.sms.entity.User;
 import top.mcso.sms.entity.WebResponse;
@@ -59,6 +60,10 @@ public class AdminController {
 
     @PostMapping("user")
     public String userPost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.isAdmin()) {
+            return "redirect:/login";
+        }
+
         WebResponse response = new WebResponse();
 
         // 判断对用户的操作
@@ -98,7 +103,7 @@ public class AdminController {
         return "redirect:/admin/user?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 
-    @RequestMapping("student")
+    @GetMapping("student")
     public String student(Model model) {
         if (!SessionUtils.isAdmin()) {
             return "redirect:/login";
@@ -108,7 +113,55 @@ public class AdminController {
         String user = SessionUtils.getName();
         model.addAttribute("user", user);
 
+        // 获取所有学生
+        model.addAttribute("students", studentService.getAll());
+
         return "admin/student";
+    }
+
+    @PostMapping("student")
+    public String studentPost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.isAdmin()) {
+            return "redirect:/login";
+        }
+
+        WebResponse response = new WebResponse();
+
+        // 判断什么操作
+        switch (data.getOrDefault("function", "")) {
+            case "modify": {
+                Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
+                studentService.updateStudent(student);
+                response.setCode(0);
+                response.setMsg("更新学生成功！");
+                break;
+            }
+            case "delete": {
+                if (data.containsKey("studentNumber")) {
+                    studentService.deleteByNumber(data.get("studentNumber"));
+                    response.setCode(0);
+                    response.setMsg("删除学生成功！");
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("未指定删除学号！");
+                }
+                break;
+            }
+            case "add": {
+                Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
+                studentService.insertStudent(student);
+                response.setCode(0);
+                response.setMsg("新增学生成功！");
+                break;
+            }
+            default: {
+                response.setCode(-1);
+                response.setMsg("操作错误！");
+                break;
+            }
+        }
+
+        return "redirect:/admin/student?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 
     @GetMapping("teacher")
@@ -129,6 +182,10 @@ public class AdminController {
 
     @PostMapping("teacher")
     public String teacherPost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.isAdmin()) {
+            return "redirect:/login";
+        }
+
         WebResponse response = new WebResponse();
 
         // 判断什么操作
@@ -142,7 +199,7 @@ public class AdminController {
             }
             case "delete": {
                 if (data.containsKey("teacherNumber")) {
-                    // TODO teacherService.deleteByJobNumberAndName(data.get("teacherNumber"));
+                    teacherService.deleteByJobNumber(data.get("teacherNumber"));
                     response.setCode(0);
                     response.setMsg("删除老师成功！");
                 } else {

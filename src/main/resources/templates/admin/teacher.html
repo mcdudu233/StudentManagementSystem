@@ -71,7 +71,7 @@
 
         <!-- 页面标题 -->
         <h1 class="text-center">老师管理</h1>
-        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是老师管理面板。'"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。以下是老师管理面板。'"></h4>
 
         <!-- 老师表 -->
         <table class="table table-bordered table-hover mt-4">
@@ -182,7 +182,7 @@
         </div>
 
         <!-- 新增老师模态框 -->
-        <div class="modal fade" id="addTeacherModal">
+        <div class="modal fade" id="addTeacherModal" th:each="teacher : ${teachers}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -190,7 +190,8 @@
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" th:action="@{/admin/teacher}">
+                        <form method="post" th:action="@{/admin/teacher}"
+                              th:attr="id='addForm-' + ${teacher.jobNumber}">
                             <input name="function" type="hidden" value="add">
                             <div class="mb-3">
                                 <label class="form-label" for="newJobNumber">工号</label>
@@ -223,11 +224,13 @@
                                 <label class="form-label" for="newTeacherTelephone">联系方式</label>
                                 <input class="form-control" id="newTeacherTelephone" name="telephone" type="text">
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">添加</button>
-                                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                            </div>
                         </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" th:attr="form='addForm-' + ${teacher.jobNumber}" type="submit">
+                            添加
+                        </button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>

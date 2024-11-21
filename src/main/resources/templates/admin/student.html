@@ -71,7 +71,7 @@
 
         <!-- 页面标题 -->
         <h1 class="text-center">学生管理</h1>
-        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是学生管理面板。'"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。以下是学生管理面板。'"></h4>
 
         <!-- 学生表 -->
         <table class="table table-bordered table-hover mt-4">
@@ -87,17 +87,18 @@
             <tbody>
             <!-- 遍历学生列表 -->
             <tr th:each="student : ${students}">
-                <td th:text="${student.id}">20230101</td>
-                <td th:text="${student.name}">张三</td>
-                <td th:text="${student.className}">软件工程</td>
-                <td th:text="${student.contact}">1234567890</td>
+                <td th:text="${student.studentNumber}">20230101</td>
+                <td th:text="${student.studentName}">张三</td>
+                <td th:text="${student.classes} + '班'">软件工程</td>
+                <td th:text="${student.telephone}">1234567890</td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
-                            th:attr="data-bs-target='#editStudentModal_' + ${student.id}">编辑
+                            th:attr="data-bs-target='#editStudentModal_' + ${student.studentNumber}">编辑
                     </button>
                     <button class="btn btn-danger btn-sm"
-                            th:attr="onclick='deleteStudent(' + ${student.id} + ')'">删除
+                            th:attr="form='deleteForm-' + ${student.studentNumber}"
+                            type="submit">删除
                     </button>
                 </td>
             </tr>
@@ -111,8 +112,16 @@
         <!-- 添加学生按钮 -->
         <button class="btn btn-success" data-bs-target="#addStudentModal" data-bs-toggle="modal">新增学生</button>
 
+        <!-- 删除学生提交框 -->
+        <form method="post" th:action="@{/admin/student}" th:attr="id='deleteForm-' + ${student.studentNumber}"
+              th:each="student : ${students}">
+            <input name="function" type="hidden" value="delete">
+            <input name="studentNumber" th:value="${student.studentNumber}" type="hidden"/>
+        </form>
+
         <!-- 编辑学生模态框 -->
-        <div class="modal fade" th:attr="id='editStudentModal_' + ${student.id}" th:each="student : ${students}">
+        <div class="modal fade" th:attr="id='editStudentModal_' + ${student.studentNumber}"
+             th:each="student : ${students}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -120,25 +129,53 @@
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="post" th:action="@{/admin/student}"
+                              th:attr="id='modifyForm-' + ${student.studentNumber}">
+                            <input name="function" type="hidden" value="modify">
+                            <div class="mb-3">
+                                <label class="form-label" for="studentNumber">学号</label>
+                                <input class="form-control" id="studentNumber" name="studentNumber"
+                                       th:value="${student.studentNumber}" type="text">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="studentName">姓名</label>
-                                <input class="form-control" id="studentName" th:value="${student.name}" type="text">
+                                <input class="form-control" id="studentName" name="studentName"
+                                       th:value="${student.studentName}" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="studentGender">性别</label>
+                                <select class="form-control" id="studentGender" name="gender">
+                                    <option th:selected="${student.gender == '男'}" value="男">男</option>
+                                    <option th:selected="${student.gender == '女'}" value="女">女</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="studentAge">年龄</label>
+                                <input class="form-control" id="studentAge" name="age" th:value="${student.age}"
+                                       type="number">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="studentClass">班级</label>
-                                <input class="form-control" id="studentClass" th:value="${student.className}"
-                                       type="text">
+                                <input class="form-control" id="studentClass" name="classes"
+                                       th:value="${student.classes}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="studentContact">联系方式</label>
-                                <input class="form-control" id="studentContact" th:value="${student.contact}"
-                                       type="text">
+                                <label class="form-label" for="studentAddress">地址</label>
+                                <input class="form-control" id="studentAddress" name="address"
+                                       th:value="${student.address}" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="studentTelephone">联系方式</label>
+                                <input class="form-control" id="studentTelephone" name="telephone"
+                                       th:value="${student.telephone}" type="tel">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" onclick="saveStudentChanges()">保存</button>
+                        <button class="btn btn-primary" th:attr="form='modifyForm-' + ${student.studentNumber}"
+                                type="submit">
+                            保存
+                        </button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -146,7 +183,7 @@
         </div>
 
         <!-- 新增学生模态框 -->
-        <div class="modal fade" id="addStudentModal">
+        <div class="modal fade" id="addStudentModal" th:each="student : ${students}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -154,23 +191,46 @@
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="post" th:action="@{/admin/student}"
+                              th:attr="id='addForm-' + ${student.studentNumber}">
+                            <input name="function" type="hidden" value="add">
+                            <div class="mb-3">
+                                <label class="form-label" for="newStudentNumber">学号</label>
+                                <input class="form-control" id="newStudentNumber" name="studentNumber" type="text">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="newStudentName">姓名</label>
-                                <input class="form-control" id="newStudentName" type="text">
+                                <input class="form-control" id="newStudentName" name="studentName" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newStudentGender">性别</label>
+                                <select class="form-control" id="newStudentGender" name="gender">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newStudentAge">年龄</label>
+                                <input class="form-control" id="newStudentAge" name="age" type="number">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="newStudentClass">班级</label>
-                                <input class="form-control" id="newStudentClass" type="text">
+                                <input class="form-control" id="newStudentClass" name="classes" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentContact">联系方式</label>
-                                <input class="form-control" id="newStudentContact" type="text">
+                                <label class="form-label" for="newStudentAddress">地址</label>
+                                <input class="form-control" id="newStudentAddress" name="address" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newStudentTelephone">联系方式</label>
+                                <input class="form-control" id="newStudentTelephone" name="telephone" type="tel">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" onclick="addStudent()">添加</button>
+                        <button class="btn btn-success" th:attr="form='addForm-' + ${teacher.jobNumber}" type="submit">
+                            添加
+                        </button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -178,22 +238,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function saveStudentChanges() {
-        alert('保存功能需后端支持！');
-    }
-
-    function deleteStudent(studentId) {
-        if (confirm('确定要删除该学生吗？')) {
-            alert('删除功能需后端支持！');
-        }
-    }
-
-    function addStudent() {
-        alert('新增功能需后端支持！');
-    }
-</script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/response.js"></script>
 </body>
