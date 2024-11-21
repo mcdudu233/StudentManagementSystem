@@ -86,7 +86,15 @@
             <!-- 遍历用户列表 -->
             <tr th:each="user : ${users}">
                 <td th:text="${user.userNumber}"></td>
-                <td th:text="${user.priority}">管理员</td>
+                <td>
+                    <!-- 根据优先级显示不同的中文 -->
+                    <span th:switch="${user.priority}">
+                        <span th:case="'student'">学生</span>
+                        <span th:case="'teacher'">老师</span>
+                        <span th:case="'admin'">管理员</span>
+                        <span th:case="*">未知用户</span>
+                    </span>
+                </td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"

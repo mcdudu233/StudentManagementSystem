@@ -55,7 +55,6 @@
 
         .table a, .table button {
             text-decoration: none;
-            color: #007bff;
             transition: all 0.2s;
         }
 
@@ -118,7 +117,7 @@
                     </form>
                 </td>
                 <td>
-                    <button class="btn btn-success"
+                    <button class="btn btn-success btn-sm"
                             th:attr="form='saveForm-' + ${grade.studentId} + ${grade.courseId}"
                             type="submit">
                         保存

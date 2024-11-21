@@ -97,7 +97,9 @@
                 <td th:text="${course.spot}">A101</td>
                 <td th:text="${course.studentCount}">40</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" th:href="'/teacher/course/' + ${course.courseNumber}">查看详情</a>
+                    <button class="btn btn-primary btn-sm">
+                        查看详情
+                    </button>
                 </td>
             </tr>
             <!-- 如果课程列表为空 -->
