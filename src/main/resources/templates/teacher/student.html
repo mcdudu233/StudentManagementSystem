@@ -95,9 +95,9 @@
             <tr th:each="student : ${students}">
                 <td th:text="${student.id}">20231001</td>
                 <td th:text="${student.name}">张三</td>
-                <td th:text="${student.className}">计算机科学与技术</td>
+                <td th:text="${student.class}">计算机科学与技术</td>
                 <td th:text="${student.age}">20</td>
-                <td th:text="${student.email}">zhangsan@example.com</td>
+                <td th:text="${student.telephone}">zhangsan@example.com</td>
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="'/teacher/student/' + ${student.id}">查看详情</a>
                 </td>

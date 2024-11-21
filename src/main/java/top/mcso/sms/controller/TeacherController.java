@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import top.mcso.sms.entity.Course;
 import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Schedule;
+import top.mcso.sms.entity.Student;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
@@ -82,12 +83,13 @@ public class TeacherController {
         for (Course course : courseService.getAllCourses()) {
             if (course.getTeacherNumber().equals(user)) {
                 for (Schedule s : scheduleService.getSchedulesByCourseNumber(course.getCourseNumber())) {
+                    Student stu = studentService.getStudentByNumber(s.getStudentNumber());
                     Map<String, String> studentMap = new HashMap<>();
-                    studentMap.put("id", s.getStudentNumber());
-                    // TODO studentMap.put("name", studentService.getStudentByName());
-                    studentMap.put("className", course.getCourseNumber());
-                    // studentMap.put("age", course.getCourseName());
-                    // studentMap.put("email", String.valueOf(g.getGrade()));
+                    studentMap.put("id", stu.getStudentNumber());
+                    studentMap.put("name", stu.getStudentName());
+                    studentMap.put("class", course.getCourseNumber());
+                    studentMap.put("age", String.valueOf(stu.getAge()));
+                    studentMap.put("telephone", String.valueOf(stu.getTelephone()));
                     students.add(studentMap);
                 }
             }
@@ -114,7 +116,7 @@ public class TeacherController {
                 for (Grade g : gradeService.getGradesByCourseNumber(course.getCourseNumber())) {
                     Map<String, String> gradeMap = new HashMap<>();
                     gradeMap.put("studentId", g.getStudentNumber());
-                    // TODO gradeMap.put("studentName", studentService.getStudentByName());
+                    gradeMap.put("studentName", studentService.getStudentByNumber(g.getStudentNumber()).getStudentName());
                     gradeMap.put("courseId", course.getCourseNumber());
                     gradeMap.put("courseName", course.getCourseName());
                     gradeMap.put("score", String.valueOf(g.getGrade()));
