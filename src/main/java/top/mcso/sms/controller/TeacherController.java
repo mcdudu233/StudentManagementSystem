@@ -111,7 +111,7 @@ public class TeacherController {
         List<Map<String, String>> grades = new ArrayList<>();
         for (Course course : courseService.getAllCourses()) {
             if (course.getTeacherNumber().equals(user)) {
-                for (Grade g : gradeService.findGradesByCourseNumber(course.getCourseNumber())) {
+                for (Grade g : gradeService.getGradesByCourseNumber(course.getCourseNumber())) {
                     Map<String, String> gradeMap = new HashMap<>();
                     gradeMap.put("studentId", g.getStudentNumber());
                     // TODO gradeMap.put("studentName", studentService.getStudentByName());

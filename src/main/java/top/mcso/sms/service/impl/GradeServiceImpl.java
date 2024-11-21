@@ -70,36 +70,36 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public List<Grade> findAllGrades() {
+    public List<Grade> getAllGrades() {
         try {
-            return gradeMapper.findAllGrades();
+            return gradeMapper.getAllGrades();
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching all grades", e);
         }
     }
 
     @Override
-    public List<Grade> findGradesByCourseNumber(String courseNumber) {
+    public List<Grade> getGradesByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findGradesByCourseNumber(courseNumber);
+            return gradeMapper.getGradesByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching grades for course number: " + courseNumber, e);
         }
     }
 
     @Override
-    public Float findAverageGradeByCourseNumber(String courseNumber) {
+    public Float getAverageGradeByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findAverageGradeByCourseNumber(courseNumber);
+            return gradeMapper.getAverageGradeByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while calculating the average grade for course number: " + courseNumber, e);
         }
     }
 
     @Override
-    public Float findMaxGradeByCourseNumber(String courseNumber) {
+    public Float getMaxGradeByCourseNumber(String courseNumber) {
         try {
-            return gradeMapper.findMaxGradeByCourseNumber(courseNumber);
+            return gradeMapper.getMaxGradeByCourseNumber(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching the max grade for course number: " + courseNumber, e);
         }
@@ -129,18 +129,18 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade findGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber) {
+    public Grade getGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber) {
         try {
-            return gradeMapper.findGradeByStudentNumberAndCourseNumber(studentNumber, courseNumber);
+            return gradeMapper.getGradeByStudentNumberAndCourseNumber(studentNumber, courseNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching grades for student number and course number", e);
         }
     }
 
     @Override
-    public List<Grade> findGradeByStudentNumber(String studentNumber) {
+    public List<Grade> getGradeByStudentNumber(String studentNumber) {
         try {
-            return gradeMapper.findGradeByStudentNumber(studentNumber);
+            return gradeMapper.getGradeByStudentNumber(studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while fetching grades for student number", e);
         }

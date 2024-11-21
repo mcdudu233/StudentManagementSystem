@@ -24,11 +24,11 @@ public interface UserMapper extends BaseMapper<User> {
 
     // 根据用户编号查询用户
     @Select("select * from user where user_number = #{userNumber}")
-    User findByUserNumber(@Param("userNumber") String userNumber);
+    User getByUserNumber(@Param("userNumber") String userNumber);
 
     // 查询所有用户
     @Select("select * from user")
-    List<User> findAll();
+    List<User> getAll();
 
 
 }

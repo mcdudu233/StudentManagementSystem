@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUserNumber(String userNumber) {
         try {
-            return userMapper.findByUserNumber(userNumber);
+            return userMapper.getByUserNumber(userNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error finding user by user number", e);
         }
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUsers() {
         try {
-            return userMapper.findAll();
+            return userMapper.getAll();
         } catch (Exception e) {
             throw new RuntimeException("Error finding all users", e);
         }

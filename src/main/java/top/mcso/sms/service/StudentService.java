@@ -12,7 +12,7 @@ public interface StudentService {
 
     boolean updateStudent(Student student);
 
-    List<Student> findAll();
+    List<Student> getAll();
 
     Student getStudentByNumber(String studentNumber);
 

@@ -25,7 +25,7 @@ public interface StudentMapper extends BaseMapper<Student> {
     //查询方法
     //查询所有学生
     @Select("select * from student")
-    List<Student> findAll();
+    List<Student> getAll();
 
     //查询指定学生
     @Select("select * from student where student_number = #{studentNumber}")

@@ -126,7 +126,7 @@ public class AdminController {
 
         // 获得所有老师
         List<Map<String, String>> teachers = new ArrayList<>();
-        for (Teacher t : teacherService.findAll()) {
+        for (Teacher t : teacherService.getAll()) {
             Map<String, String> teacherMap = new HashMap<>();
             teacherMap.put("id", t.getJobNumber());
             teacherMap.put("name", t.getTeacherName());

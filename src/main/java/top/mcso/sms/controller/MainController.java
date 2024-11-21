@@ -82,8 +82,8 @@ public class MainController {
 
     private Map<String, Object> getAdminDashboardData() {
         Map<String, Object> data = new HashMap<>();
-        data.put("studentCount", studentService.findAll().size());
-        data.put("teacherCount", teacherService.findAll().size());
+        data.put("studentCount", studentService.getAll().size());
+        data.put("teacherCount", teacherService.getAll().size());
         data.put("courseCount", courseService.getAllCourses().size());
         return data;
     }
@@ -111,7 +111,7 @@ public class MainController {
 
         // 获取所教学生
         int sum = 0;
-        List<Student> allStudent = studentService.findAll();
+        List<Student> allStudent = studentService.getAll();
         for (Student s : allStudent) {
             if (allClasses.contains(s.getClasses())) {
                 sum++;

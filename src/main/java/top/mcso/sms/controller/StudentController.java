@@ -63,7 +63,7 @@ public class StudentController {
             Map<String, String> courseMap = new HashMap<>();
             courseMap.put("courseNumber", course.getCourseNumber());
             courseMap.put("courseName", course.getCourseName());
-            courseMap.put("teacherName", teacherService.findByJobNumber(course.getTeacherNumber()).getTeacherName());
+            courseMap.put("teacherName", teacherService.getByJobNumber(course.getTeacherNumber()).getTeacherName());
             courseMap.put("credit", String.valueOf(course.getCredit()));
             courseMap.put("when", FormatUtils.getClassTime(course.getWeek(), course.getDay()));
             courseMap.put("spot", course.getSpot());
@@ -154,12 +154,12 @@ public class StudentController {
 
         // 获得每科的成绩
         List<Map<String, String>> grades = new ArrayList<>();
-        for (Grade g : gradeService.findGradeByStudentNumber(user)) {
+        for (Grade g : gradeService.getGradeByStudentNumber(user)) {
             Course c = courseService.getCourseByCourseNumber(g.getCourseNumber());
             Map<String, String> gradeMap = new HashMap<>();
             gradeMap.put("courseId", c.getCourseNumber());
             gradeMap.put("courseName", c.getCourseName());
-            gradeMap.put("teacherName", teacherService.findByJobNumber(c.getTeacherNumber()).getTeacherName());
+            gradeMap.put("teacherName", teacherService.getByJobNumber(c.getTeacherNumber()).getTeacherName());
             gradeMap.put("credits", String.valueOf(c.getCredit()));
             gradeMap.put("score", String.valueOf(g.getGrade()));
             grades.add(gradeMap);

@@ -46,9 +46,9 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<Student> findAll() {
+    public List<Student> getAll() {
         try {
-            return studentMapper.findAll();
+            return studentMapper.getAll();
         } catch (Exception e) {
             throw new RuntimeException("Error listing students", e);
         }

@@ -12,9 +12,9 @@ public interface TeacherService {
 
     boolean updateTeacher(Teacher teacher);
 
-    List<Teacher> findAll();
+    List<Teacher> getAll();
 
-    Teacher findByJobNumber(String jobNumber);
+    Teacher getByJobNumber(String jobNumber);
 
-    List<Teacher> findByName(String teacherName);
+    List<Teacher> getByName(String teacherName);
 }

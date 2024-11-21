@@ -22,9 +22,9 @@ public interface AnnouncementMapper extends BaseMapper<Announcement> {
 
     // 根据ID查询公告
     @Select("select * from announcement where id = #{id}")
-    Announcement selectAnnouncementById(@Param("id") String id);
+    Announcement getAnnouncementById(@Param("id") String id);
 
     // 查询所有公告
     @Select("select * from announcement")
-    List<Announcement> selectAllAnnouncements();
+    List<Announcement> getAllAnnouncements();
 }
