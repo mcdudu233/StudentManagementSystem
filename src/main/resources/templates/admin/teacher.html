@@ -116,7 +116,7 @@
         <form method="post" th:action="@{/admin/teacher}" th:attr="id='deleteForm-' + ${teacher.jobNumber}"
               th:each="teacher : ${teachers}">
             <input name="function" type="hidden" value="delete">
-            <input name="userNumber" th:value="${teacher.jobNumber}" type="hidden"/>
+            <input name="teacherNumber" th:value="${teacher.jobNumber}" type="hidden"/>
         </form>
 
         <!-- 编辑老师模态框 -->
@@ -182,7 +182,7 @@
         </div>
 
         <!-- 新增老师模态框 -->
-        <div class="modal fade" id="addTeacherModal" th:each="teacher : ${teachers}">
+        <div class="modal fade" id="addTeacherModal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -191,7 +191,7 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" th:action="@{/admin/teacher}"
-                              th:attr="id='addForm-' + ${teacher.jobNumber}">
+                              th:attr="id='addForm'">
                             <input name="function" type="hidden" value="add">
                             <div class="mb-3">
                                 <label class="form-label" for="newJobNumber">工号</label>
@@ -227,7 +227,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" th:attr="form='addForm-' + ${teacher.jobNumber}" type="submit">
+                        <button class="btn btn-success" th:attr="form='addForm'" type="submit">
                             添加
                         </button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>

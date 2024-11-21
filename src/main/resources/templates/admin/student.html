@@ -183,7 +183,7 @@
         </div>
 
         <!-- 新增学生模态框 -->
-        <div class="modal fade" id="addStudentModal" th:each="student : ${students}">
+        <div class="modal fade" id="addStudentModal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -192,7 +192,7 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" th:action="@{/admin/student}"
-                              th:attr="id='addForm-' + ${student.studentNumber}">
+                              th:attr="id='addForm'">
                             <input name="function" type="hidden" value="add">
                             <div class="mb-3">
                                 <label class="form-label" for="newStudentNumber">学号</label>
@@ -228,7 +228,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" th:attr="form='addForm-' + ${student.studentNumber}"
+                        <button class="btn btn-success" th:attr="form='addForm'"
                                 type="submit">
                             添加
                         </button>
