@@ -109,7 +109,7 @@ class StudentManagementSystemApplicationTests {
         Grade gradeTest = new Grade(courseNumber, studentNumber, grade);
         assertTrue(gradeService.insertGrade(gradeTest));
         assertNotNull(gradeService.getGradeByStudentNumberAndCourseNumber(gradeTest.getStudentNumber(), course.getCourseNumber()));
-        gradeTest.setCourseNumber(UUID.randomUUID().toString().substring(0, 8));
+        gradeTest.setGrade(rand.nextFloat());
         assertTrue(gradeService.updateGrade(gradeTest));
         assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
         assertNotNull(gradeService.getAllGrades());
