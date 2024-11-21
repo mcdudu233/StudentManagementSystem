@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>学生管理系统 - 登录</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/img/background.png') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            width: 60%; /* 设置卡片宽度为60% */
+            max-width: 400px; /* 限制卡片最大宽度 */
+            background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+            backdrop-filter: blur(10px); /* 模糊效果 */
+            border-radius: 15px; /* 圆角 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */
+        }
+
+        .card-body {
+            padding: 30px; /* 内部宽度保持一致 */
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn {
+            font-size: 1rem;
+            padding: 10px 20px;
+        }
+
+        /* 提示信息样式 */
+        .alert {
+            font-size: 0.9rem;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body class="d-flex justify-content-center align-items-center vh-100">
-<div class="card" style="width: 20rem;">
+<div class="card">
     <div class="card-body">
         <h5 class="card-title text-center">学生管理系统</h5>
         <form method="POST" th:action="@{/login}">
@@ -19,10 +64,10 @@
                 <label class="form-label" for="password">密码</label>
                 <input class="form-control" id="password" name="password" required type="password">
             </div>
-            <div th:if="${param.error}">
+            <div class="alert" th:if="${param.error}">
                 用户名或密码错误！请检查！
             </div>
-            <div th:if="${param.logout}">
+            <div class="alert" th:if="${param.logout}">
                 您已经登出该系统！
             </div>
             <button class="btn btn-primary w-100" type="submit">登录</button>
