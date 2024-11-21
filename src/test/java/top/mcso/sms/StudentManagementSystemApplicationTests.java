@@ -70,7 +70,7 @@ class StudentManagementSystemApplicationTests {
         assertTrue(teachersByName.stream().anyMatch(t -> t.getTeacherName().equals(teacher.getTeacherName())));
         List<Teacher> allTeachers = teacherService.getAll();
         assertFalse(allTeachers.isEmpty());
-        assertTrue(teacherService.deleteByJobNumberAndName(teacher.getJobNumber(), teacher.getTeacherName()));
+        assertTrue(teacherService.deleteByJobNumber(teacher.getJobNumber()));
 
         // 测试学生服务
         String studentNumber = UUID.randomUUID().toString().substring(0, 8);
