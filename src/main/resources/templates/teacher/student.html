@@ -99,7 +99,9 @@
                 <td th:text="${student.age}">20</td>
                 <td th:text="${student.telephone}">zhangsan@example.com</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" th:href="'/teacher/student/' + ${student.id}">查看详情</a>
+                    <button class="btn btn-primary btn-sm">
+                        查看详情
+                    </button>
                 </td>
             </tr>
             <!-- 如果学生列表为空 -->
