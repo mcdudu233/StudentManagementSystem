@@ -84,22 +84,22 @@
             <tr>
                 <th>学号</th>
                 <th>姓名</th>
+                <th>性别</th>
                 <th>班级</th>
-                <th>年龄</th>
-                <th>邮箱</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <!-- 遍历学生列表 -->
             <tr th:each="student : ${students}">
-                <td th:text="${student.id}">20231001</td>
-                <td th:text="${student.name}">张三</td>
-                <td th:text="${student.class}">计算机科学与技术</td>
-                <td th:text="${student.age}">20</td>
-                <td th:text="${student.telephone}">zhangsan@example.com</td>
+                <td th:text="${student.studentNumber}"></td>
+                <td th:text="${student.studentName}"></td>
+                <td th:text="${student.gender}"></td>
+                <td th:text="${student.classes}"></td>
                 <td>
-                    <button class="btn btn-primary btn-sm">
+                    <button class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target='#viewDetailModal_' + ${student.studentNumber}">
                         查看详情
                     </button>
                 </td>
@@ -114,6 +114,33 @@
         <!-- 提示信息 -->
         <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(students)}">
             当前无学生记录，请联系管理员添加学生信息。
+        </div>
+
+        <!-- 查看详情模态框 -->
+        <div class="modal fade" tabindex="-1" th:attr="id='viewDetailModal_' + ${student.studentNumber}"
+             th:each="student : ${students}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">学生详情</h5>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>学号：</strong> <span th:text="${student.studentNumber}"></span></p>
+                        <p><strong>姓名：</strong> <span th:text="${student.studentName}"></span></p>
+                        <p><strong>班级：</strong> <span th:text="${student.classes}"></span></p>
+                        <p><strong>性别：</strong> <span th:text="${student.gender}"></span></p>
+                        <p><strong>年龄：</strong> <span th:text="${student.age}"></span></p>
+                        <p><strong>住址：</strong> <span th:text="${student.address}"></span></p>
+                        <p><strong>联系电话：</strong> <span th:text="${student.telephone}"></span></p>
+                        <p><strong>出生日期：</strong> <span
+                                th:text="${#dates.format(student.birthdate, 'yyyy-MM-dd')}"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

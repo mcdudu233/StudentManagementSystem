@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.*;
-import top.mcso.sms.service.*;
+import top.mcso.sms.service.CourseService;
+import top.mcso.sms.service.GradeService;
+import top.mcso.sms.service.ScheduleService;
+import top.mcso.sms.service.StudentService;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
@@ -35,8 +38,6 @@ public class TeacherController {
     private static Gson gson = new Gson();
     @Resource
     private StudentService studentService;
-    @Resource
-    private TeacherService teacherService;
     @Resource
     private CourseService courseService;
     @Resource
@@ -83,18 +84,11 @@ public class TeacherController {
         model.addAttribute("user", user);
 
         // 获取所有学生
-        List<Map<String, String>> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         for (Course course : courseService.getAllCourses()) {
             if (course.getTeacherNumber().equals(user)) {
                 for (Schedule s : scheduleService.getSchedulesByCourseNumber(course.getCourseNumber())) {
-                    Student stu = studentService.getStudentByNumber(s.getStudentNumber());
-                    Map<String, String> studentMap = new HashMap<>();
-                    studentMap.put("id", stu.getStudentNumber());
-                    studentMap.put("name", stu.getStudentName());
-                    studentMap.put("class", course.getCourseNumber());
-                    studentMap.put("age", String.valueOf(stu.getAge()));
-                    studentMap.put("telephone", String.valueOf(stu.getTelephone()));
-                    students.add(studentMap);
+                    students.add(studentService.getStudentByNumber(s.getStudentNumber()));
                 }
             }
         }

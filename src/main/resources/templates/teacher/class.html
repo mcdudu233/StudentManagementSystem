@@ -97,7 +97,9 @@
                 <td th:text="${course.spot}">A101</td>
                 <td th:text="${course.studentCount}">40</td>
                 <td>
-                    <button class="btn btn-primary btn-sm">
+                    <button class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            th:attr="data-bs-target='#viewDetailModal_' + ${course.courseNumber}">
                         查看详情
                     </button>
                 </td>
@@ -112,6 +114,29 @@
         <!-- 提示信息 -->
         <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(courses)}">
             当前无课程记录，请联系管理员添加课程信息。
+        </div>
+
+        <!-- 查看详情模态框 -->
+        <div class="modal fade" tabindex="-1" th:attr="id='viewDetailModal_' + ${course.courseNumber}"
+             th:each="course : ${courses}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">课程详情</h5>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>课程编号：</strong> <span th:text="${course.courseNumber}"></span></p>
+                        <p><strong>课程名称：</strong> <span th:text="${course.courseName}"></span></p>
+                        <p><strong>上课时间：</strong> <span th:text="${course.schedule}"></span></p>
+                        <p><strong>上课地点：</strong> <span th:text="${course.spot}"></span></p>
+                        <p><strong>学生人数：</strong> <span th:text="${course.studentCount}"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
