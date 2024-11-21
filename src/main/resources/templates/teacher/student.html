@@ -72,17 +72,17 @@
     <!-- 页面内容 -->
     <div class="content">
         <!-- 返回主页按钮 -->
-        <a href="/" class="return-button">返回主页</a>
+        <a class="return-button" href="/">返回主页</a>
 
         <!-- 页面标题 -->
         <h1 class="text-center">学生管理</h1>
-        <h4 th:text="'欢迎，' + ${user} + '。以下是学生信息列表。'" class="text-center"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。以下是学生信息列表。'"></h4>
 
         <!-- 学生表 -->
         <table class="table table-bordered table-hover mt-4">
             <thead class="thead-dark">
             <tr>
-                <th>学生编号</th>
+                <th>学号</th>
                 <th>姓名</th>
                 <th>班级</th>
                 <th>年龄</th>
@@ -99,12 +99,12 @@
                 <td th:text="${student.age}">20</td>
                 <td th:text="${student.email}">zhangsan@example.com</td>
                 <td>
-                    <a th:href="'/teacher/student/' + ${student.id}" class="btn btn-primary btn-sm">查看详情</a>
+                    <a class="btn btn-primary btn-sm" th:href="'/teacher/student/' + ${student.id}">查看详情</a>
                 </td>
             </tr>
             <!-- 如果学生列表为空 -->
             <tr th:if="${#lists.isEmpty(students)}">
-                <td colspan="6" class="text-center">暂无学生记录</td>
+                <td class="text-center" colspan="6">暂无学生记录</td>
             </tr>
             </tbody>
         </table>

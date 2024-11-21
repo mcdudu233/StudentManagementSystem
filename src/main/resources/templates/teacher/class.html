@@ -72,9 +72,9 @@
     <!-- 页面标题 -->
     <div class="content">
         <!-- 返回主页按钮 -->
-        <a href="/" class="return-button">返回主页</a>
+        <a class="return-button" href="/">返回主页</a>
         <h1 class="text-center">我上的课</h1>
-        <h4 th:text="'欢迎，' + ${user} + '。以下是您负责的课程明细。'" class="text-center"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。以下是您负责的课程明细。'"></h4>
 
         <!-- 课程表 -->
         <table class="table table-bordered table-hover mt-4">
@@ -83,7 +83,7 @@
                 <th>课程编号</th>
                 <th>课程名称</th>
                 <th>上课时间</th>
-                <th>教室</th>
+                <th>上课地点</th>
                 <th>学生人数</th>
                 <th>操作</th>
             </tr>
@@ -91,18 +91,18 @@
             <tbody>
             <!-- 遍历课程 -->
             <tr th:each="course : ${courses}">
-                <td th:text="${course.courseId}">101</td>
+                <td th:text="${course.courseNumber}">101</td>
                 <td th:text="${course.courseName}">高等数学</td>
                 <td th:text="${course.schedule}">周一 8:00-10:00</td>
-                <td th:text="${course.classroom}">A101</td>
+                <td th:text="${course.spot}">A101</td>
                 <td th:text="${course.studentCount}">40</td>
                 <td>
-                    <a th:href="'/teacher/course/' + ${course.courseId}" class="btn btn-primary btn-sm">查看详情</a>
+                    <a class="btn btn-primary btn-sm" th:href="'/teacher/course/' + ${course.courseNumber}">查看详情</a>
                 </td>
             </tr>
             <!-- 如果课程列表为空 -->
             <tr th:if="${#lists.isEmpty(courses)}">
-                <td colspan="6" class="text-center">暂无课程记录</td>
+                <td class="text-center" colspan="6">暂无课程记录</td>
             </tr>
             </tbody>
         </table>
