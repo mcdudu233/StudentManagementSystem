@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+
 /**
  * 处理管理员页面
  *
@@ -130,10 +131,22 @@ public class AdminController {
         // 判断什么操作
         switch (data.getOrDefault("function", "")) {
             case "modify": {
-                Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
-                studentService.updateStudent(student);
-                response.setCode(0);
-                response.setMsg("更新学生成功！");
+                if ((data.getOrDefault("telephone", "").length() == 11) && data.getOrDefault("telephone", "").matches("\\d+")) {
+                    try {
+                        Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
+                        studentService.updateStudent(student);
+                        response.setCode(0);
+                        response.setMsg("更新学生成功！");
+                        break;
+
+                    } catch (Exception e) {
+                        response.setCode(-1);
+                        response.setMsg("数据输入存在错误");
+                    }
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("电话号码格式不正确");
+                }
                 break;
             }
             case "delete": {
@@ -148,10 +161,21 @@ public class AdminController {
                 break;
             }
             case "add": {
-                Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
-                studentService.insertStudent(student);
-                response.setCode(0);
-                response.setMsg("新增学生成功！");
+                if (data.getOrDefault("telephone", "").length() == 11 && data.getOrDefault("telephone", "").matches("\\d+")) {
+                    try {
+                        Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
+                        studentService.insertStudent(student);
+                        response.setCode(0);
+                        response.setMsg("新增学生成功！");
+                        break;
+                    } catch (Exception e) {
+                        response.setCode(-1);
+                        response.setMsg("数据输入错误");
+                    }
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("电话号码格式不正确");
+                }
                 break;
             }
             default: {
