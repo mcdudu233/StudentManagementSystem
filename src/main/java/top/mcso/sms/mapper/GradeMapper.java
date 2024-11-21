@@ -61,6 +61,10 @@ public interface GradeMapper extends BaseMapper<Grade> {
     @Select("select * from grade where student_number = #{studentNumber}")
     List<Grade> getGradeByStudentNumber(@Param("studentNumber") String studentNumber);
 
+    //查询学生成绩
+    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_number = #{studentNumber}")
+    List<Grade> getStudentScoresByNumber(@Param("studentNumber") String studentNumber);
+
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
     @Select({
             "select student_number, " +

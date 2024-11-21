@@ -85,7 +85,6 @@ class StudentManagementSystemApplicationTests {
         assertTrue(studentService.updateStudent(student));
         assertNotNull(studentService.getStudentByNumber(student.getStudentNumber()));
         assertNotNull(studentService.getAll());
-        assertNotNull(studentService.getStudentScoresByNumber(student.getStudentNumber()));
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
 
         //测试课程表服务
@@ -118,6 +117,7 @@ class StudentManagementSystemApplicationTests {
         assertNotNull(gradeService.getAllStudentStatistics());
         assertNotNull(gradeService.getAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
         assertNotNull(gradeService.getMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertNotNull(gradeService.getStudentScoresByNumber(student.getStudentNumber()));
         assertTrue(gradeService.deleteAllGradesByStudentNumber(gradeTest.getStudentNumber()));
 
         gradeTest.setGrade(rand.nextFloat());

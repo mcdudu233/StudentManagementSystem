@@ -2,7 +2,6 @@ package top.mcso.sms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
-import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
 
 import java.util.List;
@@ -30,10 +29,6 @@ public interface StudentMapper extends BaseMapper<Student> {
     //查询指定学生
     @Select("select * from student where student_number = #{studentNumber}")
     Student getStudentByNumber(@Param("studentNumber") String studentNumber);
-
-    //查询学生成绩
-    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_number = #{studentNumber}")
-    List<Grade> getStudentScoresByNumber(@Param("studentNumber") String studentNumber);
 
 
 }

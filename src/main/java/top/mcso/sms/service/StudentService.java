@@ -1,6 +1,5 @@
 package top.mcso.sms.service;
 
-import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
 
 import java.util.List;
@@ -16,5 +15,5 @@ public interface StudentService {
 
     Student getStudentByNumber(String studentNumber);
 
-    List<Grade> getStudentScoresByNumber(String studentNumber);
+
 }

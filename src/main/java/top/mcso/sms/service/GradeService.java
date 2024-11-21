@@ -26,6 +26,8 @@ public interface GradeService {
 
     Float getMaxGradeByCourseNumber(String courseNumber);
 
+    List<Grade> getStudentScoresByNumber(String studentNumber);
+
     List<Statistics> getAllStudentStatistics();
 
     Statistics getStatisticsByStudentNumber(String studentNumber);

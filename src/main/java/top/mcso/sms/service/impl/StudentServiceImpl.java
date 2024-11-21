@@ -2,7 +2,6 @@ package top.mcso.sms.service.impl;
 
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import top.mcso.sms.entity.Grade;
 import top.mcso.sms.entity.Student;
 import top.mcso.sms.mapper.StudentMapper;
 import top.mcso.sms.service.StudentService;
@@ -64,12 +63,5 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    @Override
-    public List<Grade> getStudentScoresByNumber(String studentNumber) {
-        try {
-            return studentMapper.getStudentScoresByNumber(studentNumber);
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting student scores by name", e);
-        }
-    }
+
 }

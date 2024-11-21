@@ -146,4 +146,13 @@ public class GradeServiceImpl implements GradeService {
         }
     }
 
+    @Override
+    public List<Grade> getStudentScoresByNumber(String studentNumber) {
+        try {
+            return gradeMapper.getStudentScoresByNumber(studentNumber);
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting student scores by name", e);
+        }
+    }
+
 }
