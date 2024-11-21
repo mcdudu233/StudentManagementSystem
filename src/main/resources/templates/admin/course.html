@@ -81,6 +81,7 @@
                 <th>课程名</th>
                 <th>教师号</th>
                 <th>学分</th>
+                <th>上课地点</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -91,6 +92,7 @@
                 <td th:text="${course.courseName}"></td>
                 <td th:text="${course.teacherNumber}"></td>
                 <td th:text="${course.credit}"></td>
+                <td th:text="${course.spot}"></td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
@@ -112,11 +114,11 @@
         <!-- 添加课程按钮 -->
         <button class="btn btn-success" data-bs-target="#addStudentModal" data-bs-toggle="modal">新增课程</button>
 
-        <!-- 删除学生提交框 -->
+        <!-- 删除课程提交框 -->
         <form method="post" th:action="@{/admin/course}" th:attr="id='deleteForm-' + ${course.courseNumber}"
               th:each="course : ${courses}">
             <input name="function" type="hidden" value="delete">
-            <input name="studentNumber" th:value="${course.courseNumber}" type="hidden"/>
+            <input name="courseNumber" th:value="${course.courseNumber}" type="hidden"/>
         </form>
 
         <!-- 编辑课程模态框 -->
@@ -133,40 +135,49 @@
                               th:attr="id='modifyForm-' + ${course.courseNumber}">
                             <input name="function" type="hidden" value="modify">
                             <div class="mb-3">
-                                <label class="form-label" for="studentNumber">课程号</label>
-                                <input class="form-control" id="studentNumber" name="studentNumber"
+                                <label class="form-label" for="courseNumber">课程号</label>
+                                <input class="form-control" id="courseNumber" name="courseNumber"
                                        th:value="${course.courseNumber}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="studentName">课程名</label>
-                                <input class="form-control" id="studentName" name="studentName"
+                                <label class="form-label" for="courseName">课程名</label>
+                                <input class="form-control" id="courseName" name="courseName"
                                        th:value="${course.courseName}" type="text">
                             </div>
-                            
                             <div class="mb-3">
-                                <label class="form-label" for="studentAge">年龄</label>
-                                <input class="form-control" id="studentAge" name="age" th:value="${student.age}"
-                                       type="number">
+                                <label class="form-label" for="priorityCourse">先修课</label>
+                                <input class="form-control" id="priorityCourse" name="priorityCourse"
+                                       th:value="${course.priorityCourse}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="studentClass">班级</label>
-                                <input class="form-control" id="studentClass" name="classes"
-                                       th:value="${student.classes}" type="number">
+                                <label class="form-label" for="teacherNumber">教师号</label>
+                                <input class="form-control" id="teacherNumber" name="teacherNumber"
+                                       th:value="${course.teacherNumber}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="studentAddress">地址</label>
-                                <input class="form-control" id="studentAddress" name="address"
-                                       th:value="${student.address}" type="text">
+                                <label class="form-label" for="credit">学分</label>
+                                <input class="form-control" id="credit" name="credit"
+                                       th:value="${course.credit}" type="number">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="studentTelephone">联系方式</label>
-                                <input class="form-control" id="studentTelephone" name="telephone"
-                                       th:value="${student.telephone}" type="tel">
+                                <label class="form-label" for="week">上课时间-星期几</label>
+                                <input class="form-control" id="week" name="week"
+                                       th:value="${course.week}" type="number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="day">上课时间-第几节课</label>
+                                <input class="form-control" id="day" name="day"
+                                       th:value="${course.day}" type="number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="spot">上课地点</label>
+                                <input class="form-control" id="spot" name="spot"
+                                       th:value="${course.spot}" type="text">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" th:attr="form='modifyForm-' + ${student.studentNumber}"
+                        <button class="btn btn-primary" th:attr="form='modifyForm-' + ${course.courseNumber}"
                                 type="submit">
                             保存
                         </button>
@@ -176,48 +187,49 @@
             </div>
         </div>
 
-        <!-- 新增学生模态框 -->
+        <!-- 新增课程模态框 -->
         <div class="modal fade" id="addStudentModal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">新增学生</h5>
+                        <h5 class="modal-title">新增课程</h5>
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" th:action="@{/admin/student}"
+                        <form method="post" th:action="@{/admin/course}"
                               th:attr="id='addForm'">
                             <input name="function" type="hidden" value="add">
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentNumber">学号</label>
-                                <input class="form-control" id="newStudentNumber" name="studentNumber" type="text">
+                                <label class="form-label" for="newCourseNumber">课程号</label>
+                                <input class="form-control" id="newCourseNumber" name="courseNumber" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentName">姓名</label>
-                                <input class="form-control" id="newStudentName" name="studentName" type="text">
+                                <label class="form-label" for="newCourseName">课程名</label>
+                                <input class="form-control" id="newCourseName" name="courseName" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentGender">性别</label>
-                                <select class="form-control" id="newStudentGender" name="gender">
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
-                                </select>
+                                <label class="form-label" for="newPriorityCourse">先修课</label>
+                                <input class="form-control" id="newPriorityCourse" name="priorityCourse" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentAge">年龄</label>
-                                <input class="form-control" id="newStudentAge" name="age" type="number">
+                                <label class="form-label" for="newTeacherNumber">教师号</label>
+                                <input class="form-control" id="newTeacherNumber" name="teacherNumber" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentClass">班级</label>
-                                <input class="form-control" id="newStudentClass" name="classes" type="number">
+                                <label class="form-label" for="newCredit">学分</label>
+                                <input class="form-control" id="newCredit" name="credit" type="number">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentAddress">地址</label>
-                                <input class="form-control" id="newStudentAddress" name="address" type="text">
+                                <label class="form-label" for="newWeek">上课时间-星期几</label>
+                                <input class="form-control" id="newWeek" name="week" type="number">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newStudentTelephone">联系方式</label>
-                                <input class="form-control" id="newStudentTelephone" name="telephone" type="tel">
+                                <label class="form-label" for="newDay">上课时间-第几节课</label>
+                                <input class="form-control" id="newDay" name="day" type="number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newSpot">上课地点</label>
+                                <input class="form-control" id="newSpot" name="spot" type="text">
                             </div>
                         </form>
                     </div>

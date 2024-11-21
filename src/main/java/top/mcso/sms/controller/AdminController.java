@@ -329,6 +329,6 @@ public class AdminController {
             }
         }
 
-        return "redirect:/admin/student?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
+        return "redirect:/admin/course?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 }
