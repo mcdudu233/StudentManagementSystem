@@ -25,11 +25,11 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public boolean deleteByJobNumberAndName(String jobNumber, String teacherName) {
+    public boolean deleteByJobNumber(String jobNumber) {
         try {
-            boolean result = teacherMapper.deleteByJobNumberAndName(jobNumber, teacherName);
+            boolean result = teacherMapper.deleteByJobNumber(jobNumber);
             if (!result) {
-                throw new RuntimeException("Teacher with job number " + jobNumber + " and name " + teacherName + " not found");
+                throw new RuntimeException("Teacher with job number " + jobNumber + " not found");
             }
             return true;
         } catch (Exception e) {

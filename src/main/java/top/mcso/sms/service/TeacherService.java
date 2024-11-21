@@ -8,7 +8,7 @@ public interface TeacherService {
 
     boolean insertTeacher(Teacher teacher);
 
-    boolean deleteByJobNumberAndName(String jobNumber, String teacherName);
+    boolean deleteByJobNumber(String jobNumber);
 
     boolean updateTeacher(Teacher teacher);
 
