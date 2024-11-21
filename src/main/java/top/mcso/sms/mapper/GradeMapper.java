@@ -22,20 +22,20 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
     // 查询所有成绩
     @Select("select * from grade")
-    List<Grade> findAllGrades();
+    List<Grade> getAllGrades();
 
     // 查询每门科目的成绩
     @Select("select * from grade where course_number = #{courseNumber}")
-    List<Grade> findGradesByCourseNumber(@Param("courseNumber") String courseNumber);
+    List<Grade> getGradesByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询每门科目的平均分
     @Select("select avg(grade) as average from grade where course_number = #{courseNumber}")
-    Float findAverageGradeByCourseNumber(@Param("courseNumber") String courseNumber);
+    Float getAverageGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 查询每门科目的最高分
     @Select("select max(grade) as maxgrade from grade where course_numbe" +
             "r = #{courseNumber}")
-    Float findMaxGradeByCourseNumber(@Param("courseNumber") String courseNumber);
+    Float getMaxGradeByCourseNumber(@Param("courseNumber") String courseNumber);
 
     //删除某个学生的某门成绩
     @Delete("delete from grade where student_number = #{studentNumber} and course_number = #{courseNumber}")
@@ -55,11 +55,15 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
     //查询某个学生某门课的成绩
     @Select("select * from grade where student_number = #{studentNumber} and course_number = #{courseNumber}")
-    Grade findGradeByStudentNumberAndCourseNumber(@Param("studentNumber") String studentNumber, @Param("courseNumber") String courseNumber);
+    Grade getGradeByStudentNumberAndCourseNumber(@Param("studentNumber") String studentNumber, @Param("courseNumber") String courseNumber);
 
     //查询某个学生的所有成绩
     @Select("select * from grade where student_number = #{studentNumber}")
-    List<Grade> findGradeByStudentNumber(@Param("studentNumber") String studentNumber);
+    List<Grade> getGradeByStudentNumber(@Param("studentNumber") String studentNumber);
+
+    //查询学生成绩
+    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_number = #{studentNumber}")
+    List<Grade> getStudentScoresByNumber(@Param("studentNumber") String studentNumber);
 
     // 查询每一位同学的成绩、最高分、最低分、平均分和总分
     @Select({

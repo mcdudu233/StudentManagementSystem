@@ -43,7 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public Announcement getAnnouncementById(String id) {
         try {
-            return announcementMapper.selectAnnouncementById(id);
+            return announcementMapper.getAnnouncementById(id);
         } catch (Exception e) {
             throw new RuntimeException("Error getting announcement by id: " + id, e);
         }
@@ -52,7 +52,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public List<Announcement> getAllAnnouncements() {
         try {
-            return announcementMapper.selectAllAnnouncements();
+            return announcementMapper.getAllAnnouncements();
         } catch (Exception e) {
             throw new RuntimeException("Error getting all announcements", e);
         }

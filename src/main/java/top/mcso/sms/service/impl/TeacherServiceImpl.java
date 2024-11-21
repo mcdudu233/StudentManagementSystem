@@ -47,27 +47,27 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> findAll() {
+    public List<Teacher> getAll() {
         try {
-            return teacherMapper.findAll();
+            return teacherMapper.getAll();
         } catch (Exception e) {
             throw new RuntimeException("Failed to find all teachers", e);
         }
     }
 
     @Override
-    public Teacher findByJobNumber(String jobNumber) {
+    public Teacher getByJobNumber(String jobNumber) {
         try {
-            return teacherMapper.findByJobNumber(jobNumber);
+            return teacherMapper.getByJobNumber(jobNumber);
         } catch (Exception e) {
             throw new RuntimeException("Failed to find teacher by job number", e);
         }
     }
 
     @Override
-    public List<Teacher> findByName(String teacherName) {
+    public List<Teacher> getByName(String teacherName) {
         try {
-            return teacherMapper.findByName(teacherName);
+            return teacherMapper.getByName(teacherName);
         } catch (Exception e) {
             throw new RuntimeException("Failed to find teachers by name", e);
         }

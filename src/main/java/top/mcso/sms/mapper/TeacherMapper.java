@@ -25,14 +25,14 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
 
     // 查询所有教师
     @Select("select * from teacher")
-    List<Teacher> findAll();
+    List<Teacher> getAll();
 
     // 根据工号查询教师
     @Select("select * from teacher where job_number = #{jobNumber}")
-    Teacher findByJobNumber(@Param("jobNumber") String jobNumber);
+    Teacher getByJobNumber(@Param("jobNumber") String jobNumber);
 
     // 根据姓名查询教师
     @Select("select * from teacher where teacher_name = #{teacherName}")
-    List<Teacher> findByName(@Param("teacherName") String teacherName);
+    List<Teacher> getByName(@Param("teacherName") String teacherName);
 
 }

@@ -16,5 +16,4 @@ public interface AnnouncementService {
 
     List<Announcement> getAllAnnouncements();
 
-
 }

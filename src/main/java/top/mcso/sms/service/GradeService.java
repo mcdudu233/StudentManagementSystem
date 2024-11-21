@@ -18,19 +18,21 @@ public interface GradeService {
 
     boolean deleteGradeByCourseNumber(String courseNumber);
 
-    List<Grade> findAllGrades();
+    List<Grade> getAllGrades();
 
-    List<Grade> findGradesByCourseNumber(String courseNumber);
+    List<Grade> getGradesByCourseNumber(String courseNumber);
 
-    Float findAverageGradeByCourseNumber(String courseNumber);
+    Float getAverageGradeByCourseNumber(String courseNumber);
 
-    Float findMaxGradeByCourseNumber(String courseNumber);
+    Float getMaxGradeByCourseNumber(String courseNumber);
+
+    List<Grade> getStudentScoresByNumber(String studentNumber);
 
     List<Statistics> getAllStudentStatistics();
 
     Statistics getStatisticsByStudentNumber(String studentNumber);
 
-    Grade findGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber);
+    Grade getGradeByStudentNumberAndCourseNumber(String studentNumber, String courseNumber);
 
-    List<Grade> findGradeByStudentNumber(String studentNumber);
+    List<Grade> getGradeByStudentNumber(String studentNumber);
 }

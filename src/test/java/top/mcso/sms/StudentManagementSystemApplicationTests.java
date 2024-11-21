@@ -62,13 +62,13 @@ class StudentManagementSystemApplicationTests {
         assertTrue(teacherService.insertTeacher(teacher));
         teacher.setAddress(UUID.randomUUID().toString().substring(0, 16));
         assertTrue(teacherService.updateTeacher(teacher));
-        Teacher foundTeacher = teacherService.findByJobNumber(teacher.getJobNumber());
+        Teacher foundTeacher = teacherService.getByJobNumber(teacher.getJobNumber());
         assertNotNull(foundTeacher);
         assertEquals(teacher.getJobNumber(), foundTeacher.getJobNumber());
-        List<Teacher> teachersByName = teacherService.findByName(teacher.getTeacherName());
+        List<Teacher> teachersByName = teacherService.getByName(teacher.getTeacherName());
         assertFalse(teachersByName.isEmpty());
         assertTrue(teachersByName.stream().anyMatch(t -> t.getTeacherName().equals(teacher.getTeacherName())));
-        List<Teacher> allTeachers = teacherService.findAll();
+        List<Teacher> allTeachers = teacherService.getAll();
         assertFalse(allTeachers.isEmpty());
         assertTrue(teacherService.deleteByJobNumberAndName(teacher.getJobNumber(), teacher.getTeacherName()));
 
@@ -83,9 +83,8 @@ class StudentManagementSystemApplicationTests {
         assertTrue(studentService.insertStudent(student));
         student.setAddress(UUID.randomUUID().toString().substring(0, 16));
         assertTrue(studentService.updateStudent(student));
-        assertNotNull(studentService.getStudentByName(student.getStudentName()));
-        assertNotNull(studentService.findAll());
-        assertNotNull(studentService.getStudentScoresByName(student.getStudentName()));
+        assertNotNull(studentService.getStudentByNumber(student.getStudentNumber()));
+        assertNotNull(studentService.getAll());
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
 
         //测试课程表服务
@@ -109,15 +108,16 @@ class StudentManagementSystemApplicationTests {
         float grade = rand.nextFloat();
         Grade gradeTest = new Grade(courseNumber, studentNumber, grade);
         assertTrue(gradeService.insertGrade(gradeTest));
-        assertNotNull(gradeService.findGradeByStudentNumberAndCourseNumber(gradeTest.getStudentNumber(), course.getCourseNumber()));
+        assertNotNull(gradeService.getGradeByStudentNumberAndCourseNumber(gradeTest.getStudentNumber(), course.getCourseNumber()));
         gradeTest.setCourseNumber(UUID.randomUUID().toString().substring(0, 8));
         assertTrue(gradeService.updateGrade(gradeTest));
         assertNotNull(gradeService.getStatisticsByStudentNumber(gradeTest.getStudentNumber()));
-        assertNotNull(gradeService.findAllGrades());
-        assertNotNull(gradeService.findGradeByStudentNumber(gradeTest.getStudentNumber()));
+        assertNotNull(gradeService.getAllGrades());
+        assertNotNull(gradeService.getGradeByStudentNumber(gradeTest.getStudentNumber()));
         assertNotNull(gradeService.getAllStudentStatistics());
-        assertNotNull(gradeService.findAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
-        assertNotNull(gradeService.findMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertNotNull(gradeService.getAverageGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertNotNull(gradeService.getMaxGradeByCourseNumber(gradeTest.getCourseNumber()));
+        assertNotNull(gradeService.getStudentScoresByNumber(student.getStudentNumber()));
         assertTrue(gradeService.deleteAllGradesByStudentNumber(gradeTest.getStudentNumber()));
 
         gradeTest.setGrade(rand.nextFloat());
