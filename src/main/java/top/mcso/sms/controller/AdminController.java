@@ -301,9 +301,14 @@ public class AdminController {
             }
             case "delete": {
                 if (data.containsKey("courseNumber")) {
-                    courseService.deleteCourseByCourseNumber(data.get("courseNumber"));
-                    response.setCode(0);
-                    response.setMsg("删除课程成功！");
+                    try {
+                        courseService.deleteCourseByCourseNumber(data.get("courseNumber"));
+                        response.setCode(0);
+                        response.setMsg("删除课程成功！");
+                    } catch (Exception e) {
+                        response.setCode(-1);
+                        response.setMsg("删除失败");
+                    }
                 } else {
                     response.setCode(-1);
                     response.setMsg("未指定删除课程号！");
