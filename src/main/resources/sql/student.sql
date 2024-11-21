@@ -4,7 +4,7 @@ create table student
     student_name   varchar(20) not null,
     gender         varchar(20) not null,
     age            int         not null,
-    class          int         not null,
+    classes        int         not null,
     birthdate      date        null,
     address        varchar(50) null,
     telephone      long        null,

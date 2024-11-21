@@ -14,11 +14,11 @@ public interface StudentMapper extends BaseMapper<Student> {
     boolean deleteByNumber(@Param("student_number") String student_number);
 
     //插入学生记录
-    @Insert("insert into student (student_number, student_name, gender, age, class, birthdate,address,telephone) values (#{studentNumber},#{studentName},#{gender},#{age},#{classes},#{birthdate},#{address},#{telephone})")
+    @Insert("insert into student (student_number, student_name, gender, age, classes, birthdate,address,telephone) values (#{studentNumber},#{studentName},#{gender},#{age},#{classes},#{birthdate},#{address},#{telephone})")
     boolean insertStudent(Student student);
 
     //更新学生
-    @Update("update student set student_number =#{studentNumber},student_name = #{studentName},gender = #{gender},age = #{age},class = #{classes},address=#{address},telephone=#{telephone} where student_number = #{studentNumber} ")
+    @Update("update student set student_number =#{studentNumber},student_name = #{studentName},gender = #{gender},age = #{age},classes = #{classes},address=#{address},telephone=#{telephone} where student_number = #{studentNumber} ")
     boolean updateStudent(Student student);
 
     //查询方法
