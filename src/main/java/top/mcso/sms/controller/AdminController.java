@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import top.mcso.sms.entity.Student;
-import top.mcso.sms.entity.Teacher;
-import top.mcso.sms.entity.User;
-import top.mcso.sms.entity.WebResponse;
+import top.mcso.sms.entity.*;
+import top.mcso.sms.service.CourseService;
 import top.mcso.sms.service.StudentService;
 import top.mcso.sms.service.TeacherService;
 import top.mcso.sms.service.UserService;
@@ -42,6 +40,8 @@ public class AdminController {
     private StudentService studentService;
     @Resource
     private TeacherService teacherService;
+    @Resource
+    private CourseService courseService;
 
     @GetMapping("user")
     public String user(Model model) {
@@ -259,5 +259,76 @@ public class AdminController {
         }
 
         return "redirect:/admin/teacher?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
+    }
+
+    @GetMapping("course")
+    public String course(Model model) {
+        if (!SessionUtils.isAdmin()) {
+            return "redirect:/login";
+        }
+
+        // 设置用户名
+        String user = SessionUtils.getName();
+        model.addAttribute("user", user);
+
+        // 获取所有学生
+        model.addAttribute("courses", courseService.getAllCourses());
+
+        return "admin/course";
+    }
+
+    @PostMapping("course")
+    public String coursePost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.isAdmin()) {
+            return "redirect:/login";
+        }
+
+        WebResponse response = new WebResponse();
+
+        // 判断什么操作
+        switch (data.getOrDefault("function", "")) {
+            case "modify": {
+                try {
+                    Course course = gson.fromJson(FormatUtils.mapToJson(data), Course.class);
+                    courseService.updateCourse(course);
+                    response.setCode(0);
+                    response.setMsg("更新课程成功！");
+                } catch (Exception e) {
+                    response.setCode(-1);
+                    response.setMsg("数据输入存在错误");
+                }
+                break;
+            }
+            case "delete": {
+                if (data.containsKey("courseNumber")) {
+                    courseService.deleteCourseByCourseNumber(data.get("courseNumber"));
+                    response.setCode(0);
+                    response.setMsg("删除课程成功！");
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("未指定删除课程号！");
+                }
+                break;
+            }
+            case "add": {
+                try {
+                    Course course = gson.fromJson(FormatUtils.mapToJson(data), Course.class);
+                    courseService.insertCourse(course);
+                    response.setCode(0);
+                    response.setMsg("新增课程成功！");
+                } catch (Exception e) {
+                    response.setCode(-1);
+                    response.setMsg("数据输入错误");
+                }
+                break;
+            }
+            default: {
+                response.setCode(-1);
+                response.setMsg("操作错误！");
+                break;
+            }
+        }
+
+        return "redirect:/admin/student?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 }
