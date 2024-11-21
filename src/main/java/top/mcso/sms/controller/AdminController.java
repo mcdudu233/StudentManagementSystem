@@ -163,6 +163,8 @@ public class AdminController {
                     try {
                         Student student = gson.fromJson(FormatUtils.mapToJson(data), Student.class);
                         studentService.insertStudent(student);
+                        // 学生也同样是用户
+                        userService.insertUser(new User(student.getStudentNumber(), "", "student"));
                         response.setCode(0);
                         response.setMsg("新增学生成功！");
                     } catch (Exception e) {
@@ -238,6 +240,8 @@ public class AdminController {
                 if (data.getOrDefault("telephone", "").length() == 11 && data.getOrDefault("telephone", "").matches("\\d+")) {
                     Teacher teacher = gson.fromJson(FormatUtils.mapToJson(data), Teacher.class);
                     teacherService.insertTeacher(teacher);
+                    // 再新增老师为用户
+                    userService.insertUser(new User(teacher.getJobNumber(), "", "teacher"));
                     response.setCode(0);
                     response.setMsg("新增老师成功！");
                 } else {
