@@ -8,13 +8,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import top.mcso.sms.service.UserService;
 
-import java.util.List;
+import java.util.UUID;
 
 /**
  * 网页安全配置
@@ -54,13 +54,21 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        // 添加用户
-        List<top.mcso.sms.entity.User> allUsers = userService.findAllUsers();
-        for (top.mcso.sms.entity.User user : allUsers) {
-            manager.createUser(User.withUsername(user.getUserNumber()).password(user.getPassword()).roles(user.getPriority()).build());
-        }
-        return manager;
+        return username -> {
+            // 从数据库中查找用户
+            top.mcso.sms.entity.User appUser = userService.findUserByUserNumber(username);
+            if (appUser == null) {
+                throw new UsernameNotFoundException("用户不存在: " + username);
+            }
+            // 密码为空则随机生成
+            if (appUser.getPassword().isEmpty()) {
+                appUser.setPassword(UUID.randomUUID().toString());
+            }
+            return User.withUsername(appUser.getUserNumber())
+                    .password(appUser.getPassword())
+                    .roles(appUser.getPriority())
+                    .build();
+        };
     }
 
     @Bean

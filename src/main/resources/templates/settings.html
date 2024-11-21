@@ -109,12 +109,12 @@
 
         <!-- 主内容区 -->
         <main class="col-md-9 content">
-            <!-- 页头 -->
             <header class="mb-4">
                 <h1>设置</h1>
             </header>
 
             <div>
+                <h3>基本信息</h3>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card text-white bg-primary mb-3">
@@ -145,6 +145,108 @@
                 </div>
             </div>
 
+            <form method="post" th:action="@{/settings}">
+                <h3>修改信息</h3>
+                <div th:if="${role == 'ROLE_admin'}">
+                    <div class="mb-3">
+                        <label class="form-label" for="username">用户名</label>
+                        <input class="form-control" id="username" name="username" readonly required
+                               th:value="${name}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">密码</label>
+                        <input class="form-control" id="password" name="password" required
+                               th:value="${password}" type="password">
+                    </div>
+                </div>
+
+                <div th:if="${role == 'ROLE_teacher'}">
+                    <div class="mb-3">
+                        <label class="form-label" for="newJobNumber">工号</label>
+                        <input class="form-control" id="newJobNumber" name="jobNumber" readonly required
+                               th:value="${teacher.jobNumber}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">密码</label>
+                        <input class="form-control" id="password" name="password" required
+                               th:value="${password}" type="password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newTeacherName">姓名</label>
+                        <input class="form-control" id="newTeacherName" name="teacherName" readonly required
+                               th:value="${teacher.teacherName}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newTeacherGender">性别</label>
+                        <select class="form-control" id="newTeacherGender" name="gender" readonly required>
+                            <option th:selected="${teacher.gender == '男'}" value="男">男</option>
+                            <option th:selected="${teacher.gender == '女'}" value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newTeacherAge">年龄</label>
+                        <input class="form-control" id="newTeacherAge" name="age" readonly required
+                               th:value="${teacher.age}" type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newTeacherAddress">地址</label>
+                        <input class="form-control" id="newTeacherAddress" name="address" required
+                               th:value="${teacher.address}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newTeacherTelephone">联系方式</label>
+                        <input class="form-control" id="newTeacherTelephone" name="telephone" required
+                               th:value="${teacher.telephone}" type="text">
+                    </div>
+                </div>
+
+                <div th:if="${role == 'ROLE_student'}">
+                    <div class="mb-3">
+                        <label class="form-label" for="studentNumber">学号</label>
+                        <input class="form-control" id="studentNumber" name="studentNumber" readonly required
+                               th:value="${student.studentNumber}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">密码</label>
+                        <input class="form-control" id="password" name="password" required
+                               th:value="${password}" type="password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentName">姓名</label>
+                        <input class="form-control" id="studentName" name="studentName" readonly required
+                               th:value="${student.studentName}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentGender">性别</label>
+                        <select class="form-control" id="studentGender" name="gender" readonly required>
+                            <option th:selected="${student.gender == '男'}" value="男">男</option>
+                            <option th:selected="${student.gender == '女'}" value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentAge">年龄</label>
+                        <input class="form-control" id="studentAge" name="age" readonly required
+                               th:value="${student.age}" type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentClass">班级</label>
+                        <input class="form-control" id="studentClass" name="classes" readonly required
+                               th:value="${student.classes}" type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentAddress">地址</label>
+                        <input class="form-control" id="studentAddress" name="address" required
+                               th:value="${student.address}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="studentTelephone">联系方式</label>
+                        <input class="form-control" id="studentTelephone" name="telephone" required
+                               th:value="${student.telephone}" type="tel">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit">保存更改</button>
+            </form>
         </main>
     </div>
 </div>
