@@ -81,7 +81,7 @@ public class StudentController {
     }
 
     @PostMapping("select")
-    public String select(@RequestParam("course") String courseNumber, @RequestParam("student") String studentNumber) {
+    public String selectPost(@RequestParam("course") String courseNumber, @RequestParam("student") String studentNumber) {
         if (!SessionUtils.isStudent()) {
             return "redirect:/login";
         }

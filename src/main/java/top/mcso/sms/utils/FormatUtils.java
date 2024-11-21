@@ -1,6 +1,10 @@
 package top.mcso.sms.utils;
 
 
+import com.google.gson.Gson;
+
+import java.util.Map;
+
 /**
  * 格式化工具
  * 将各种数据格式化成字符串
@@ -11,6 +15,8 @@ package top.mcso.sms.utils;
  */
 
 public class FormatUtils {
+    private static final Gson gson = new Gson();
+
     /**
      * 将数字的上课时间转换成字符串
      *
@@ -101,5 +107,21 @@ public class FormatUtils {
         } else {
             return "优秀";
         }
+    }
+
+    /**
+     * 将map转化为json
+     * 且删除多余的map字段
+     *
+     * @param map: Map数据
+     * @return String: json数据
+     */
+    public static String mapToJson(Map<String, String> map) {
+        // 移除多余的字段
+        map.remove("_csrf");
+        map.remove("function");
+
+        // 转换成json
+        return gson.toJson(map);
     }
 }

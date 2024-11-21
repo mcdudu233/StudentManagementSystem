@@ -67,17 +67,16 @@
 <div class="container main-container">
     <div class="content">
         <!-- 返回主页按钮 -->
-        <a href="/" class="return-button">返回主页</a>
+        <a class="return-button" href="/">返回主页</a>
 
         <!-- 页面标题 -->
         <h1 class="text-center">用户管理</h1>
-        <h4 class="text-center" th:text="'欢迎，' + ${adminName} + '。以下是用户管理面板。'"></h4>
+        <h4 class="text-center" th:text="'欢迎，' + ${user} + '。以下是用户管理面板。'"></h4>
 
         <!-- 用户表 -->
         <table class="table table-bordered table-hover mt-4">
             <thead class="thead-dark">
             <tr>
-                <th>用户编号</th>
                 <th>用户名</th>
                 <th>角色</th>
                 <th>操作</th>
@@ -86,47 +85,60 @@
             <tbody>
             <!-- 遍历用户列表 -->
             <tr th:each="user : ${users}">
-                <td th:text="${user.id}">001</td>
-                <td th:text="${user.username}">admin</td>
-                <td th:text="${user.role}">管理员</td>
+                <td th:text="${user.userNumber}"></td>
+                <td th:text="${user.priority}">管理员</td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
-                            th:attr="data-bs-target='#editUserModal_' + ${user.id}">编辑</button>
-                    <button class="btn btn-danger btn-sm"
-                            th:attr="onclick='deleteUser(' + ${user.id} + ')'">删除</button>
+                            th:attr="data-bs-target='#editUserModal_' + ${user.userNumber}">编辑
+                    </button>
+                    <form method="post" th:action="@{/admin/user}">
+                        <input name="function" type="hidden" value="delete">
+                        <input name="userNumber" th:value="${user.userNumber}" type="hidden"/>
+                        <button class="btn btn-danger btn-sm"
+                                type="submit">删除
+                        </button>
+                    </form>
                 </td>
             </tr>
             <!-- 如果用户列表为空 -->
             <tr th:if="${#lists.isEmpty(users)}">
-                <td colspan="4" class="text-center">暂无用户记录</td>
+                <td class="text-center" colspan="4">暂无用户记录</td>
             </tr>
             </tbody>
         </table>
 
         <!-- 添加用户按钮 -->
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">新增用户</button>
+        <button class="btn btn-success" data-bs-target="#addUserModal" data-bs-toggle="modal">新增用户</button>
 
         <!-- 编辑用户模态框 -->
-        <div th:each="user : ${users}" th:attr="id='editUserModal_' + ${user.id}" class="modal fade">
+        <div class="modal fade" th:attr="id='editUserModal_' + ${user.userNumber}" th:each="user : ${users}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">编辑用户信息</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="post" th:action="@{/admin/user}">
+                            <input name="function" type="hidden" value="modify">
                             <div class="mb-3">
-                                <label for="username" class="form-label">用户名</label>
-                                <input type="text" class="form-control" id="username" th:value="${user.username}">
+                                <label class="form-label" for="userNumber">用户名</label>
+                                <input class="form-control" id="userNumber" th:value="${user.userNumber}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label for="role" class="form-label">角色</label>
-                                <select class="form-control" id="role">
-                                    <option value="ROLE_admin" th:selected="${user.role == 'ROLE_admin'}">管理员</option>
-                                    <option value="ROLE_teacher" th:selected="${user.role == 'ROLE_teacher'}">教师</option>
-                                    <option value="ROLE_student" th:selected="${user.role == 'ROLE_student'}">学生</option>
+                                <label class="form-label" for="password">密码</label>
+                                <input class="form-control" id="password" th:value="${user.password}" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="priority">角色</label>
+                                <select class="form-control" id="priority">
+                                    <option th:selected="${user.priority == 'admin'}" value="admin">管理员
+                                    </option>
+                                    <option th:selected="${user.priority == 'teacher'}" value="teacher">教师
+                                    </option>
+                                    <option th:selected="${user.priority == 'student'}" value="student">学生
+                                    </option>
                                 </select>
                             </div>
                         </form>
@@ -140,25 +152,25 @@
         </div>
 
         <!-- 新增用户模态框 -->
-        <div id="addUserModal" class="modal fade">
+        <div class="modal fade" id="addUserModal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">新增用户</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <label for="newUsername" class="form-label">用户名</label>
-                                <input type="text" class="form-control" id="newUsername">
+                                <label class="form-label" for="newUsername">用户名</label>
+                                <input class="form-control" id="newUsername" type="text">
                             </div>
                             <div class="mb-3">
-                                <label for="newRole" class="form-label">角色</label>
+                                <label class="form-label" for="newRole">角色</label>
                                 <select class="form-control" id="newRole">
-                                    <option value="ROLE_admin">管理员</option>
-                                    <option value="ROLE_teacher">教师</option>
-                                    <option value="ROLE_student">学生</option>
+                                    <option value="admin">管理员</option>
+                                    <option value="teacher">教师</option>
+                                    <option value="student">学生</option>
                                 </select>
                             </div>
                         </form>
