@@ -61,6 +61,7 @@
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             margin: 1vh;
+            overflow: auto;
         }
 
         /* 标题样式 */
@@ -72,6 +73,13 @@
             flex-wrap: nowrap;
             margin: 0;
         }
+        .form-control {
+            width: 200px;
+        }
+        .form-row{
+            display: grid;
+            grid-template-columns: repeat(2, 0.4fr);
+        }
     </style>
 </head>
 <body>
@@ -79,7 +87,7 @@
     <div class="row">
         <!-- 侧边栏 -->
         <nav class="col-md-3 sidebar">
-            <h4>功能列表</h4>
+            <h4 onclick="location.href = location.origin">功能列表</h4>
             <ul class="nav flex-column">
                 <!-- 学生菜单 -->
                 <li th:if="${role == 'ROLE_student'}">
@@ -147,7 +155,7 @@
 
             <form method="post" th:action="@{/settings}">
                 <h3>修改信息</h3>
-                <div th:if="${role == 'ROLE_admin'}">
+                <div class="form-row" th:if="${role == 'ROLE_admin'}">
                     <div class="mb-3">
                         <label class="form-label" for="username">用户名</label>
                         <input class="form-control" id="username" name="username" readonly required
@@ -160,7 +168,7 @@
                     </div>
                 </div>
 
-                <div th:if="${role == 'ROLE_teacher'}">
+                <div class="form-row"  th:if="${role == 'ROLE_teacher'}">
                     <div class="mb-3">
                         <label class="form-label" for="newJobNumber">工号</label>
                         <input class="form-control" id="newJobNumber" name="jobNumber" readonly required
@@ -200,7 +208,7 @@
                     </div>
                 </div>
 
-                <div th:if="${role == 'ROLE_student'}">
+                <div class="form-row"  th:if="${role == 'ROLE_student'}">
                     <div class="mb-3">
                         <label class="form-label" for="studentNumber">学号</label>
                         <input class="form-control" id="studentNumber" name="studentNumber" readonly required
