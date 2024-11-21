@@ -105,14 +105,23 @@
                 <td th:text="${grade.courseId}">数学</td>
                 <td th:text="${grade.courseName}">数学</td>
                 <td>
-                    <input class="form-control" max="100" min="0"
-                           th:attr="id=${'score_' + grade.studentId + '_' + grade.courseId}" th:value="${grade.score}"
-                           type="number">
+                    <form method="post"
+                          th:action="@{/teacher/grade}"
+                          th:attr="id='saveForm-' + ${grade.studentId} + ${grade.courseId}">
+                        <input name="function" type="hidden" value="update">
+                        <input name="studentNumber" th:value="${grade.studentId}" type="hidden">
+                        <input name="courseNumber" th:value="${grade.courseId}" type="hidden">
+                        <input class="form-control" max="100" min="0" name="grade"
+                               th:attr="id=${'score_' + grade.studentId + '_' + grade.courseId}"
+                               th:value="${grade.score}"
+                               type="number">
+                    </form>
                 </td>
                 <td>
-                    <button class="btn btn-success btn-sm"
-                            th:attr="onclick='updateGrade(' + grade.studentId + ',' + grade.courseId + ')'"
-                            type="button">保存
+                    <button class="btn btn-success"
+                            th:attr="form='saveForm-' + ${grade.studentId} + ${grade.courseId}"
+                            type="submit">
+                        保存
                     </button>
                 </td>
             </tr>
@@ -123,44 +132,83 @@
             </tbody>
         </table>
 
+        <!-- 添加成绩 -->
+        <button class="btn btn-success" data-bs-target="#addGrade" data-bs-toggle="modal">成绩输入</button>
+
+        <!-- 输入成绩模态框 -->
+        <div class="modal fade" id="addGrade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">成绩输入</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" th:action="@{/teacher/grade}"
+                              th:attr="id='addForm'">
+                            <input name="function" type="hidden" value="add">
+                            <div class="mb-3">
+                                <label class="form-label" for="newCourse">课程</label>
+                                <select class="form-control" id="newCourse" name="courseNumber"
+                                        onchange="updateStudents()">
+                                    <!-- 遍历 courses 动态生成选项 -->
+                                    <option disabled selected value="">请选择课程</option>
+                                    <option th:attr="data-students=${course.students}"
+                                            th:each="course : ${courses}"
+                                            th:text="${course.courseNumber} + '（' + ${course.courseName} + '）'"
+                                            th:value="${course.courseNumber}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newStudent">学生</label>
+                                <select class="form-control" id="newStudent" name="studentNumber">
+                                    <!-- students 由js代码动态生成 -->
+                                    <option disabled selected value="">请选择学生</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newGrade">成绩</label>
+                                <input class="form-control" id="newGrade" name="grade" type="number">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" th:attr="form='addForm'" type="submit">
+                            添加
+                        </button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 提示信息 -->
         <div class="alert alert-info" role="alert" th:if="${#lists.isEmpty(grades)}">
             当前无成绩记录，请联系管理员添加学生课程信息。
         </div>
     </div>
 </div>
-
-<script>
-    function updateGrade(studentId, courseId) {
-        const scoreInput = document.getElementById(`score_${studentId}_${courseId}`);
-        const score = scoreInput.value;
-
-        if (score < 0 || score > 100) {
-            alert('成绩必须在 0 到 100 之间！');
-            return;
-        }
-
-        // 模拟提交到后端（需要后端路由支持）
-        fetch(`/teacher/updateGrade`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                studentId: studentId,
-                courseId: courseId,
-                score: score
-            })
-        }).then(response => {
-            if (response.ok) {
-                alert('成绩已更新！');
-            } else {
-                alert('更新失败，请稍后重试。');
-            }
-        }).catch(() => alert('网络错误，请稍后重试。'));
-    }
-</script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/response.js"></script>
+<!-- 更新学生选择框的js代码 -->
+<script>
+    function updateStudents() {
+        const courseSelect = document.getElementById("newCourse");
+        const studentSelect = document.getElementById("newStudent");
+        const selectedOption = courseSelect.options[courseSelect.selectedIndex];
+
+        // 清空学生下拉菜单
+        studentSelect.innerHTML = '<option value="" disabled selected>请选择学生</option>';
+
+        const students = JSON.parse(selectedOption.getAttribute("data-students") || "[]");
+        // 遍历学生列表并添加到学生下拉菜单中
+        students.forEach(student => {
+            const option = document.createElement("option");
+            option.value = student.studentNumber;
+            option.textContent = student.studentNumber + '（' + student.studentName + '）';
+            studentSelect.appendChild(option);
+        });
+    }
+</script>
 </body>
 </html>

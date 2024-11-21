@@ -1,17 +1,20 @@
 package top.mcso.sms.controller;
 
+import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import top.mcso.sms.entity.Course;
-import top.mcso.sms.entity.Grade;
-import top.mcso.sms.entity.Schedule;
-import top.mcso.sms.entity.Student;
+import org.springframework.web.bind.annotation.RequestParam;
+import top.mcso.sms.entity.*;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +32,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    private static Gson gson = new Gson();
     @Resource
     private StudentService studentService;
     @Resource
@@ -40,7 +44,7 @@ public class TeacherController {
     @Resource
     private GradeService gradeService;
 
-    @RequestMapping("/class")
+    @RequestMapping("class")
     public String myCourses(Model model) {
         if (!SessionUtils.isTeacher()) {
             return "redirect:/login";
@@ -68,7 +72,7 @@ public class TeacherController {
         return "teacher/class";
     }
 
-    @RequestMapping("/student")
+    @RequestMapping("student")
     public String studentManagement(Model model) {
         if (!SessionUtils.isTeacher()) {
             return "redirect:/login";
@@ -99,7 +103,7 @@ public class TeacherController {
         return "teacher/student";
     }
 
-    @RequestMapping("/grade")
+    @GetMapping("grade")
     public String gradeManagement(Model model) {
         if (!SessionUtils.isTeacher()) {
             return "redirect:/login";
@@ -111,21 +115,71 @@ public class TeacherController {
 
         // 获得所有学生的成绩
         List<Map<String, String>> grades = new ArrayList<>();
-        for (Course course : courseService.getAllCourses()) {
-            if (course.getTeacherNumber().equals(user)) {
-                for (Grade g : gradeService.getGradesByCourseNumber(course.getCourseNumber())) {
+        List<Map<String, String>> courses = new ArrayList<>();
+        for (Course c : courseService.getAllCourses()) {
+            if (c.getTeacherNumber().equals(user)) {
+                // 获得该课程下的所有成绩
+                for (Grade g : gradeService.getGradesByCourseNumber(c.getCourseNumber())) {
                     Map<String, String> gradeMap = new HashMap<>();
                     gradeMap.put("studentId", g.getStudentNumber());
                     gradeMap.put("studentName", studentService.getStudentByNumber(g.getStudentNumber()).getStudentName());
-                    gradeMap.put("courseId", course.getCourseNumber());
-                    gradeMap.put("courseName", course.getCourseName());
+                    gradeMap.put("courseId", c.getCourseNumber());
+                    gradeMap.put("courseName", c.getCourseName());
                     gradeMap.put("score", String.valueOf(g.getGrade()));
                     grades.add(gradeMap);
                 }
+
+                Map<String, String> courseMap = new HashMap<>();
+                courseMap.put("courseNumber", c.getCourseNumber());
+                courseMap.put("courseName", c.getCourseName());
+                List<Student> students = new ArrayList<>();
+                // 获得该课程下的所有学生
+                for (Schedule s : scheduleService.getSchedulesByCourseNumber(c.getCourseNumber())) {
+                    students.add(studentService.getStudentByNumber(s.getStudentNumber()));
+                }
+                courseMap.put("students", gson.toJson(students));
+                courses.add(courseMap);
             }
         }
         model.addAttribute("grades", grades);
 
+        // 获取课程及课程下的学生
+        model.addAttribute("courses", courses);
+
         return "teacher/grade";
+    }
+
+    @PostMapping("grade")
+    public String gradePost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.isTeacher()) {
+            return "redirect:/login";
+        }
+
+        WebResponse response = new WebResponse();
+
+        // 判断什么操作
+        switch (data.getOrDefault("function", "")) {
+            case "update": {
+                Grade grade = gson.fromJson(FormatUtils.mapToJson(data), Grade.class);
+                gradeService.updateGrade(grade);
+                response.setCode(0);
+                response.setMsg("更新学生成绩成功！");
+                break;
+            }
+            case "add": {
+                Grade grade = gson.fromJson(FormatUtils.mapToJson(data), Grade.class);
+                gradeService.insertGrade(grade);
+                response.setCode(0);
+                response.setMsg("新增学生成绩成功！");
+                break;
+            }
+            default: {
+                response.setCode(-1);
+                response.setMsg("操作错误！");
+                break;
+            }
+        }
+
+        return "redirect:/teacher/grade?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 }
