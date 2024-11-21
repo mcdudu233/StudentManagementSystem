@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface CourseMapper extends BaseMapper<Course> {
     // 插入课程信息
-    @Insert("insert into course (course_number, course_name,teacher_number,credit,week,day, priority_course) " +
-            "values (#{courseNumber}, #{courseName},#{teacherNumber},#{credit},#{week},#{day}, #{priorityCourse})")
+    @Insert("insert into course (course_number, course_name,teacher_number,credit,week,day, spot,priority_course) " +
+            "values (#{courseNumber}, #{courseName},#{teacherNumber},#{credit},#{week},#{day}, #{spot},#{priorityCourse})")
     boolean insertCourse(Course course);
 
     // 根据课程编号删除课程
@@ -18,7 +18,7 @@ public interface CourseMapper extends BaseMapper<Course> {
     boolean deleteCourseByCourseNumber(@Param("courseNumber") String courseNumber);
 
     // 更新课程信息
-    @Update("update course set course_name = #{courseName},teacher_number = #{teacherNumber},credit = #{credit},week = #{week},day = #{day}, priority_course = #{priorityCourse} " +
+    @Update("update course set course_name = #{courseName},teacher_number = #{teacherNumber},credit = #{credit},week = #{week},day = #{day}, spot = #{spot},priority_course = #{priorityCourse} " +
             "where course_number = #{courseNumber}")
     boolean updateCourse(Course course);
 
