@@ -87,17 +87,17 @@
             <tbody>
             <!-- 遍历老师列表 -->
             <tr th:each="teacher : ${teachers}">
-                <td th:text="${teacher.id}">T2023001</td>
-                <td th:text="${teacher.name}">李老师</td>
-                <td th:text="${teacher.subject}">数学</td>
-                <td th:text="${teacher.contact}">12345678901</td>
+                <td th:text="${teacher.jobNumber}">T2023001</td>
+                <td th:text="${teacher.teacherName}">李老师</td>
+                <td th:text="${teacher.duty}">数学</td>
+                <td th:text="${teacher.telephone}">12345678901</td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
-                            th:attr="data-bs-target='#editTeacherModal_' + ${teacher.id}">编辑
+                            th:attr="data-bs-target='#editTeacherModal_' + ${teacher.jobNumber}">编辑
                     </button>
                     <button class="btn btn-danger btn-sm"
-                            th:attr="onclick='deleteTeacher(' + ${teacher.id} + ')'">删除
+                            th:attr="onclick='deleteTeacher(' + ${teacher.jobNumber} + ')'">删除
                     </button>
                 </td>
             </tr>
@@ -112,7 +112,7 @@
         <button class="btn btn-success" data-bs-target="#addTeacherModal" data-bs-toggle="modal">新增老师</button>
 
         <!-- 编辑老师模态框 -->
-        <div class="modal fade" th:attr="id='editTeacherModal_' + ${teacher.id}" th:each="teacher : ${teachers}">
+        <div class="modal fade" th:attr="id='editTeacherModal_' + ${teacher.jobNumber}" th:each="teacher : ${teachers}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -123,16 +123,17 @@
                         <form>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherName">姓名</label>
-                                <input class="form-control" id="teacherName" th:value="${teacher.name}" type="text">
+                                <input class="form-control" id="teacherName" th:value="${teacher.teacherName}"
+                                       type="text">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherSubject">科目</label>
-                                <input class="form-control" id="teacherSubject" th:value="${teacher.subject}"
+                                <input class="form-control" id="teacherSubject" th:value="${teacher.duty}"
                                        type="text">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherContact">联系方式</label>
-                                <input class="form-control" id="teacherContact" th:value="${teacher.contact}"
+                                <input class="form-control" id="teacherContact" th:value="${teacher.telephone}"
                                        type="text">
                             </div>
                         </form>
@@ -178,23 +179,7 @@
         </div>
     </div>
 </div>
-
-<script>
-    function saveTeacherChanges() {
-        alert('保存功能需后端支持！');
-    }
-
-    function deleteTeacher(teacherId) {
-        if (confirm('确定要删除该老师吗？')) {
-            alert('删除功能需后端支持！');
-        }
-    }
-
-    function addTeacher() {
-        alert('新增功能需后端支持！');
-    }
-</script>
-
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/response.js"></script>
 </body>
 </html>
