@@ -83,9 +83,9 @@ class StudentManagementSystemApplicationTests {
         assertTrue(studentService.insertStudent(student));
         student.setAddress(UUID.randomUUID().toString().substring(0, 16));
         assertTrue(studentService.updateStudent(student));
-        assertNotNull(studentService.getStudentByName(student.getStudentName()));
+        assertNotNull(studentService.getStudentByNumber(student.getStudentNumber()));
         assertNotNull(studentService.findAll());
-        assertNotNull(studentService.getStudentScoresByName(student.getStudentName()));
+        assertNotNull(studentService.getStudentScoresByNumber(student.getStudentNumber()));
         assertTrue(studentService.deleteByNumber(student.getStudentNumber()));
 
         //测试课程表服务

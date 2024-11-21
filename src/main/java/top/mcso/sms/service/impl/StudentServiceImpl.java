@@ -56,18 +56,18 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public Student getStudentByName(String name) {
+    public Student getStudentByNumber(String studentNumber) {
         try {
-            return studentMapper.getStudent(name);
+            return studentMapper.getStudentByNumber(studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error getting student by name", e);
         }
     }
 
     @Override
-    public List<Grade> getStudentScoresByName(String studentName) {
+    public List<Grade> getStudentScoresByNumber(String studentNumber) {
         try {
-            return studentMapper.getStudentScoresByName(studentName);
+            return studentMapper.getStudentScoresByNumber(studentNumber);
         } catch (Exception e) {
             throw new RuntimeException("Error getting student scores by name", e);
         }

@@ -28,12 +28,12 @@ public interface StudentMapper extends BaseMapper<Student> {
     List<Student> findAll();
 
     //查询指定学生
-    @Select("select * from student where student_name = #{name}")
-    Student getStudent(@Param("name") String name);
+    @Select("select * from student where student_number = #{studentNumber}")
+    Student getStudentByNumber(@Param("studentNumber") String studentNumber);
 
     //查询学生成绩
-    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_name = #{studentName}")
-    List<Grade> getStudentScoresByName(@Param("studentName") String studentName);
+    @Select("select s.* from grade s inner join student st on s.student_number = st.student_number where st.student_number = #{studentNumber}")
+    List<Grade> getStudentScoresByNumber(@Param("studentNumber") String studentNumber);
 
 
 }
