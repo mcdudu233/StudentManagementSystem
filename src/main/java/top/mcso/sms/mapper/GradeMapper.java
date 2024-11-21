@@ -17,7 +17,7 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
     //更新成绩
     @Update("update grade set course_number = #{courseNumber},student_number = #{studentNumber},grade = #{grade} " +
-            "where student_number = #{studentNumber}")
+            "where student_number = #{studentNumber} and student_number = #{studentNumber}")
     boolean updateGrade(Grade grade);
 
     // 查询所有成绩
