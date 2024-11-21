@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import top.mcso.sms.entity.Teacher;
 import top.mcso.sms.entity.User;
 import top.mcso.sms.entity.WebResponse;
 import top.mcso.sms.service.StudentService;
@@ -20,9 +19,6 @@ import top.mcso.sms.utils.SessionUtils;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -114,7 +110,7 @@ public class AdminController {
         return "admin/student";
     }
 
-    @RequestMapping("teacher")
+    @GetMapping("teacher")
     public String teacher(Model model) {
         if (!SessionUtils.isAdmin()) {
             return "redirect:/login";
@@ -125,17 +121,33 @@ public class AdminController {
         model.addAttribute("user", user);
 
         // 获得所有老师
-        List<Map<String, String>> teachers = new ArrayList<>();
-        for (Teacher t : teacherService.getAll()) {
-            Map<String, String> teacherMap = new HashMap<>();
-            teacherMap.put("id", t.getJobNumber());
-            teacherMap.put("name", t.getTeacherName());
-            teacherMap.put("subject", t.getDuty());
-            teacherMap.put("contact", String.valueOf(t.getTelephone()));
-            teachers.add(teacherMap);
-        }
-        model.addAttribute("teachers", teachers);
+        model.addAttribute("teachers", teacherService.getAll());
 
         return "admin/teacher";
+    }
+
+    @PostMapping("teacher")
+    public String teacherPost(@RequestParam Map<String, String> data) {
+        WebResponse response = new WebResponse();
+
+        // 判断什么操作
+        switch (data.getOrDefault("function", "")) {
+            case "modify": {
+
+            }
+            case "delete": {
+
+            }
+            case "add": {
+
+            }
+            default: {
+                response.setCode(-1);
+                response.setMsg("操作错误！");
+                break;
+            }
+        }
+
+        return "redirect:/admin/teacher?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 }

@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>管理员系统 - 老师管理</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             background: url('/img/background.png') no-repeat center center fixed;
@@ -87,17 +88,17 @@
             <tbody>
             <!-- 遍历老师列表 -->
             <tr th:each="teacher : ${teachers}">
-                <td th:text="${teacher.id}">T2023001</td>
-                <td th:text="${teacher.name}">李老师</td>
-                <td th:text="${teacher.subject}">数学</td>
-                <td th:text="${teacher.contact}">12345678901</td>
+                <td th:text="${teacher.jobNumber}">T2023001</td>
+                <td th:text="${teacher.teacherName}">李老师</td>
+                <td th:text="${teacher.duty}">数学</td>
+                <td th:text="${teacher.telephone}">12345678901</td>
                 <td>
                     <button class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
-                            th:attr="data-bs-target='#editTeacherModal_' + ${teacher.id}">编辑
+                            th:attr="data-bs-target='#editTeacherModal_' + ${teacher.jobNumber}">编辑
                     </button>
                     <button class="btn btn-danger btn-sm"
-                            th:attr="onclick='deleteTeacher(' + ${teacher.id} + ')'">删除
+                            th:attr="onclick='deleteTeacher(' + ${teacher.jobNumber} + ')'">删除
                     </button>
                 </td>
             </tr>
@@ -112,7 +113,7 @@
         <button class="btn btn-success" data-bs-target="#addTeacherModal" data-bs-toggle="modal">新增老师</button>
 
         <!-- 编辑老师模态框 -->
-        <div class="modal fade" th:attr="id='editTeacherModal_' + ${teacher.id}" th:each="teacher : ${teachers}">
+        <div class="modal fade" th:attr="id='editTeacherModal_' + ${teacher.jobNumber}" th:each="teacher : ${teachers}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -123,16 +124,17 @@
                         <form>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherName">姓名</label>
-                                <input class="form-control" id="teacherName" th:value="${teacher.name}" type="text">
+                                <input class="form-control" id="teacherName" th:value="${teacher.teacherName}"
+                                       type="text">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherSubject">科目</label>
-                                <input class="form-control" id="teacherSubject" th:value="${teacher.subject}"
+                                <input class="form-control" id="teacherSubject" th:value="${teacher.duty}"
                                        type="text">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherContact">联系方式</label>
-                                <input class="form-control" id="teacherContact" th:value="${teacher.contact}"
+                                <input class="form-control" id="teacherContact" th:value="${teacher.telephone}"
                                        type="text">
                             </div>
                         </form>
@@ -178,23 +180,54 @@
         </div>
     </div>
 </div>
-
+<!-- 模态框提示 -->
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="responseModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title text-center">提示</h5>
+            </div>
+            <div class="modal-body text-center" id="responseMessage">
+                <!-- 提示内容将在这里动态插入 -->
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    function saveTeacherChanges() {
-        alert('保存功能需后端支持！');
-    }
+    let params = new URLSearchParams(window.location.search);
+    if (params.has('response')) {
+        let response = JSON.parse(params.get('response'));
+        let responseMessage = document.getElementById("responseMessage");
 
-    function deleteTeacher(teacherId) {
-        if (confirm('确定要删除该老师吗？')) {
-            alert('删除功能需后端支持！');
+        if (response.code === 0) {
+            responseMessage.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16" style="color: green;">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                </svg>
+                <p class="mt-3">操作成功！</p>`;
+        } else if (response.code === -1) {
+            responseMessage.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16" style="color: red;">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+                <p class="mt-3">操作失败！</p>
+                <p class="mt-3">${response.msg}</p>`;
+        } else {
+            responseMessage.innerHTML = `
+                <span class="glyphicon glyphicon-ban-circle" style="font-size: 128px; color: red;"></span>
+                <p class="mt-3">未知错误！</p>
+                <p class="mt-3">${response.msg}</p>`;
         }
-    }
 
-    function addTeacher() {
-        alert('新增功能需后端支持！');
+        // 显示模态框
+        let modal = new bootstrap.Modal(document.getElementById("responseModal"));
+        modal.show();
     }
 </script>
-
-<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
