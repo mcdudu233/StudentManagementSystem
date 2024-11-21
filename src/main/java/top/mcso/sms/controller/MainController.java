@@ -1,16 +1,20 @@
 package top.mcso.sms.controller;
 
+import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import top.mcso.sms.entity.*;
 import top.mcso.sms.service.*;
 import top.mcso.sms.utils.FormatUtils;
 import top.mcso.sms.utils.SessionUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,9 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+    private static Gson gson = new Gson();
+    @Resource
+    private UserService userService;
     @Resource
     private StudentService studentService;
     @Resource
@@ -79,7 +86,7 @@ public class MainController {
 
         model.addAttribute("name", name);
         model.addAttribute("role", role);
-        model.addAttribute("password", "已设置密码");
+        model.addAttribute("password", SessionUtils.getPassword());
 
         // 不同用户设置不同数据
         if ("ROLE_admin".equals(role)) {
@@ -94,8 +101,60 @@ public class MainController {
     }
 
     @PostMapping("settings")
-    public String settingsPost() {
-        return "settings";
+    public String settingsPost(@RequestParam Map<String, String> data) {
+        if (!SessionUtils.hasLogin()) {
+            return "redirect:/login";
+        }
+
+        WebResponse response = new WebResponse();
+        String name = SessionUtils.getName();
+        String role = SessionUtils.getRole();
+
+        // 区分不同数据
+        if ("ROLE_admin".equals(role)) {
+            if (data.containsKey("password")) {
+                User user = userService.findUserByUserNumber(name);
+                user.setPassword(data.get("password"));
+                userService.updateUser(user);
+                response.setCode(0);
+                response.setMsg("更新信息成功！");
+            } else {
+                response.setCode(-1);
+                response.setMsg("未设置密码！");
+            }
+        } else if ("ROLE_teacher".equals(role)) {
+            if (data.containsKey("password") && data.containsKey("address") && data.containsKey("telephone")) {
+                User user = userService.findUserByUserNumber(name);
+                user.setPassword(data.get("password"));
+                userService.updateUser(user);
+                Teacher teacher = teacherService.getByJobNumber(name);
+                teacher.setAddress(data.get("address"));
+                teacher.setTelephone(Long.valueOf(data.get("telephone")));
+                teacherService.updateTeacher(teacher);
+                response.setCode(0);
+                response.setMsg("更新信息成功！");
+            } else {
+                response.setCode(-1);
+                response.setMsg("未设置密码！");
+            }
+        } else if ("ROLE_student".equals(role)) {
+            if (data.containsKey("password") && data.containsKey("address") && data.containsKey("telephone")) {
+                User user = userService.findUserByUserNumber(name);
+                user.setPassword(data.get("password"));
+                userService.updateUser(user);
+                Student student = studentService.getStudentByNumber(name);
+                student.setAddress(data.get("address"));
+                student.setTelephone(Long.valueOf(data.get("telephone")));
+                studentService.updateStudent(student);
+                response.setCode(0);
+                response.setMsg("更新信息成功！");
+            } else {
+                response.setCode(-1);
+                response.setMsg("未设置密码！");
+            }
+        }
+
+        return "redirect:/settings?response=" + URLEncoder.encode(gson.toJson(response), StandardCharsets.UTF_8);
     }
 
     private Map<String, Object> getAdminDashboardData() {

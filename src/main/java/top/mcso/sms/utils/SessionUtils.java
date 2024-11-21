@@ -61,6 +61,22 @@ public class SessionUtils {
     }
 
     /**
+     * 获取登录的密码
+     *
+     * @return String:密码，未登录返回null
+     */
+    public static String getPassword() {
+        if (!hasLogin()) {
+            return null;
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // 获取用户信息
+        User principal = (User) authentication.getPrincipal();
+        return principal.getPassword();
+    }
+
+    /**
      * 判断登录的用户是否为学生
      *
      * @return boolean
