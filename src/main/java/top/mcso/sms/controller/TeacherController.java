@@ -140,6 +140,7 @@ public class TeacherController {
                     for (Grade g : gradeService.getGradeByStudentNumber(s.getStudentNumber())) {
                         if (g.getCourseNumber().equals(c.getCourseNumber())) {
                             flag = false;
+                            break;
                         }
                     }
                     if (flag) {
@@ -180,6 +181,17 @@ public class TeacherController {
                 gradeService.insertGrade(grade);
                 response.setCode(0);
                 response.setMsg("新增学生成绩成功！");
+                break;
+            }
+            case "delete": {
+                if (data.containsKey("studentNumber") && data.containsKey("courseNumber")) {
+                    gradeService.deleteGradeByStudentNumber(data.get("studentNumber"), data.get("courseNumber"));
+                    response.setCode(0);
+                    response.setMsg("删除该条成绩成功！");
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("未指定删除成绩的学号和课程号！");
+                }
                 break;
             }
             default: {

@@ -119,8 +119,11 @@
                 <td>
                     <button class="btn btn-success btn-sm"
                             th:attr="form='saveForm-' + ${grade.studentId} + ${grade.courseId}"
-                            type="submit">
-                        保存
+                            type="submit">保存
+                    </button>
+                    <button class="btn btn-danger btn-sm"
+                            th:attr="form='deleteForm-' + ${grade.studentId} + ${grade.courseId}"
+                            type="submit">删除
                     </button>
                 </td>
             </tr>
@@ -133,6 +136,15 @@
 
         <!-- 添加成绩 -->
         <button class="btn btn-success" data-bs-target="#addGrade" data-bs-toggle="modal">成绩输入</button>
+
+        <!-- 删除成绩提交框 -->
+        <form method="post" th:action="@{/teacher/grade}"
+              th:attr="id='deleteForm-' + ${grade.studentId} + ${grade.courseId}"
+              th:each="grade : ${grades}">
+            <input name="function" type="hidden" value="delete">
+            <input name="studentNumber" th:value="${grade.studentId}" type="hidden"/>
+            <input name="courseNumber" th:value="${grade.courseId}" type="hidden"/>
+        </form>
 
         <!-- 输入成绩模态框 -->
         <div class="modal fade" id="addGrade">
