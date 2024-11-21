@@ -97,7 +97,8 @@
                             th:attr="data-bs-target='#editTeacherModal_' + ${teacher.jobNumber}">编辑
                     </button>
                     <button class="btn btn-danger btn-sm"
-                            th:attr="onclick='deleteTeacher(' + ${teacher.jobNumber} + ')'">删除
+                            th:attr="form='deleteForm-' + ${teacher.jobNumber}"
+                            type="submit">删除
                     </button>
                 </td>
             </tr>
@@ -111,6 +112,13 @@
         <!-- 添加老师按钮 -->
         <button class="btn btn-success" data-bs-target="#addTeacherModal" data-bs-toggle="modal">新增老师</button>
 
+        <!-- 删除老师提交框 -->
+        <form method="post" th:action="@{/admin/teacher}" th:attr="id='deleteForm-' + ${teacher.jobNumber}"
+              th:each="teacher : ${teachers}">
+            <input name="function" type="hidden" value="delete">
+            <input name="userNumber" th:value="${teacher.jobNumber}" type="hidden"/>
+        </form>
+
         <!-- 编辑老师模态框 -->
         <div class="modal fade" th:attr="id='editTeacherModal_' + ${teacher.jobNumber}" th:each="teacher : ${teachers}">
             <div class="modal-dialog modal-dialog-centered">
@@ -120,26 +128,53 @@
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="post" th:action="@{/admin/teacher}"
+                              th:attr="id='modifyForm-' + ${teacher.jobNumber}">
+                            <input name="function" type="hidden" value="modify">
+                            <div class="mb-3">
+                                <label class="form-label" for="jobNumber">工号</label>
+                                <input class="form-control" id="jobNumber" name="jobNumber"
+                                       th:value="${teacher.jobNumber}" type="text">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="teacherName">姓名</label>
-                                <input class="form-control" id="teacherName" th:value="${teacher.teacherName}"
+                                <input class="form-control" id="teacherName" name="teacherName"
+                                       th:value="${teacher.teacherName}" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="teacherGender">性别</label>
+                                <select class="form-control" id="teacherGender" name="gender">
+                                    <option th:selected="${teacher.gender == '男'}" value="男">男</option>
+                                    <option th:selected="${teacher.gender == '女'}" value="女">女</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="teacherAge">年龄</label>
+                                <input class="form-control" id="teacherAge" name="age" th:value="${teacher.age}"
+                                       type="number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="teacherDuty">职务</label>
+                                <input class="form-control" id="teacherDuty" name="duty" th:value="${teacher.duty}"
                                        type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="teacherSubject">科目</label>
-                                <input class="form-control" id="teacherSubject" th:value="${teacher.duty}"
-                                       type="text">
+                                <label class="form-label" for="teacherAddress">地址</label>
+                                <input class="form-control" id="teacherAddress" name="address"
+                                       th:value="${teacher.address}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="teacherContact">联系方式</label>
-                                <input class="form-control" id="teacherContact" th:value="${teacher.telephone}"
-                                       type="text">
+                                <label class="form-label" for="teacherTelephone">联系方式</label>
+                                <input class="form-control" id="teacherTelephone" name="telephone"
+                                       th:value="${teacher.telephone}" type="text">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" onclick="saveTeacherChanges()">保存</button>
+                        <button class="btn btn-primary" th:attr="form='modifyForm-' + ${teacher.jobNumber}"
+                                type="submit">
+                            保存
+                        </button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -155,24 +190,44 @@
                         <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="post" th:action="@{/admin/teacher}">
+                            <input name="function" type="hidden" value="add">
+                            <div class="mb-3">
+                                <label class="form-label" for="newJobNumber">工号</label>
+                                <input class="form-control" id="newJobNumber" name="jobNumber" type="text">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="newTeacherName">姓名</label>
-                                <input class="form-control" id="newTeacherName" type="text">
+                                <input class="form-control" id="newTeacherName" name="teacherName" type="text">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newTeacherSubject">科目</label>
-                                <input class="form-control" id="newTeacherSubject" type="text">
+                                <label class="form-label" for="newTeacherGender">性别</label>
+                                <select class="form-control" id="newTeacherGender" name="gender">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="newTeacherContact">联系方式</label>
-                                <input class="form-control" id="newTeacherContact" type="text">
+                                <label class="form-label" for="newTeacherAge">年龄</label>
+                                <input class="form-control" id="newTeacherAge" name="age" type="number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newTeacherDuty">职务</label>
+                                <input class="form-control" id="newTeacherDuty" name="duty" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newTeacherAddress">地址</label>
+                                <input class="form-control" id="newTeacherAddress" name="address" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="newTeacherTelephone">联系方式</label>
+                                <input class="form-control" id="newTeacherTelephone" name="telephone" type="text">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">添加</button>
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                             </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" onclick="addTeacher()">添加</button>
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>

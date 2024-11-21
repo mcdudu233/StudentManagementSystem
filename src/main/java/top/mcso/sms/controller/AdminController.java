@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.mcso.sms.entity.Teacher;
 import top.mcso.sms.entity.User;
 import top.mcso.sms.entity.WebResponse;
 import top.mcso.sms.service.StudentService;
@@ -76,7 +77,7 @@ public class AdminController {
                     response.setMsg("删除用户成功！");
                 } else {
                     response.setCode(-1);
-                    response.setMsg("未指定删除对象！");
+                    response.setMsg("未指定删除用户名！");
                 }
                 break;
             }
@@ -133,13 +134,29 @@ public class AdminController {
         // 判断什么操作
         switch (data.getOrDefault("function", "")) {
             case "modify": {
-
+                Teacher teacher = gson.fromJson(FormatUtils.mapToJson(data), Teacher.class);
+                teacherService.updateTeacher(teacher);
+                response.setCode(0);
+                response.setMsg("更新老师成功！");
+                break;
             }
             case "delete": {
-
+                if (data.containsKey("teacherNumber")) {
+                    // TODO teacherService.deleteByJobNumberAndName(data.get("teacherNumber"));
+                    response.setCode(0);
+                    response.setMsg("删除老师成功！");
+                } else {
+                    response.setCode(-1);
+                    response.setMsg("未指定删除工号！");
+                }
+                break;
             }
             case "add": {
-
+                Teacher teacher = gson.fromJson(FormatUtils.mapToJson(data), Teacher.class);
+                teacherService.insertTeacher(teacher);
+                response.setCode(0);
+                response.setMsg("新增老师成功！");
+                break;
             }
             default: {
                 response.setCode(-1);
