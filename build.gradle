@@ -35,7 +35,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.baomidou:mybatis-plus-spring-boot3-starter:3.5.9'
     implementation 'org.projectlombok:lombok'
-    implementation 'com.google.code.gson:gson'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     annotationProcessor 'org.projectlombok:lombok'
