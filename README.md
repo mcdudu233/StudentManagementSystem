@@ -44,7 +44,29 @@
 
 ## 构建&部署
 
-先`cd sms`到本项目主文件夹下，然后打包成 **war** 包：
+先到本项目主文件夹下：
+
+```bash
+cd sms
+```
+
+修改配置文件`./src/main/resources/application.properties`：
+
+```bash
+spring.application.name=StudentManagementSystem
+server.port=80
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+# 前面的可以不用动
+# 下面 MySQL配置 修改为自己的
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# 注意：这里的数据库 sms 必须自己先建立！！！
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/sms
+spring.datasource.username=root
+spring.datasource.password=root
+```
+
+然后打包成 **war** 包：
 
 ```bash
 ./gradlew bootWar
