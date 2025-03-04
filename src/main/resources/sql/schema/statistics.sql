@@ -1,4 +1,4 @@
-create table statistics
+create table if not exists statistics
 (
     student_number varchar(20),
     student_name   varchar(20),
@@ -7,4 +7,4 @@ create table statistics
     sum_grade      float null,
     avg_grade      float null,
     primary key (student_number)
-)
+);

@@ -1,4 +1,4 @@
-create table teacher
+create table if not exists teacher
 (
     job_number   varchar(20) not null,
     teacher_name varchar(50) not null,
@@ -8,4 +8,4 @@ create table teacher
     address      varchar(50) null,
     telephone    long        null,
     primary key (job_number)
-)
+);

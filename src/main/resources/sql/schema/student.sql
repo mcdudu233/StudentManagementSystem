@@ -1,4 +1,4 @@
-create table student
+create table if not exists student
 (
     student_number varchar(20) not null,
     student_name   varchar(20) not null,
@@ -9,4 +9,4 @@ create table student
     address        varchar(50) null,
     telephone      long        null,
     primary key (student_number)
-)
+);

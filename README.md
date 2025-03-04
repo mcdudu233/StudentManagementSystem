@@ -34,7 +34,9 @@
 
 ### 资源文件
 
-`sql`：数据库语句
+`sql/data`：数据库初始数据
+
+`sql/schema`：数据库结构
 
 `static`：网页静态文件 css js img
 
@@ -81,5 +83,21 @@ spring.datasource.password=root
 ```bash
 java -jar sms-1.0.0-SNAPSHOT.war
 ```
+
+---
+
+## 数据库
+
+### 默认用户
+
+| 用户名     | 密码     | 角色  | 
+|---------|--------|-----|
+| admin   | admin  | 管理员 |
+| student | 123456 | 学生  |
+| teacher | 123456 | 老师  |
+
+### 角色
+
+`admin`是管理员，`student`是学生，`teacher`是老师。
 
 ---

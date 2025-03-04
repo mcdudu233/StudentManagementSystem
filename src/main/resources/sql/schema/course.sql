@@ -1,4 +1,4 @@
-create table course
+create table if not exists course
 (
     course_number   varchar(20) not null,
     course_name     varchar(50) not null,
@@ -9,4 +9,4 @@ create table course
     credit          float       null,
     spot            varchar(50) null,
     primary key (course_number)
-)
+);
