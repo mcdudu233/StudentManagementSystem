@@ -6,13 +6,14 @@ plugins {
 }
 
 group = 'top.mcso'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
 allprojects {
     repositories {
         maven { url 'https://maven.aliyun.com/repository/public/' }
